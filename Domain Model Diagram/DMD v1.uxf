@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="15.0.0">
-  <zoom_level>9</zoom_level>
+<diagram program="umlet" version="14.2">
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1233</x>
-      <y>513</y>
-      <w>189</w>
-      <h>171</h>
+      <x>1128</x>
+      <y>256</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Admin
 --
@@ -20,15 +20,17 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1026</x>
-      <y>513</y>
-      <w>189</w>
-      <h>171</h>
+      <x>944</x>
+      <y>256</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Student
 --
  -accountState;Boolean
- 
+ student ID
+ name
+ email 
 --
 </panel_attributes>
     <additional_attributes/>
@@ -36,26 +38,28 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>819</x>
-      <y>513</y>
-      <w>189</w>
-      <h>171</h>
+      <x>760</x>
+      <y>256</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Teacher
 --
  -accountState;Boolean
 
 --
+-uploadQuestions():Boolean
+-getMark():Int
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1026</x>
-      <y>243</y>
-      <w>189</w>
-      <h>171</h>
+      <x>944</x>
+      <y>16</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>User
 --
@@ -68,10 +72,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>909</x>
-      <y>405</y>
-      <w>432</w>
-      <h>126</h>
+      <x>840</x>
+      <y>160</y>
+      <w>384</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>230.0;10.0;230.0;90.0;460.0;90.0;10.0;90.0;10.0;120.0</additional_attributes>
@@ -79,10 +83,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1107</x>
-      <y>477</y>
-      <w>27</w>
-      <h>54</h>
+      <x>1016</x>
+      <y>224</y>
+      <w>24</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
@@ -90,10 +94,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1314</x>
-      <y>477</y>
-      <w>27</w>
-      <h>54</h>
+      <x>1200</x>
+      <y>224</y>
+      <w>24</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
@@ -101,10 +105,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1350</x>
-      <y>243</y>
-      <w>189</w>
-      <h>171</h>
+      <x>1232</x>
+      <y>16</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>accessContorller
 --
@@ -119,10 +123,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1206</x>
-      <y>315</y>
-      <w>162</w>
-      <h>36</h>
+      <x>1104</x>
+      <y>80</y>
+      <w>144</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 is check by</panel_attributes>
@@ -131,10 +135,10 @@ is check by</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>684</x>
-      <y>1017</y>
-      <w>189</w>
-      <h>171</h>
+      <x>640</x>
+      <y>704</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Question
 --
@@ -149,29 +153,32 @@ is check by</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1107</x>
-      <y>1017</y>
-      <w>189</w>
-      <h>171</h>
+      <x>1016</x>
+      <y>704</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Answer
 --
  -ansID:Int
  -answer:String
- 
+ -FeedBack:string
+ -Mark:int
 --
- -setAnswer():String</panel_attributes>
+ -setAnswer():String
+ -setFeedBack():string
+ -setMark():int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>918</x>
-      <y>783</y>
-      <w>189</w>
-      <h>171</h>
+      <x>848</x>
+      <y>496</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
-    <panel_attributes>Quiz
+    <panel_attributes>Practical
 --
  -quizID:Int
  
@@ -182,33 +189,24 @@ is check by</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>765</x>
-      <y>945</y>
-      <w>261</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>270.0;10.0;270.0;50.0;10.0;50.0;10.0;80.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>864</x>
-      <y>1089</y>
-      <w>261</w>
-      <h>36</h>
+      <x>800</x>
+      <y>768</y>
+      <w>232</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=-
-1                                                      1</panel_attributes>
+answer
+m1=1
+m2=1</panel_attributes>
     <additional_attributes>10.0;20.0;270.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
-      <y>675</y>
-      <w>126</w>
-      <h>126</h>
+      <x>832</x>
+      <y>400</y>
+      <w>112</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=-
 
@@ -220,12 +218,38 @@ is check by</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>999</x>
-      <y>675</y>
-      <w>135</w>
-      <h>72</h>
+      <x>920</x>
+      <y>400</y>
+      <w>120</w>
+      <h>64</h>
     </coordinates>
-    <panel_attributes>lt=-</panel_attributes>
+    <panel_attributes>lt=-
+access </panel_attributes>
     <additional_attributes>10.0;60.0;130.0;60.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>640</y>
+      <w>232</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+has
+m1=1
+m2=1..20</panel_attributes>
+    <additional_attributes>270.0;10.0;270.0;40.0;10.0;40.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1600</x>
+      <y>16</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>SimpleClass</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
