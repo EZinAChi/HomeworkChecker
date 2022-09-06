@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+    <title>Student Database</title>
+</head>
+<body><center>
+    <h1>Example Student Database</h1>
+    <hr/>
+    <table border="1">
+        <tr>
+            <th>Student ID</th>
+            <th>Full Name</th>
+            <th>Age</th>
+        </tr>
+        {% for displayData in connectDatabaseToDjango%}
+        <tr>
+            <td>{{displayData.StudentID}}</td>
+            <td>{{displayData.FullName}}</td>
+            <td>{{displayData.Age}}</td>
+        </tr>
+        {% endfor %} 
+    </table>
+
+</center></body>
