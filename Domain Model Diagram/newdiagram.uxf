@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>656</x>
+      <y>184</y>
+      <w>168</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Student
+--
+ studentID(PK)
+lt=-
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>432</x>
+      <y>184</y>
+      <w>168</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Teacher
+--
+teacherID(PK)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>544</x>
+      <y>0</y>
+      <w>168</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>User
+--
+ userID (PK)
+ email(FK)
+ password
+ firstName
+ lastNAme</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>512</x>
+      <y>96</y>
+      <w>168</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>140.0;10.0;140.0;70.0;190.0;70.0;10.0;70.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>656</x>
+      <y>144</y>
+      <w>96</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0;100.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>624</y>
+      <w>168</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Question
+--
+ questionID(PK)
+ question
+ mark
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>608</x>
+      <y>624</y>
+      <w>168</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Answer
+--
+studentID(FK)
+questionID(FK)
+answer
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>536</x>
+      <y>440</y>
+      <w>168</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>Practical
+--
+ practicalID(PK)
+ question
+ anwer
+  
+
+ 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>688</y>
+      <w>184</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+
+m1=1
+m2=0..1</panel_attributes>
+    <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>504</x>
+      <y>240</y>
+      <w>152</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+
+
+                   1..*
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0;170.0;160.0;140.0;160.0;140.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>536</y>
+      <w>232</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>
+
+m1=1
+m2=10..20</panel_attributes>
+    <additional_attributes>270.0;10.0;270.0;70.0;10.0;70.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>624</y>
+      <w>168</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Result
+--
+studentID(FK)
+questionID(FK)
+answer
+mark
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>768</x>
+      <y>688</y>
+      <w>168</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>608</x>
+      <y>240</y>
+      <w>120</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..*
+
+
+</panel_attributes>
+    <additional_attributes>110.0;10.0;110.0;160.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>608</x>
+      <y>832</y>
+      <w>168</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Feedback
+--
+studentID(FK)
+questionID(FK)
+feedback
+mark
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>768</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
