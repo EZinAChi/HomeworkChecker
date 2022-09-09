@@ -531,9 +531,9 @@ m2=1..*
       <w>168</w>
       <h>152</h>
     </coordinates>
-    <panel_attributes>sampleAnswer
+    <panel_attributes>objectAnswer
 --
- sAnswerID(PK)
+ oAnswerID(PK)
 
 
 </panel_attributes>
@@ -547,9 +547,9 @@ m2=1..*
       <w>168</w>
       <h>152</h>
     </coordinates>
-    <panel_attributes>objectAnswer
+    <panel_attributes>sampleAnswer
 --
- oAnswerID(PK)
+ sAnswerID(PK)
 
 
 </panel_attributes>
