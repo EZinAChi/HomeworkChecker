@@ -339,8 +339,7 @@ lt=-
 --
  databaseID(FK)
  studentID(FK)
- row
- colume
+ answer
 
 
 </panel_attributes>
@@ -659,22 +658,25 @@ m2=1..*
  questionID(FK)
  join
  aggregate
- numOfRwos</panel_attributes>
+ numOfRwos
+ OrderOFColumns
+ correctRows
+ Correctcolumns </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1043</x>
+      <x>1050</x>
       <y>525</y>
-      <w>98</w>
+      <w>91</w>
       <h>35</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1..*
-m2=0..*
+m2=*
 </panel_attributes>
-    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -699,8 +701,8 @@ teaches to &gt;</panel_attributes>
       <h>35</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=1..*
-m2=0..*
+
+m2=*
 </panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
