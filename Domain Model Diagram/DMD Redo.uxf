@@ -2176,16 +2176,16 @@ m2=0..*
     <id>Relation</id>
     <coordinates>
       <x>3416</x>
-      <y>1376</y>
+      <y>1368</y>
       <w>104</w>
-      <h>160</h>
+      <h>168</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1..*
 
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;120.0;90.0;120.0;90.0;180.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0;90.0;130.0;90.0;190.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -2279,7 +2279,7 @@ correctcolumn
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3768</x>
+      <x>3776</x>
       <y>1656</y>
       <w>32</w>
       <h>104</h>
@@ -2445,5 +2445,20 @@ oAnswerID</panel_attributes>
 --
 sAnswerID(PK)</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3728</x>
+      <y>1328</y>
+      <w>88</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1..*
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;230.0</additional_attributes>
   </element>
 </diagram>
