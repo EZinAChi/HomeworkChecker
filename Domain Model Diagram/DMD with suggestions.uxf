@@ -1,0 +1,107 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>8</zoom_level><element><id>UMLClass</id><coordinates><x>544</x><y>184</y><w>168</w><h>64</h></coordinates><panel_attributes>Student
+--
+ studentID(PK)
+lt=-
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>192</y><w>168</w><h>64</h></coordinates><panel_attributes>Teacher
+--
+teacherID(PK)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>432</x><y>0</y><w>168</w><h>104</h></coordinates><panel_attributes>User
+--
+ userID (PK)
+ email(FK)
+ password
+ firstName
+ lastNAme</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>96</y><w>168</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>140;10;140;70;190;70;10;70;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>544</x><y>144</y><w>96</w><h>56</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;100;10;100;50</additional_attributes></element><element><id>UMLClass</id><coordinates><x>168</x><y>624</y><w>168</w><h>152</h></coordinates><panel_attributes>Question
+--
+ questionID(PK)
+ question
+ mark
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>664</x><y>624</y><w>168</w><h>152</h></coordinates><panel_attributes>Answer
+--
+studentID(FK)
+questionID(FK)
+answer
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>424</x><y>400</y><w>168</w><h>104</h></coordinates><panel_attributes>Practical
+--
+ practicalID(PK)
+ question
+ answer
+  
+
+ 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>328</x><y>688</y><w>96</w><h>40</h></coordinates><panel_attributes>lt=-
+
+m1=1
+m2=0..1</panel_attributes><additional_attributes>10;20;100;20</additional_attributes></element><element><id>Relation</id><coordinates><x>248</x><y>496</y><w>240</w><h>144</h></coordinates><panel_attributes>
+
+m1=1
+m2=10..20</panel_attributes><additional_attributes>270;10;270;120;10;120;10;160</additional_attributes></element><element><id>UMLClass</id><coordinates><x>896</x><y>624</y><w>168</w><h>152</h></coordinates><panel_attributes>Result
+--
+studentID(FK)
+questionID(FK)
+answer
+mark
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>824</x><y>688</y><w>88</w><h>40</h></coordinates><panel_attributes>lt=-
+
+m1=1
+m2=1</panel_attributes><additional_attributes>10;20;90;20</additional_attributes></element><element><id>Relation</id><coordinates><x>576</x><y>240</y><w>40</w><h>176</h></coordinates><panel_attributes>lt=-
+m1=1..*
+
+
+</panel_attributes><additional_attributes>10;10;10;200</additional_attributes></element><element><id>UMLClass</id><coordinates><x>536</x><y>800</y><w>168</w><h>80</h></coordinates><panel_attributes>Feedback
+--
+studentID(FK)
+questionID(FK)
+feedback
+mark
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>608</x><y>704</y><w>24</w><h>112</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>392</x><y>256</y><w>104</w><h>160</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..*
+
+</panel_attributes><additional_attributes>10;10;10;120;90;120;90;180</additional_attributes></element><element><id>UMLClass</id><coordinates><x>160</x><y>400</y><w>168</w><h>104</h></coordinates><panel_attributes>objectDatabase
+--
+databseID(PK
+
+ 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>408</x><y>632</y><w>168</w><h>152</h></coordinates><panel_attributes>Deduction
+--
+questionsID(FK
+join
+aggregate
+numofRows
+orderofColumn
+correctRows
+correctcolumn
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>576</x><y>696</y><w>104</w><h>40</h></coordinates><panel_attributes>lt=-
+
+m1=*
+m2=1</panel_attributes><additional_attributes>10;20;110;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>168</x><y>960</y><w>168</w><h>152</h></coordinates><panel_attributes>sampleAnswer
+--
+sAnswerID(PK)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>520</x><y>952</y><w>168</w><h>152</h></coordinates><panel_attributes>feedbackGenerator
+--
+studnetID(FK)
+questionID(FK)
+oAnswerID(FK)
+sAnswerID(FK)
+answer</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>848</x><y>952</y><w>168</w><h>152</h></coordinates><panel_attributes>objectAnswer
+--
+oAnswerID</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>264</x><y>216</y><w>72</w><h>200</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..*
+
+</panel_attributes><additional_attributes>70;10;10;10;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>696</x><y>240</y><w>40</w><h>400</h></coordinates><panel_attributes>lt=-
+m1=1..*
+m2=0..*
+
+</panel_attributes><additional_attributes>10;10;10;480</additional_attributes></element><element><id>Relation</id><coordinates><x>184</x><y>496</y><w>32</w><h>144</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+
+
+</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>256</x><y>776</y><w>704</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>290;10;290;170;860;170;860;220;860;170;10;170;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>328</x><y>1024</y><w>208</w><h>32</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>240;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>1024</y><w>184</w><h>32</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>10;20;210;20</additional_attributes></element></diagram>
