@@ -1,3 +1,5 @@
+
+
 CREATE TABLE Students
 (studentID INT IDENTITY,
 email VARCHAR(MAX) NOT NULL, 
@@ -35,26 +37,28 @@ CONSTRAINT pk_Question PRIMARY KEY (questionID));
 CONSTRAINT fk_DeductionQuestion FOREIGN KEY (questionID) REFERENCES Question);
  
 
-  CREATE TABLE Answer
+CREATE TABLE Answer
 (studentID INT,
 questionID INT,
 StudentAnswer  VARCHAR(MAX) NOT NULL,
-CONSTRAINT fk_AnswerStudents FOREIGN KEY (studentID) REFERENCES Students);
+CONSTRAINT fk_AnswerStudents FOREIGN KEY (studentID) REFERENCES Students,
 CONSTRAINT fk_AnswerQuestion FOREIGN KEY (questionID) REFERENCES Question);
+
+ 
 
 CREATE TABLE Result
 (studentID INT,
 questionID INT,
 totalMark INT,
-CONSTRAINT fk_ResultStudents FOREIGN KEY (studentID) REFERENCES Students);
+CONSTRAINT fk_ResultStudents FOREIGN KEY (studentID) REFERENCES Students,
 CONSTRAINT fk_ResultQuestion FOREIGN KEY (questionID) REFERENCES Question);
 
 CREATE TABLE  Feedback
 (feedBackID INT IDENTITY,
 feedBack VARCHAR(MAX) ,
-studentID,
-questionID,
-CONSTRAINT fk_FeedbackStudents FOREIGN KEY (studentID) REFERENCES Students);
+studentID INT,
+questionID INT,
+CONSTRAINT fk_FeedbackStudents FOREIGN KEY (studentID) REFERENCES Students,
 CONSTRAINT fk_FeedbackQuestion FOREIGN KEY (questionID) REFERENCES Question);
 
  
