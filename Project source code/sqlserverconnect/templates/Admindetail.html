@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<head>
+    <title>Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <style>
+
+
+        body{
+            background-color:#0052a0;
+            
+            
+        }
+        
+        header{
+            color:white;
+            
+        }
+        
+        
+        main{
+            background-color:white;
+            color:#0052a0;
+        }
+        
+        button{
+            background-color:white;
+            color:#0052a0;
+            border-color:#0052a0;
+            width:150px;
+            height:40px;
+            border-radius: 12px;
+        }
+        
+        
+          </style>
+</head>
+<body><center>
+    <header>
+        <h1 style="text-align: center; padding-top:50px; padding-bottom:50px;">Admin management</h1>
+        </header>
+
+<hr/>
+
+
+<main>
+	<form>
+        <div  style="padding-top: 200px;padding-left: 20%;padding-right: 20%;">
+            <h2>Teacher Information</h2>
+            <table class = "table" border="1">
+                <tr>
+                    <th>teacherID</th>
+                    <th>firstName</th>
+                    <th>lastName</th>
+                    <th>email</th>
+                    <th>password</th>
+                    <th>Save</th>
+                    <th>lock</th>
+                </tr>
+                {% for datadisplay in teacher1%}
+                <tr>
+                    <td>{{datadisplay.teacherID}}<br><br></td>
+                    <td><input name="{{datadisplay.firstName}}" value="{{datadisplay.firstName}}" /><br><br></td>
+                    <td><input name="{{datadisplay.teacherID}}" value="{{datadisplay.lastName}}" /><br><br></td>
+                    <td><input name="{{datadisplay.teacherID}}" value="{{datadisplay.email}}" /><br><br></td>
+                    <td><input name="{{datadisplay.teacherID}}" value="{{datadisplay.password}}" /><br><br></td>
+                    <td><button class="btn btn-primary">Save</button></td>
+                    <td><button class="btn btn-primary">lock</button></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <h2>Student Information</h2>
+            <table class = "table" border="1">
+                <tr>
+                    <th>studentID</th>
+                    <th>firstName</th>
+                    <th>lastName</th>
+                    <th>email</th>
+                    <th>password</th>
+                    <th>Save</th>
+                    <th>lock</th>
+                </tr>
+                {% for datadisplay in sqlserverconn%}
+                <tr>
+                    <td>{{datadisplay.studentID}}<br><br></td>
+                    <td><input name="{{datadisplay.firstName}}" value="{{datadisplay.firstName}}" /><br><br></td>
+                    <td><input name="{{datadisplay.teacherID}}" value="{{datadisplay.lastName}}" /><br><br></td>
+                    <td><input name="{{datadisplay.teacherID}}" value="{{datadisplay.email}}" /><br><br></td>
+                    <td><input name="{{datadisplay.teacherID}}" value="{{datadisplay.password}}" /><br><br></td>
+                    <td><button class="btn btn-primary">Save</button></td>
+                    <td><button class="btn btn-primary">lock</button></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br/><br/>
+            <!--
+  <a class="btn btn-outline-primary" href="student login.html">Lock Account</a><br/><br/>
+  <a class="btn btn-outline-primary" href="teacher login.html">Unlock Account</a><br/><br/>
+  -->
+  <a class="btn btn-outline-primary" href="Menu.html">Logout</a>
+  <br/><br/>
+  </div>
+</form>
+
+	</main>
+</center></body>
+
+</html>

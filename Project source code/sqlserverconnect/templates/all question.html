@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+     
+    <title>questions</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+  <style>
+
+
+    body{
+        background-color:#0052a0;
+        
+        
+    }
+    
+    header{
+        color:white;
+        
+    }
+    
+    
+    main{
+        background-color:white;
+        color:#0052a0;
+        min-height:60%;
+    }
+    
+    button{
+        background-color:white;
+        color:#0052a0;
+        border-color:#0052a0;
+        width:150px;
+        height:40px;
+        border-radius: 12px;
+    }
+    
+    
+      </style>
+</head>
+<body>
+    <header>
+        <h1 style="text-align: center; padding-top:50px; padding-bottom:50px;">Question</h1>
+        </header>
+<hr/>
+<main>
+    <!-- <form method="post" action="FinishPage.html"> -->
+    <form action="FinishPage.html">
+        <!-- https://stackoverflow.com/questions/65422388/how-to-name-numerous-dynamic-input-fields-for-post-method-django -->
+        {% csrf_token %}
+    <center>
+
+        {% for datadisplay in question%}
+    
+        <h1 style="text-align: center; padding-top:50px; padding-bottom:50px;">
+           Question: {{datadisplay.question}}
+        </h1>
+ <!--
+        <p style="padding-top:20px; padding-bottom:20px; padding-left:0px;"><label for="w3review">Example Question:</label></p>
+          -->
+        <center>
+        <textarea id="{{datadisplay.questionID}}" name="{{datadisplay.questionID}}" rows="4" cols="50" placeholder="... please enter your query here ..." required></textarea>
+
+            <br/>
+
+            <!--
+            {{datadisplay.answer}}
+            {{datadisplay.mark}}
+
+            -->
+        
+        {% endfor %}
+        <br/>
+        <button class="btn btn-outline-primary" type="submit">Submit</button>
+        <br/>
+        <br/>
+        </center>
+        </form>
+</main>
+
+</body>
+
+
+
+ 
+</html>
