@@ -20,7 +20,7 @@
   </div>
   <div class="lay-form-item">
     <div class="lay-input-block">
-      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="submit()">Submit</button>
+      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="submitquery()">Submit</button>
       <button type="reset" class="lay-btn lay-btn-primary">Reset</button>
     </div>
   </div>
@@ -31,12 +31,13 @@
 
 <script type="text/javascript">
 
-    function submit() {
+    function submitquery() {
         var input = document.getElementById("student-query")
         var student_query = input.value;
 
         window.location.href = 'query?student_query=' + student_query
     }
+
 
 {#{% for p in data %}#}
 {#    <p>{{ p }} </p>#}
