@@ -1,0 +1,27 @@
+<html>
+<head>
+
+    <title>{{ 'Homework Checker' }}</title>
+
+</head>
+
+<link href="./lay.css"/>
+<script src="./lay.all.js"></script>
+
+<body>
+<h1>Homework Checker</h1>
+
+<form class="lay-form" action="" onsubmit="return false">
+  <div class="lay-form-item">
+    <div class="lay-input-block">
+      <button class="lay-btn" onclick="studentclickme()">Student</button>
+      <button class="lay-btn" onclick="tclickme()">Teacher</button>
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript">
+    function studentclickme(){
+        window.location.replace("studentlogin.html")
+    }
+</script>

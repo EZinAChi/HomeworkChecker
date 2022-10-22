@@ -1,0 +1,47 @@
+<html>
+<head>
+
+    <title>{{ 'Quiz Page' }}</title>
+
+</head>
+
+<link href="./lay.css"/>
+<script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
+
+<body>
+<h1>Quiz</h1>
+
+<form class="lay-form" action="" onsubmit="return false">
+  <div class="lay-form-item">
+    <label class="lay-form-label">Name</label>
+    <div class="lay-input-block">
+      <input type="text" name="u85qwh" required  lay-verify="required" id="student-query" placeholder="Please enter your query" autocomplete="off" class="lay-input">
+    </div>
+  </div>
+  <div class="lay-form-item">
+    <div class="lay-input-block">
+      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="submit()">Submit</button>
+      <button type="reset" class="lay-btn lay-btn-primary">Reset</button>
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+
+    function submit() {
+        var input = document.getElementById("student-query")
+        var student_query = input.value;
+
+        window.location.href = 'query?student_query=' + student_query
+    }
+
+{#{% for p in data %}#}
+{#    <p>{{ p }} </p>#}
+{#{% endfor %}#}
+
+</script>
+</body>
+</html>

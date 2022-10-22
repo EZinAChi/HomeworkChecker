@@ -1,0 +1,44 @@
+<html>
+<head>
+
+    <title>{{ 'Student Login Page' }}</title>
+
+</head>
+
+<link href="./lay.css"/>
+<script src="./lay.all.js"></script>
+
+<body>
+<h1>Teacher Login</h1>
+
+<form class="lay-form" action="" onsubmit="return false">
+  <div class="lay-form-item">
+    <label class="lay-form-label">Name</label>
+    <div class="lay-input-block">
+      <input type="text" name="u85qwh" required  lay-verify="required" id="teacher-name" placeholder="Please enter your name" autocomplete="off" class="lay-input">
+    </div>
+  </div>
+  <div class="lay-form-item">
+    <div class="lay-input-block">
+
+    #For three button, Quiz Management to add question & sample query page, Student Result to check the quiz score of student.
+      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="qclickme()">Quiz Management</button>
+      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="rclickme()">Student Result</button>
+      <button type="reset" class="lay-btn lay-btn-primary">Reset</button>
+
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript">
+
+    function qclickme(){
+        var input = document.getElementById("teacher-name")
+        var teacher_name = input.value;
+        alert("Login as " + teacher_name)
+        window.location.replace("index.html")
+    }
+</script>
+
+</body>
+</html>
