@@ -30,6 +30,10 @@ def countqueryitems(query):
 def studentlogin():
     return render_template('studentlogin.html')
 
+@app.route('/teacherlogin')
+def teacherlogin():
+    return render_template('teacherlogin.html')
+
 
 # route to port /student for transferring student_name from studentlogin page and pulling quiz page to front end
 @app.route('/student', methods=['GET', 'POST'])
@@ -38,6 +42,15 @@ def student():
         student_name = request.args.get('student_name')
 
         return render_template('quiz.html', data=student_name)
+
+# route to port /student for transferring student_name from studentlogin page and pulling quiz page to front end
+@app.route('/teacher', methods=['GET', 'POST'])
+def teacher():
+    if request.method == 'GET':
+        teacher_name = request.args.get('teacher_name')
+
+        return render_template('quizmanage.html')
+
 
 # route to port /query for transferring student_query from quiz page and calculate the mark
 @app.route('/query', methods=['GET', 'POST'])
@@ -48,6 +61,7 @@ def studentqueryenter():
             "SELECT COUNT(*) AS transCount, SUM(Quantity) AS avgQuantity,  AVG(ActualCost) AS avgCost FROM Production.TransactionHistoryArchive")
         datafromdatabase2 = countqueryitems(student_query)
 
+# print for testing
         print(datafromdatabase1)
         print(datafromdatabase2)
         print(student_query)
