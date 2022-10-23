@@ -7,8 +7,7 @@ app = Flask(__name__, template_folder='templates', static_folder='templates/layu
 
 @app.route('/')
 def index():
-    studentqueryenter()
-    return render_template('studentlogin.html')
+    return render_template('menu.html')
 
 
 def databasequery(query):
@@ -19,6 +18,9 @@ def databasequery(query):
     db.close()
     return data
 
+@app.route('/studentlogin')
+def studentlogin():
+    return render_template('studentlogin.html')
 
 @app.route('/student', methods=['GET', 'POST'])
 def student():
@@ -34,6 +36,9 @@ def studentqueryenter():
         student_query = request.args.get('student_query')
         datafromdatabase1 = databasequery("SELECT * FROM Person.address")
         datafromdatabase2 = databasequery(student_query)
+        print(datafromdatabase1)
+        print(datafromdatabase2)
+        print(student_query)
 
         return render_template('result.html', data=compareresult(datafromdatabase1, datafromdatabase2))
 
