@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 
 import pymssql
+from pymssql import Answer, Deduction, Feedback, Practical, Question, Result, Students, Teacher
 
 app = Flask(__name__, template_folder='templates', static_folder='templates/layui')
 
@@ -75,6 +76,48 @@ def compareresult(query1, query2):
     else:
         return 0
 
+#  connect to main database
+def connectHWCdb():
+    db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="HomeworkChecker")
+    return db
 
+#  insert data to Students table
+def insertstudent(studentid, email, password, firstName, lastName):
+
+    db = connectHWCdb()
+
+    label = ['studentID', 'email', 'password', 'firstName', 'lastName']
+    content = [studentid, email, password, firstName, lastName]
+
+    sql = 'insert into {0} ({1},{2},{3},{4}) values({5},"{6}","{7}","{8}","{9}")'.format(Students,label[0],label[1],
+          label[2],label[3],label[4],content[0],content[1],content[2],content[3],content[4])
+    result = db.execute(sql)
+    db.commit()
+    return  True if result else False
+
+#  insert data to Result table
+def insertresult(studentid, questionid, totalmark):
+
+    db = connectHWCdb()
+
+    label = ['studentID', 'questionID', 'totalMark']
+    content = [studentid, questionid, totalmark]
+
+    sql = 'insert into {0} ({1},{2}) values({3},"{4}","{5}")'.format(Result,label[0],label[1],
+          label[2],label[3],label[4],content[0],content[1],content[2],content[3],content[4])
+    result = db.execute(sql)
+    db.commit()
+    return  True if result else False
+
+#  read data from Students table
+def readstudent():
+
+    db = connectHWCdb()
+
+    sql = 'select * from {0}'.format(Students)
+    result = db.execute(sql)
+    return list(result)
+
+#  run the main program
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000)
