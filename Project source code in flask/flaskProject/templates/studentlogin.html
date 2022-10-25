@@ -46,22 +46,21 @@
 
 
 
-    {#function wrongpassword(){#}
-    {#        if(data){}#}
-    {#        else{alert("Wrong Login Information")}#}
-    {#}#}
+    function wrongpassword(){
+            if(data){}
+            else{alert("Wrong Login Information")}
+    }
+    $.ajax({
+        url: "/student",
+        data:{"data":data},
+        dataType:"json",
 
-        {#$.ajax({#}
-        {#    url: "/student",#}
-        {#    data:{"student_name":student_name},#}
-        {#    dataType:"json",#}
-        {##}
-        {#    success: function(){#}
-                {#$("#student-name").val(data.from.student_name);#}
-        {##}
-        {#    },error:function(){#}
-        {#    }#}
-        {#    });#}
+        success: function(){
+            $("#data").val(data.from.data);
+            wrongpassword()
+        },error:function(){
+        }
+    });
     }
 
 

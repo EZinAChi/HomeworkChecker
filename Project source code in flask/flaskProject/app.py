@@ -21,6 +21,7 @@ def connectHWCdb():
     cursor = db.cursor()
     return cursor
 
+
 #  connect to target database
 def connectAWdb():
     db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="AdventureWorks2019")
@@ -59,8 +60,11 @@ def student():
 def passwordcheck(email, password):
     db = connectHWCdb()
     sql = "select {0} from {1} WHERE email = '{2}'".format("password", "Student", email)
-    result = db.execute(sql)
+    db.execute(sql)
+    result = db.fetchone()[0]
 
+    # testing
+    print(sql)
     print(result)
 
     if password == result:
@@ -105,7 +109,6 @@ def countqueryitems(query):
     q = 0
     for queryitem in data:
         q += 1
-    db.close()
     # return data
     return q
 
