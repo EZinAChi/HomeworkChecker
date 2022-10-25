@@ -13,10 +13,16 @@
 
 <form class="lay-form" action="" onsubmit="return false">
   <div class="lay-form-item">
-    <label class="lay-form-label">Name</label>
-    <div class="lay-input-block">
-      <input type="text" name="u85qwh" required  lay-verify="required" id="teacher-name" placeholder="Please enter your name" autocomplete="off" class="lay-input">
-    </div>
+
+      <label class="lay-form-label">Email</label>
+      <div class="lay-input-block">
+          <input type="text" name="u85qwh" required  lay-verify="required" id="teacher-email" placeholder="Please enter your email" autocomplete="off" class="lay-input">
+      </div>
+      <label class="lay-form-label">Password</label>
+      <div class="lay-input-block">
+          <input type="text" name="u85qwh" required  lay-verify="required" id="teacher-password" placeholder="Please enter your password" autocomplete="off" class="lay-input">
+      </div>
+
   </div>
   <div class="lay-form-item">
     <div class="lay-input-block">
@@ -34,10 +40,10 @@
 <script type="text/javascript">
 
     function quizmanage(){
-        var input = document.getElementById("teacher-name")
-        var teacher_name = input.value;
-        alert("Login as " + teacher_name)
-        window.location.href='teacher?teacher_name=' + teacher_name
+        var input = document.getElementById("teacher-email")
+        var teacher_email = input.value;
+        {#alert("Login as " + teacher_email)#}
+        window.location.href='teacher?teacher_email=' + teacher_email
     }
 </script>
 

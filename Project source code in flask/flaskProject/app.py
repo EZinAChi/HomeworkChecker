@@ -41,45 +41,50 @@ def teacherloginpage():
     return render_template('teacherlogin.html')
 
 
-# route to port /student for transferring student_name from studentlogin page and pulling quiz page to front end
+# route to port /student for transferring student login data from studentlogin page and do password checking
 @app.route('/student', methods=['GET', 'POST'])
 def student():
     if request.method == 'GET':
         student_email = request.args.get('student_email')
         student_password = request.args.get('student_password')
 
+        # testing
         print(student_email, student_password)
-        print(passwordcheck(student_email, student_password))
+        print(passwordcheck(student_email, student_password, "Student"))
 
-        if passwordcheck(student_email, student_password):
+        if passwordcheck(student_email, student_password, "Student"):
             return render_template('quiz.html')
         else:
             return render_template('studentlogin.html', data=True)
 
 
-def passwordcheck(email, password):
-    db = connectHWCdb()
-    sql = "select {0} from {1} WHERE email = '{2}'".format("password", "Student", email)
-    db.execute(sql)
-    result = db.fetchone()[0]
-
-    # testing
-    print(sql)
-    print(result)
-
-    if password == result:
-        return True
-    else:
-        return False
-
-
-# route to port /teacher for transferring student_name from studentlogin page and pulling quiz page to front end
+# route to port /teacher for transferring teacher login data from teacherlogin page and do password checking
 @app.route('/teacher', methods=['GET', 'POST'])
 def teacher():
     if request.method == 'GET':
-        teacher_name = request.args.get('teacher_name')
+        teacher_email = request.args.get('teacher_email')
+        teacher_password = request.args.get('teacher_password')
 
-        return render_template('quizmanage.html')
+        # testing
+        print(teacher_email, teacher_password)
+        print(passwordcheck(teacher_email, teacher_password, "Teacher"))
+
+        if passwordcheck(teacher_email, teacher_password, "Teacher"):
+            return render_template('quiz.html')
+        else:
+            return render_template('teacherlogin.html', data=True)
+
+
+# check password
+def passwordcheck(email, password, user):
+    db = connectHWCdb()
+
+    sql = "select 1 from {} where email='{}' and password='{}'".format(user, email, password)
+    db.execute(sql)
+    if db.fetchall():
+        return True
+    else:
+        return False
 
 
 # route to port /query for transferring student_query from quiz page and calculate the mark
