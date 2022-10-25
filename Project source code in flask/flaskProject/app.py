@@ -4,7 +4,7 @@ import pymssql
 
 app = Flask(__name__, template_folder='templates', static_folder='templates/layui')
 
-request.json.get
+# request.json.get
 # make_response(json_encode(data), http_code,
 #         {'Content-Type': 'application/json; charset=utf-8'})
 @app.route('/')
