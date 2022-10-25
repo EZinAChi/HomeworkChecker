@@ -4,17 +4,16 @@ import pymssql
 
 app = Flask(__name__, template_folder='templates', static_folder='templates/layui')
 
-# request.json.get
-# make_response(json_encode(data), http_code,
-#         {'Content-Type': 'application/json; charset=utf-8'})
+
 @app.route('/')
 def index():
     #  test connection:
     print(connectHWCdb())
     print(connectAWdb())
-
+    return render_template('quizselection.html')
     #  access main menu
     return render_template('menu.html')
+
 
 #  Database connection
 #  connect to main database
@@ -43,14 +42,31 @@ def studentloginpage():
 def teacherloginpage():
     return render_template('teacherlogin.html')
 
+
 #  route to port /practical for pulling correct quiz page to front end
-@app.route('/practical', methods=['GET', 'POST'])
+@app.route('/quiz', methods=['GET', 'POST'])
 def practicalsection():
     if request.method == 'GET':
-        prac_num = request.args.get('pracnum')
+        quiz_num = request.args.get('qnum')
+    print(quiz_num)
 
-    if prac_num == 1:
-        return render_template('quiz.html', )
+    # db = connectHWCdb()
+    # sql = "select question from Question where questionID = {}".format(1)
+    # db.execute(sql)
+    # result = db.fetchall()
+    # print(result)
+
+    if quiz_num == 1:
+        return render_template('quiz.html')
+    elif quiz_num == 6:
+        return render_template('quiz.html')
+    elif quiz_num == 11:
+        return render_template('quiz.html')
+    elif quiz_num == 16:
+        return render_template('quiz.html')
+    elif quiz_num == 21:
+        return render_template('quiz.html')
+    return render_template('quizselection.html')
 
 
 #  Login
@@ -140,11 +156,6 @@ def compareresult(query1, query2):
         return 0
 
 
-
-
-
-
-
 #  insert data to Students table
 def insertstudent(studentid, email, password, firstName, lastName):
     db = connectHWCdb()
@@ -216,3 +227,7 @@ def readquestion(prac_num):
 #  run the main program
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000)
+
+# request.json.get
+# make_response(json_encode(data), http_code,
+#       {'Content-Type': 'application/json; charset=utf-8'})
