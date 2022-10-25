@@ -13,14 +13,20 @@
 
 <form class="lay-form" action="" onsubmit="return false">
   <div class="lay-form-item">
-    <label class="lay-form-label">Name</label>
-    <div class="lay-input-block">
-      <input type="text" name="u85qwh" required  lay-verify="required" id="student-name" placeholder="Please enter your name" autocomplete="off" class="lay-input">
-    </div>
+
+      <label class="lay-form-label">Email</label>
+      <div class="lay-input-block">
+          <input type="text" name="u85qwh" required  lay-verify="required" id="student-email" placeholder="Please enter your email" autocomplete="off" class="lay-input">
+      </div>
+      <label class="lay-form-label">Password</label>
+      <div class="lay-input-block">
+          <input type="text" name="u85qwh" required  lay-verify="required" id="student-password" placeholder="Please enter your password" autocomplete="off" class="lay-input">
+      </div>
+
   </div>
   <div class="lay-form-item">
     <div class="lay-input-block">
-      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="clickme()">Start Quiz</button>
+      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="clickme()">Login</button>
       <button type="reset" class="lay-btn lay-btn-primary">Reset</button>
     </div>
   </div>
@@ -31,13 +37,19 @@
 <script type="text/javascript">
 
     function clickme(){
-        var input = document.getElementById("student-name")
-        var student_name = input.value;
-        alert("Login as " + student_name)
+        var inpute = document.getElementById("student-email")
+        var inputp = document.getElementById("student-password")
+        var student_email = inpute.value;
+        var student_password = inputp.value;
 
-        {#window.location.replace("quiz.html")#}
-        window.location.href='student?student_name='+student_name
+        window.location.href='student?student_email='+student_email+"&student_password="+student_password
 
+
+
+    {#function wrongpassword(){#}
+    {#        if(data){}#}
+    {#        else{alert("Wrong Login Information")}#}
+    {#}#}
 
         {#$.ajax({#}
         {#    url: "/student",#}

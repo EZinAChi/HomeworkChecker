@@ -1,0 +1,50 @@
+<html>
+<head>
+
+    <title>{{ 'Homework Checker' }}</title>
+
+</head>
+
+<link href="./lay.css"/>
+<script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
+
+<body>
+<h1>Homework Checker</h1>
+
+<form class="lay-form" action="" onsubmit="return false">
+  <div class="lay-form-item">
+    <div class="lay-input-block">
+        <button class="lay-btn" onclick="practical_1()">Practical 1</button>
+        <button class="lay-btn" onclick="practical_2()">Practical 2</button>
+        <button class="lay-btn" onclick="practical_3()">Practical 3</button>
+        <button class="lay-btn" onclick="practical_4()">Practical 4</button>
+        <button class="lay-btn" onclick="practical_5()">Practical 5</button>
+
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    function practical_1(){
+        pracnum = 1
+        window.location.href='practical?pracnum='+pracnum
+    }
+    function practical_2(){
+        pracnum = 6
+        window.location.href='practical?pracnum='+pracnum
+    }
+    function practical_3(){
+        pracnum = 11
+        window.location.href='practical?pracnum='+pracnum
+    }
+    function practical_4(){
+        pracnum = 16
+        window.location.href='practical?pracnum='+pracnum
+    }
+    function practical_5(){
+        pracnum = 21
+        window.location.href='practical?pracnum='+pracnum
+    }
+</script>

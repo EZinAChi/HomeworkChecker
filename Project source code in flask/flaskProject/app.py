@@ -2,38 +2,41 @@ from flask import Flask, render_template, request
 
 import pymssql
 
-
 app = Flask(__name__, template_folder='templates', static_folder='templates/layui')
 
 
 @app.route('/')
 def index():
+    #  test connection:
+    print(connectHWCdb())
+    print(connectAWdb())
+
+    #  access main menu
     return render_template('menu.html')
 
 
-# The function to link the database and to count the number of item outputted
-def countqueryitems(query):
+#  connect to main database
+def connectHWCdb():
+    db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="HWC")
+    cursor = db.cursor()
+    return cursor
+
+#  connect to target database
+def connectAWdb():
     db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="AdventureWorks2019")
     cursor = db.cursor()
-    cursor.execute(query)
-    # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
-    data = cursor.fetchall()
-    q = 0
-    for queryitem in data:
-        q += 1
-    db.close()
-    # return data
-    return q
+    return cursor
 
 
 # route to port /studentlogin for pulling studentlogin page to front end
 @app.route('/studentlogin')
-def studentlogin():
+def studentloginpage():
     return render_template('studentlogin.html')
 
 
+# route to port /teacher for pulling teacherlogin page to front end
 @app.route('/teacherlogin')
-def teacherlogin():
+def teacherloginpage():
     return render_template('teacherlogin.html')
 
 
@@ -41,12 +44,32 @@ def teacherlogin():
 @app.route('/student', methods=['GET', 'POST'])
 def student():
     if request.method == 'GET':
-        student_name = request.args.get('student_name')
+        student_email = request.args.get('student_email')
+        student_password = request.args.get('student_password')
 
-        return render_template('quiz.html', data=student_name)
+        print(student_email, student_password)
+        print(passwordcheck(student_email, student_password))
+
+        if passwordcheck(student_email, student_password):
+            return render_template('quiz.html')
+        else:
+            return render_template('studentlogin.html', data=True)
 
 
-# route to port /student for transferring student_name from studentlogin page and pulling quiz page to front end
+def passwordcheck(email, password):
+    db = connectHWCdb()
+    sql = "select {0} from {1} WHERE email = '{2}'".format("password", "Student", email)
+    result = db.execute(sql)
+
+    print(result)
+
+    if password == result:
+        return True
+    else:
+        return False
+
+
+# route to port /teacher for transferring student_name from studentlogin page and pulling quiz page to front end
 @app.route('/teacher', methods=['GET', 'POST'])
 def teacher():
     if request.method == 'GET':
@@ -72,18 +95,27 @@ def studentqueryenter():
         return render_template('result.html', data=compareresult(datafromdatabase1, datafromdatabase2))
 
 
+# Marking
+# The function to link the database and to count the number of item outputted
+def countqueryitems(query):
+    cursor = connectAWdb()
+    cursor.execute(query)
+    # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
+    data = cursor.fetchall()
+    q = 0
+    for queryitem in data:
+        q += 1
+    db.close()
+    # return data
+    return q
+
+
 # calculate the mark
 def compareresult(query1, query2):
     if query1 == query2:
         return 1
     else:
         return 0
-
-
-#  connect to main database
-def connectHWCdb():
-    db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="HomeworkChecker")
-    return db
 
 
 #  insert data to Students table
@@ -107,9 +139,10 @@ def insertstudent(studentid, email, password, firstName, lastName):
 def readstudent():
     db = connectHWCdb()
 
-    sql = 'select * from {0}'.format(Students)
+    sql = 'select * from {0}'.format("Students")
     result = db.execute(sql)
     return list(result)
+
 
 #  update student data
 def updatestudent(studentid, email, password, firstName, lastName):
@@ -118,11 +151,12 @@ def updatestudent(studentid, email, password, firstName, lastName):
     label = ['studentID', 'email', 'password', 'firstName', 'lastName']
     content = [studentid, email, password, firstName, lastName]
 
-    sql = 'update Students set {0} ({1},{2},{3},{4}) values({5},"{6}","{7}","{8}","{9}" where studentID = {0})'.format("Students", label[0], label[1],
-                                                                                         label[2], label[3], label[4],
-                                                                                         content[0], content[1],
-                                                                                         content[2], content[3],
-                                                                                         content[4])
+    sql = 'update Students set {0} ({1},{2},{3},{4}) values({5},"{6}","{7}","{8}","{9}" where studentID = {10})'.format(
+        label[0], label[1],
+        label[2], label[3], label[4],
+        content[0], content[1],
+        content[2], content[3],
+        content[4], label[0])
     result = db.execute(sql)
     db.commit()
     return True if result else False
@@ -141,6 +175,24 @@ def insertresult(studentid, questionid, totalmark):
     result = db.execute(sql)
     db.commit()
     return True if result else False
+
+
+#  read data from Question table
+def readquestion(prac_num):
+    db = connectHWCdb()
+
+    sql = 'select {0} from {1} where {2}'.format("question", "Question", "questionID =")
+    result = db.execute(sql)
+    return list(result)
+
+
+@app.route('/practical', methods=['GET', 'POST'])
+def practicalsection():
+    if request.method == 'GET':
+        prac_num = request.args.get('pracnum')
+
+    if prac_num == 1:
+        return render_template('quiz.html', )
 
 
 #  run the main program
