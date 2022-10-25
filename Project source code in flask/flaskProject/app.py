@@ -1,18 +1,12 @@
 from flask import Flask, render_template, request
 
 import pymssql
-import json
 
 app = Flask(__name__, template_folder='templates', static_folder='templates/layui')
 
-# @app.after_request
-# def cors(environ):
-#     environ.header['Access-Control-Allow-Origin'] = '*'
-#     # environ.header['Access-Control-Allow-Method'] = '*'
-#     # environ.header['Access-Control-Allow-Header'] = 'x-requested-with, content-type'
-#     return environ
-
-
+request.json.get
+# make_response(json_encode(data), http_code,
+#         {'Content-Type': 'application/json; charset=utf-8'})
 @app.route('/')
 def index():
     #  test connection:
