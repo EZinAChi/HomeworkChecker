@@ -8,5 +8,5 @@ Question (questionID, question, answer)
 
 Answer (questionID, studentID, answer, mark)
 
-Result (studentID, practicalID, totalmark, feedback)
+Result (studentID, quizID, totalmark, feedback)
 
