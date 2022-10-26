@@ -9,7 +9,7 @@
 <script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
 
 <body>
-<h1>Quiz</h1>
+<h1>Quiz {{ quiz_num }}</h1>
 
 <form class="lay-form" action="" onsubmit="return false">
   <div class="lay-form-item">
@@ -47,9 +47,9 @@
       <input type="text" name="u85qwh" required  lay-verify="required" id="student-query5" style = "width: 700px;height: 40px" placeholder="Please enter your query" autocomplete="off" class="lay-input">
     </div>
   </div>
-  <div class="lay-form-item">
+
     <div class="lay-input-block">
-      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="submitquery()">Submit</button>
+      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="back()">Back</button> <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="submitquery()">Submit</button>
     </div>
   </div>
 </form>
@@ -60,12 +60,25 @@
 <script type="text/javascript">
 
     function submitquery() {
-        var input = document.getElementById("student-query")
-        var student_query = input.value;
+        var student_query1 = document.getElementById("student-query1")
+        var student_query2 = document.getElementById("student-query2")
+        var student_query3 = document.getElementById("student-query3")
+        var student_query4 = document.getElementById("student-query4")
+        var student_query5 = document.getElementById("student-query5")
+        var query1 = student_query1.value;
+        var query2 = student_query2.value;
+        var query3 = student_query3.value;
+        var query4 = student_query4.value;
+        var query5 = student_query5.value;
 
-        window.location.href = 'query?student_query1=' + student_query
+        window.location.href = 'query?student_query1=' + query1 + 'student_query2='+query2 +
+            'student_query3=' + query3 + 'student_query4='+query4 + 'student_query5='+ query5 +
+            'qnum=' + quiz_num
     }
 
+    function back() {
+        window.history.go(-1);
+    }
 
 {#{% for p in data %}#}
 {#    <p>{{ p }} </p>#}

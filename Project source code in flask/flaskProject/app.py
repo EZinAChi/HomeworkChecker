@@ -42,61 +42,85 @@ def teacherloginpage():
     return render_template('teacherlogin.html')
 
 
+# @app.route('/quiz', methods=['GET', 'POST'])
+# def movebacktoselec():
+#     back = request.args.get('back')
+#     if back == 1:
+#         return render_template('quizselection.html')
+
+
 #  route to port /practical for pulling correct quiz page to front end
 @app.route('/quiz', methods=['GET', 'POST'])
 def practicalsection():
     if request.method == 'GET':
         quiz_num = request.args.get('qnum')
 
-    # db = connectHWCdb()
-    # sql = "select question from Question where questionID = {}".format(1)
-    # db.execute(sql)
-    # result = db.fetchall()
-    # print(result)
-
     if int(quiz_num) == 1:
-        q1 = selectquestion(int(quiz_num) + 0)
+        q1 = selectquestion(int(quiz_num))
         q2 = selectquestion(int(quiz_num) + 1)
         q3 = selectquestion(int(quiz_num) + 2)
         q4 = selectquestion(int(quiz_num) + 3)
         q5 = selectquestion(int(quiz_num) + 4)
-        return render_template('quiz.html', q1=str(q1)[2:-3], q2=str(q2)[2:-3], q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+
+        quiz_num = 1
+        return render_template('quiz.html', quiz_num=quiz_num, q1=str(q1)[2:-3], q2=str(q2)[2:-3],
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
     elif int(quiz_num) == 6:
-        q1 = selectquestion(int(quiz_num) + 0)
+        q1 = selectquestion(int(quiz_num))
         q2 = selectquestion(int(quiz_num) + 1)
         q3 = selectquestion(int(quiz_num) + 2)
         q4 = selectquestion(int(quiz_num) + 3)
         q5 = selectquestion(int(quiz_num) + 4)
-        return render_template('quiz.html', q1=q1, q2=q2, q3=q3, q4=q4, q5=q5)
+
+        quiz_num = 2
+        return render_template('quiz.html', quiz_num=quiz_num, q1=str(q1)[2:-3], q2=str(q2)[2:-3],
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+        return render_template('quizselection.html', data=0)
     elif int(quiz_num) == 11:
-        q1 = selectquestion(int(quiz_num) + 0)
+        q1 = selectquestion(int(quiz_num))
         q2 = selectquestion(int(quiz_num) + 1)
         q3 = selectquestion(int(quiz_num) + 2)
         q4 = selectquestion(int(quiz_num) + 3)
         q5 = selectquestion(int(quiz_num) + 4)
-        return render_template('quiz.html', q1=q1, q2=q2, q3=q3, q4=q4, q5=q5)
+
+        quiz_num = 3
+        return render_template('quiz.html', quiz_num=quiz_num, q1=str(q1)[2:-3], q2=str(q2)[2:-3],
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+        return render_template('quizselection.html', data=0)
     elif int(quiz_num) == 16:
-        q1 = selectquestion(int(quiz_num) + 0)
+        q1 = selectquestion(int(quiz_num))
         q2 = selectquestion(int(quiz_num) + 1)
         q3 = selectquestion(int(quiz_num) + 2)
         q4 = selectquestion(int(quiz_num) + 3)
         q5 = selectquestion(int(quiz_num) + 4)
-        return render_template('quiz.html', q1=q1, q2=q2, q3=q3, q4=q4, q5=q5)
+
+        quiz_num = 4
+        return render_template('quiz.html', quiz_num=quiz_num, q1=str(q1)[2:-3], q2=str(q2)[2:-3],
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+
     elif int(quiz_num) == 21:
-        q1 = selectquestion(int(quiz_num) + 0)
+        q1 = selectquestion(int(quiz_num))
         q2 = selectquestion(int(quiz_num) + 1)
         q3 = selectquestion(int(quiz_num) + 2)
         q4 = selectquestion(int(quiz_num) + 3)
         q5 = selectquestion(int(quiz_num) + 4)
-        return render_template('quiz.html', q1=q1, q2=q2, q3=q3, q4=q4, q5=q5)
-    return render_template('quizselection.html', data=0)
+
+        quiz_num = 5
+        return render_template('quiz.html', quiz_num=quiz_num, q1=str(q1)[2:-3], q2=str(q2)[2:-3],
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+
+    return render_template('quizselection.html')
 
 
+#  select the question quiz required
 def selectquestion(qnum):
     db = connectHWCdb()
     sql = "select question from Question where questionID = {}".format(qnum)
-    db.execute(sql)
-    return db.fetchall()[0]
+    try:
+        db.execute(sql)
+        return db.fetchall()[0]
+    except Exception as e:
+        return "##No Question###"
 
 
 #  Login
@@ -151,7 +175,16 @@ def passwordcheck(email, password, user):
 @app.route('/query', methods=['GET', 'POST'])
 def studentqueryenter():
     if request.method == 'GET':
-        student_query = request.args.get('student_query')
+        student_query1 = request.args.get('student_query1')
+        student_query2 = request.args.get('student_query2')
+        student_query3 = request.args.get('student_query3')
+        student_query4 = request.args.get('student_query4')
+        student_query5 = request.args.get('student_query5')
+        querylist = [student_query1, student_query2, student_query3, student_query4, student_query5]
+
+        i = 1
+        for i in 5:
+            querylist[i - 1]
         datafromdatabase1 = countqueryitems(
             "SELECT COUNT(*) AS transCount, SUM(Quantity) AS avgQuantity,  AVG(ActualCost) AS avgCost FROM Production.TransactionHistoryArchive")
         datafromdatabase2 = countqueryitems(student_query)
@@ -159,7 +192,6 @@ def studentqueryenter():
         # print for testing
         print(datafromdatabase1)
         print(datafromdatabase2)
-        print(student_query)
 
         return render_template('result.html', data=compareresult(datafromdatabase1, datafromdatabase2))
 
@@ -231,15 +263,15 @@ def updatestudent(studentid, email, password, firstName, lastName):
 
 
 #  insert data to Result table
-def insertresult(studentid, questionid, totalmark):
+def insertresult(studentID, quizID, totalmark, feedBack):
     db = connectHWCdb()
 
-    label = ['studentID', 'questionID', 'totalMark']
-    content = [studentid, questionid, totalmark]
+    label = ['studentID', 'quizID', 'totalmark', feedBack]
+    content = [studentID, quizID, totalmark, feedBack]
 
-    sql = 'insert into {0} ({1},{2}) values({3},"{4}","{5}")'.format("Result", label[0], label[1],
-                                                                     label[2], label[3], label[4], content[0],
-                                                                     content[1], content[2], content[3], content[4])
+    sql = 'insert into {0},{1},{2},{3} values({4},{5},{6},{7})'.format("Result", label[0], label[1],
+                                                                       label[2], label[3], content[0],
+                                                                       content[1], content[2], content[3])
     result = db.execute(sql)
     db.commit()
     return True if result else False

@@ -9,7 +9,7 @@
 <script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
 
 <body>
-<h1>Homework Checker</h1>
+<h1>Quiz List</h1>
 
 <form class="lay-form" action="" onsubmit="return false">
   <div class="lay-form-item">
@@ -21,12 +21,18 @@
         <button class="lay-btn" onclick="quiz_5()">Quiz 5</button>
 
     </div>
+
+      <div class="lay-input-block">
+        <button class="lay-btn" onclick="back()">Back</button>
+
+    </div>
   </div>
 </form>
 
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+
     function quiz_1(){
         qnum = 1
         window.location.href='quiz?qnum='+qnum
@@ -46,5 +52,9 @@
     function quiz_5(){
         qnum = 21
         window.location.href='quiz?qnum='+qnum
+    }
+
+    function back() {
+        window.history.go(-1);
     }
 </script>

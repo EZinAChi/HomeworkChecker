@@ -25,7 +25,10 @@
 
   </div>
   <div class="lay-form-item">
+
     <div class="lay-input-block">
+        <button class="lay-btn" onclick="back()">Back</button>
+
       <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="clickme()">Login</button>
       <button type="reset" class="lay-btn lay-btn-primary">Reset</button>
     </div>
@@ -36,15 +39,17 @@
 
 <script type="text/javascript">
 
-    function clickme(){
+    function clickme() {
         var inpute = document.getElementById("student-email")
         var inputp = document.getElementById("student-password")
         var student_email = inpute.value;
         var student_password = inputp.value;
 
-        window.location.href='student?student_email='+student_email+"&student_password="+student_password
-
-
+        window.location.href = 'student?student_email=' + student_email + "&student_password=" + student_password
+    }
+    function back(){
+        window.history.go(-1);
+    }
 
     function wrongpassword(){
             if(data){}
