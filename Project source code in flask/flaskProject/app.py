@@ -55,16 +55,48 @@ def practicalsection():
     # print(result)
 
     if int(quiz_num) == 1:
-        return render_template('quiz.html')
+        q1 = selectquestion(int(quiz_num) + 0)
+        q2 = selectquestion(int(quiz_num) + 1)
+        q3 = selectquestion(int(quiz_num) + 2)
+        q4 = selectquestion(int(quiz_num) + 3)
+        q5 = selectquestion(int(quiz_num) + 4)
+        return render_template('quiz.html', q1=str(q1)[2:-3], q2=str(q2)[2:-3], q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
     elif int(quiz_num) == 6:
-        return render_template('quiz.html')
+        q1 = selectquestion(int(quiz_num) + 0)
+        q2 = selectquestion(int(quiz_num) + 1)
+        q3 = selectquestion(int(quiz_num) + 2)
+        q4 = selectquestion(int(quiz_num) + 3)
+        q5 = selectquestion(int(quiz_num) + 4)
+        return render_template('quiz.html', q1=q1, q2=q2, q3=q3, q4=q4, q5=q5)
     elif int(quiz_num) == 11:
-        return render_template('quiz.html')
+        q1 = selectquestion(int(quiz_num) + 0)
+        q2 = selectquestion(int(quiz_num) + 1)
+        q3 = selectquestion(int(quiz_num) + 2)
+        q4 = selectquestion(int(quiz_num) + 3)
+        q5 = selectquestion(int(quiz_num) + 4)
+        return render_template('quiz.html', q1=q1, q2=q2, q3=q3, q4=q4, q5=q5)
     elif int(quiz_num) == 16:
-        return render_template('quiz.html')
+        q1 = selectquestion(int(quiz_num) + 0)
+        q2 = selectquestion(int(quiz_num) + 1)
+        q3 = selectquestion(int(quiz_num) + 2)
+        q4 = selectquestion(int(quiz_num) + 3)
+        q5 = selectquestion(int(quiz_num) + 4)
+        return render_template('quiz.html', q1=q1, q2=q2, q3=q3, q4=q4, q5=q5)
     elif int(quiz_num) == 21:
-        return render_template('quiz.html')
-    return render_template('quizselection.html')
+        q1 = selectquestion(int(quiz_num) + 0)
+        q2 = selectquestion(int(quiz_num) + 1)
+        q3 = selectquestion(int(quiz_num) + 2)
+        q4 = selectquestion(int(quiz_num) + 3)
+        q5 = selectquestion(int(quiz_num) + 4)
+        return render_template('quiz.html', q1=q1, q2=q2, q3=q3, q4=q4, q5=q5)
+    return render_template('quizselection.html', data=0)
+
+
+def selectquestion(qnum):
+    db = connectHWCdb()
+    sql = "select question from Question where questionID = {}".format(qnum)
+    db.execute(sql)
+    return db.fetchall()[0]
 
 
 #  Login
