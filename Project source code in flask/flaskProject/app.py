@@ -10,7 +10,6 @@ def index():
     #  test connection:
     print(connectHWCdb())
     print(connectAWdb())
-    return render_template('quizselection.html')
     #  access main menu
     return render_template('menu.html')
 
@@ -48,7 +47,6 @@ def teacherloginpage():
 def practicalsection():
     if request.method == 'GET':
         quiz_num = request.args.get('qnum')
-    print(quiz_num)
 
     # db = connectHWCdb()
     # sql = "select question from Question where questionID = {}".format(1)
@@ -56,15 +54,15 @@ def practicalsection():
     # result = db.fetchall()
     # print(result)
 
-    if quiz_num == 1:
+    if int(quiz_num) == 1:
         return render_template('quiz.html')
-    elif quiz_num == 6:
+    elif int(quiz_num) == 6:
         return render_template('quiz.html')
-    elif quiz_num == 11:
+    elif int(quiz_num) == 11:
         return render_template('quiz.html')
-    elif quiz_num == 16:
+    elif int(quiz_num) == 16:
         return render_template('quiz.html')
-    elif quiz_num == 21:
+    elif int(quiz_num) == 21:
         return render_template('quiz.html')
     return render_template('quizselection.html')
 
@@ -82,7 +80,7 @@ def student():
         print(passwordcheck(student_email, student_password, "Student"))
 
         if passwordcheck(student_email, student_password, "Student"):
-            return render_template('quiz.html')
+            return render_template('quizselection.html')
         else:
             return render_template('studentlogin.html', data=True)
 
