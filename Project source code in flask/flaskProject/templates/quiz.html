@@ -52,6 +52,13 @@
       <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="back()">Back</button> <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="submitquery()">Submit</button>
     </div>
   </div>
+
+        {{ quiz_num }}
+        {{ question_num }}
+
+{#     don't delete    #}
+    <div><input type="hidden" id="q-num" value="quiz_num"></input><input type="hidden" id="question_num" value="question_num"></input></div>
+
 </form>
 
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
@@ -71,9 +78,14 @@
         var query4 = student_query4.value;
         var query5 = student_query5.value;
 
-        window.location.href = 'query?student_query1=' + query1 + 'student_query2='+query2 +
-            'student_query3=' + query3 + 'student_query4='+query4 + 'student_query5='+ query5 +
-            'qnum=' + quiz_num
+        var quiz = document.getElementById("q-num")
+        var quiz_num = quiz.value;
+        var question = document.getElementById("question_num")
+        var question_num = question.value;
+
+        window.location.href = 'query?student_query1=' + query1 + '&student_query2='+query2 +
+            '&student_query3=' + query3 + '&student_query4='+query4 + '&student_query5='+ query5 +
+            '&quiz_num=' + quiz_num + '&question_num=' + question_num
     }
 
     function back() {

@@ -27,29 +27,62 @@
 
     </div>
   </div>
+
+
+
+
+    {#     don't delete    #}
+    <div><input type="hidden" id="data" value=data></div>
 </form>
 
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+    var portnum = data.getElementById("data")
+    var data = portnum
 
     function quiz_1(){
+        if(data = 10001){
+            qnum = 1
+            window.location.href='quizmanagepage?qnum='+qnum
+        }
+
         qnum = 1
         window.location.href='quiz?qnum='+qnum
     }
     function quiz_2(){
+        if(data = 10001){
+            qnum = 6
+            window.location.href='quizmanagepage?qnum='+qnum
+        }
+
         qnum = 6
         window.location.href='quiz?qnum='+qnum
     }
     function quiz_3(){
+        if(data = 10001){
+            qnum = 11
+            window.location.href='quizmanagepage?qnum='+qnum
+        }
+
         qnum = 11
         window.location.href='quiz?qnum='+qnum
     }
     function quiz_4(){
+        if(data = 10001){
+            qnum = 16
+            window.location.href='quizmanagepage?qnum='+qnum
+        }
+
         qnum = 16
         window.location.href='quiz?qnum='+qnum
     }
     function quiz_5(){
+        if(data = 10001){
+            qnum = 21
+            window.location.href='quizmanagepage?qnum='+qnum
+        }
+
         qnum = 21
         window.location.href='quiz?qnum='+qnum
     }

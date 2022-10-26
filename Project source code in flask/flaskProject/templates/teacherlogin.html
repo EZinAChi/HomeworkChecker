@@ -1,7 +1,7 @@
 <html>
 <head>
 
-    <title>{{ 'Student Login Page' }}</title>
+    <title>{{ 'Teacher Login Page' }}</title>
 
 </head>
 
@@ -40,10 +40,14 @@
 <script type="text/javascript">
 
     function quizmanage(){
-        var input = document.getElementById("teacher-email")
-        var teacher_email = input.value;
+        var inpute = document.getElementById("teacher-email")
+        var inputp = document.getElementById("teacher-password")
+
+        var teacher_email = inpute.value;
+        var teacher_password = inputp.value;
+
         {#alert("Login as " + teacher_email)#}
-        window.location.href='teacher?teacher_email=' + teacher_email
+        window.location.href='teacher?teacher_email=' + teacher_email + '&teacher_password=' + teacher_password
     }
 
     function back() {

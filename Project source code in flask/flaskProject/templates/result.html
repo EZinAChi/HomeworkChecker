@@ -10,9 +10,23 @@
 
 <body>
 <h1>Result</h1>
-<p>{{ data }}</p>
+<p>Total Mark:{{ data }}/5</p>
+
+<button class="lay-btn" onclick="logout()">Logout</button>
 
 
 </body>
 </html>
 <html>
+
+
+
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    function logout(){
+        qnum = 1
+        window.location.href='menu?'
+    }
+</script>

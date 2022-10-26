@@ -51,19 +51,18 @@
         window.history.go(-1);
     }
 
-    function wrongpassword(){
-            if(data){}
-            else{alert("Wrong Login Information")}
-    }
-    $.ajax({
-        url: "/student",
-        data:{"data":data},
-        dataType:"json",
-
-        success: function(){
-            $("#data").val(data.from.data);
-            wrongpassword()
-        },error:function(){}});}
+    {#function wrongpassword(){#}
+    {#        if(data){}#}
+    {#        else{alert("Wrong Login Information")}}#}
+    {#$.ajax({#}
+    {#    url: "/student",#}
+    {#    data:{"data":data},#}
+    {#    dataType:"json",#}
+    {##}
+    {#    success: function(){#}
+    {#        $("#data").val(data.from.data);#}
+    {#        wrongpassword()#}
+    {#    },error:function(){}});#}
 
 
 
