@@ -190,9 +190,13 @@
         var qa4 = document.getElementById("qa4").value
         var qa5 = document.getElementById("qa5").value
 
+        {#qList = [q1, q2, q3, q4, q5]#}
+        {#qaList = [qa1, qa2, qa3, qa4, qa5]#}
 
         window.location.href='saveQuestion?qnum='+qnum+'&q1='+q1+'&q2='+q2+'&q3='+q3+
             '&q4='+q4+'&q5='+q5+'&qa1='+qa1+'&qa2='+qa2+'&qa3='+qa3+'&qa4='+qa4+'&qa5='+qa5
+
+        {#window.location.href='saveQuestion?qnum='+qnum+'&qList='+qList+'&qaList='+qaList#}
     }
 
     function back() {
