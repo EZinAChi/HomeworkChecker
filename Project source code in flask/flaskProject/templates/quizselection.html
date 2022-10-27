@@ -32,59 +32,67 @@
 
 
     {#     don't delete    #}
-    <div><input type="hidden" id="data" value=data></div>
+    <div><input type="hidden" id=datafrompy value="{{ data }}"></div>
+    <div><input type="hidden" id=studentemail value="{{ email }}"></div>
 </form>
 
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-    var portnum = data.getElementById("data")
-    var data = portnum
+    var data = document.getElementById("datafrompy").value
+    var email = document.getElementById("studentemail").value
+    {#var data = parseInt(data)#}
+
 
     function quiz_1(){
-        if(data = 10001){
+        if(data == '10001'){
             qnum = 1
             window.location.href='quizmanagepage?qnum='+qnum
         }
-
-        qnum = 1
-        window.location.href='quiz?qnum='+qnum
+        else if(data == '10000'){
+            qnum = 1
+            window.location.href='quiz?qnum='+qnum+'&email='+email
+        }
     }
     function quiz_2(){
-        if(data = 10001){
+        if(data == '10001'){
             qnum = 6
             window.location.href='quizmanagepage?qnum='+qnum
         }
-
-        qnum = 6
-        window.location.href='quiz?qnum='+qnum
+        else if(data == '10000'){
+            qnum = 6
+            window.location.href='quiz?qnum='+qnum+'&email='+email
+        }
     }
     function quiz_3(){
-        if(data = 10001){
+        if(data == '10001'){
             qnum = 11
             window.location.href='quizmanagepage?qnum='+qnum
         }
-
-        qnum = 11
-        window.location.href='quiz?qnum='+qnum
+        else if(data == '10000'){
+            qnum = 11
+            window.location.href='quiz?qnum='+qnum+'&email='+email
+        }
     }
     function quiz_4(){
-        if(data = 10001){
+        if(data == '10001'){
             qnum = 16
             window.location.href='quizmanagepage?qnum='+qnum
         }
-
-        qnum = 16
-        window.location.href='quiz?qnum='+qnum
+        else if(data == '10000'){
+            qnum = 16
+            window.location.href='quiz?qnum='+qnum+'&email='+email
+        }
     }
     function quiz_5(){
-        if(data = 10001){
+        if(data == '10001'){
             qnum = 21
             window.location.href='quizmanagepage?qnum='+qnum
         }
-
-        qnum = 21
-        window.location.href='quiz?qnum='+qnum
+        else if(data == '10000'){
+            qnum = 21
+            window.location.href='quiz?qnum='+qnum+'&email='+email
+        }
     }
 
     function back() {

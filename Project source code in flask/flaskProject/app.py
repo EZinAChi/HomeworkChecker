@@ -48,9 +48,10 @@ def quizmanagepage():
     return render_template('quizselection.html', data=10001)
 
 #  route to port /quizmanage/manage for pulling quizselection page to front end
-@app.route('/quizmanagepage')
+@app.route('/quizmanagepage', methods=['GET', 'POST'])
 def quizmanage():
-    return render_template('quizmanage.html', data=10001)
+    qnum = request.args.get("qnum")
+    return render_template('quizmanage.html', qnum=qnum)
 
 @app.route('/menu')
 def menupage():
@@ -62,6 +63,8 @@ def menupage():
 def practicalsection():
     if request.method == 'GET':
         quiz_num = request.args.get('qnum')
+        email = request.args.get('email')
+
 
     if int(quiz_num) == 1:
         q1 = selectquestion(int(quiz_num))
@@ -75,7 +78,7 @@ def practicalsection():
 
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
                                q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
     elif int(quiz_num) == 6:
         q1 = selectquestion(int(quiz_num))
         q2 = selectquestion(int(quiz_num) + 1)
@@ -88,7 +91,7 @@ def practicalsection():
 
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
                                q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
     elif int(quiz_num) == 11:
         q1 = selectquestion(int(quiz_num))
         q2 = selectquestion(int(quiz_num) + 1)
@@ -101,7 +104,7 @@ def practicalsection():
 
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
                                q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
     elif int(quiz_num) == 16:
         q1 = selectquestion(int(quiz_num))
         q2 = selectquestion(int(quiz_num) + 1)
@@ -114,7 +117,7 @@ def practicalsection():
 
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
                                q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
 
     elif int(quiz_num) == 21:
         q1 = selectquestion(int(quiz_num))
@@ -127,7 +130,7 @@ def practicalsection():
         quiz_num = 5
 
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3], q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3])
+                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
 
     return render_template('quizselection.html')
 
@@ -156,9 +159,9 @@ def student():
         print(passwordcheck(student_email, student_password, "Student"))
 
         if passwordcheck(student_email, student_password, "Student"):
-            return render_template('quizselection.html')
+            return render_template('quizselection.html', data=10000, email=student_email)
         else:
-            return render_template('studentlogin.html', data=True)
+            return render_template('studentlogin.html', data=10002)
 
 
 #  route to port /teacher for transferring teacher login data from teacherlogin page and do password checking
@@ -202,36 +205,41 @@ def studentqueryenter():
         student_query5 = request.args.get('student_query5')
         question_num = request.args.get('question_num')
         quiz_num = request.args.get('quiz_num')
+        student_email = request.args.get('email')
         querylist = [student_query1, student_query2, student_query3, student_query4, student_query5]
 
 
-        print(question_num)
-        print(quiz_num)
-        print(selectsampleanswer(1))
+        question_num = int(question_num)
+        quiz_num = int(quiz_num)
 
         i = 1
         totalmark = 0
         for i in range(5):
-            datafromdatabase1 = countqueryitems(selectsampleanswer(question_num+i-1))
-            # datafromdatabase1 = 0
-            datafromdatabase2 = countqueryitems(querylist[i - 1])
-            totalmark += compareresult(datafromdatabase1, datafromdatabase2)
+            datafromdatabase1 = countqueryitems(selectsampleanswer(question_num+i))
+            print(datafromdatabase1)
 
+            datafromdatabase2 = countqueryitems(querylist[i])
+            print(datafromdatabase2)
+
+            totalmark += compareresult(datafromdatabase1, datafromdatabase2)
+            # insertanswer(question_num+i, readstudentID(student_email), querylist[i], compareresult(datafromdatabase1, datafromdatabase2))
+
+        print("totalmark=",totalmark)
 
         # insertresult(studentID, quizID, totalmark, feedback)
         # print for testing
         #     print(datafromdatabase1)
         #     print(datafromdatabase2)
 
-        return render_template('result.html', data=compareresult(datafromdatabase1, datafromdatabase2))
+        return render_template('result.html', data=totalmark)
 
 def selectsampleanswer(qnum):
     db = connectHWCdb()
     sql = "select answer from Question where questionID='{}'".format(qnum)
     try:
         db.execute(sql)
-        result = db.fetchall()[0]
-        print(result)
+        result = str(db.fetchall()[0])[2:-4]
+        # print(result)
         return result
     except Exception as e:
         return "##No Answer###"
@@ -267,6 +275,7 @@ def compareresult(query1, query2):
         return 0
 
 def readstudentID(email):
+    print('email=',email)
     db = connectHWCdb()
 
     sql = "select studentID from {} where email='{}'".format("Student", email)

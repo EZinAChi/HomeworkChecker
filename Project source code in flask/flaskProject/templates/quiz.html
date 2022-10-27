@@ -53,11 +53,11 @@
     </div>
   </div>
 
-        {{ quiz_num }}
-        {{ question_num }}
 
 {#     don't delete    #}
-    <div><input type="hidden" id="q-num" value="quiz_num"></input><input type="hidden" id="question_num" value="question_num"></input></div>
+    <div><input type="hidden" id="q-num" value="{{ quiz_num }}"></input>
+        <input type="hidden" id="question-num" value="{{ question_num }}"></input>
+    <input type="hidden" id="student-email" value="{{ email }}"></input></div>
 
 </form>
 
@@ -72,20 +72,23 @@
         var student_query3 = document.getElementById("student-query3")
         var student_query4 = document.getElementById("student-query4")
         var student_query5 = document.getElementById("student-query5")
+
         var query1 = student_query1.value;
         var query2 = student_query2.value;
         var query3 = student_query3.value;
         var query4 = student_query4.value;
         var query5 = student_query5.value;
 
-        var quiz = document.getElementById("q-num")
-        var quiz_num = quiz.value;
-        var question = document.getElementById("question_num")
-        var question_num = question.value;
+        var quiz_num = document.getElementById("q-num").value
+        var question_num = document.getElementById("question-num").value
+        var email = document.getElementById("student-email")
+
+        alert(quiz_num, question_num)
+
 
         window.location.href = 'query?student_query1=' + query1 + '&student_query2='+query2 +
             '&student_query3=' + query3 + '&student_query4='+query4 + '&student_query5='+ query5 +
-            '&quiz_num=' + quiz_num + '&question_num=' + question_num
+            '&quiz_num=' + quiz_num + '&question_num=' + question_num + '&email=' + email
     }
 
     function back() {
