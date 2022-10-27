@@ -50,8 +50,8 @@
 <main>
 <form class="" action="" onsubmit="return false">
     <div style="text-align: center; padding-top:350px; padding-bottom:350px;">
-        <button class="btn btn-outline-primary">Logout</button>
-      
+        <button class="btn btn-outline-primary" onclick="logout()">Logout</button>
+
         </div>
 </form>
 </center>
@@ -63,11 +63,8 @@
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-    function studentclickme(){
-        window.location.href='studentlogin?'
-    }
-    function teacherclickme(){
-        window.location.href='teacherlogin?'
+    function logout(){
+        window.location.href='menu?'
     }
 </script>
 </body>

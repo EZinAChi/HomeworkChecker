@@ -176,7 +176,7 @@ main{
 	
 		<div class="text-center">
 			   <p>Total Mark:{{ data }}/5</p>
-			   <button class="btn btn-primary" onclick="logout()">Back</button>
+			   <button class="btn btn-primary" onclick="back()">Back</button>
 			   <button class="btn btn-primary" onclick="logout()">Logout</button>
 		</div>
 </form>
@@ -189,7 +189,9 @@ main{
 <script type="text/javascript">
 
     function logout(){
-        qnum = 1
         window.location.href='menu?'
+    }
+    function back(){
+        window.history.go(-1);
     }
 </script>

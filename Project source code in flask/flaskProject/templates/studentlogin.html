@@ -60,6 +60,9 @@ button:hover{
 	<h1 style="text-align: center; padding-top:50px; padding-bottom:50px;; min-height:15%">Student Login</h1>
 	</header>
 <main style="text-align: center; padding-top:15%; padding-bottom:10%;padding-left:15%; padding-right:15%; min-height:85%">
+
+
+
 <form class="" action="" onsubmit="return false">
 	<div class="form-group row justify-content-md-center">
 	  <label for="fname" class="col-sm-2 col-form-label">Email:</label>
@@ -77,20 +80,19 @@ button:hover{
 		<input class="form-control" type="password" id="student-password" placeholder="Please enter your password">
 	  </div>
 	</div>
-	
+    {% if data == 10002 %}
+        Please check your Login Information
+    {% endif %}
 	
   <br><br>
   
   
   <div class="row justify-content-md-center">
-    <div class="col col-lg-2">
-      <button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="clickme()">Login</button>
-    </div>
-    <div class="col col-lg-2">
-      <button type="reset" class="btn btn-primary">Reset</button>
-    </div>
-    <div class="col col-lg-2">
+      <div class="col col-lg-2">
 	  <button class="btn btn-primary" onclick="back()">Back</button>
+    </div>
+      <div class="col col-lg-2">
+      <button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="clickme()">Login</button>
     </div>
   </div>
   
@@ -111,7 +113,7 @@ button:hover{
         window.location.href = 'student?student_email=' + student_email + "&student_password=" + student_password
     }
     function back(){
-        window.history.go(-1);
+        window.location.href='menu?'
     }
 
     {#function wrongpassword(){#}
