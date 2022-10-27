@@ -10,6 +10,7 @@ def index():
     #  test connection:
     print(connectHWCdb())
     print(connectAWdb())
+    print(readStudentMarkList())
     #  access main menu
     return render_template('menu.html')
 
@@ -30,6 +31,12 @@ def connectAWdb():
 
 
 #  Page transaction
+#  route to port /menu for pulling main menu page to front end
+@app.route('/menu')
+def menuPage():
+    return render_template('menu.html')
+
+
 #  route to port /studentlogin for pulling studentlogin page to front end
 @app.route('/studentlogin')
 def studentloginpage():
@@ -44,25 +51,41 @@ def teacherloginpage():
 
 #  route to port /quizmanage for pulling quizselection page to front end
 @app.route('/quizmanage')
-def quizmanagepage():
+def quizManagepage():
     return render_template('quizselection.html', data=10001)
 
 
 #  route to port /quizmanage/manage for pulling quizselection page to front end
 @app.route('/quizmanagepage', methods=['GET', 'POST'])
-def quizmanage():
+def quizManage():
     qnum = request.args.get("qnum")
     return render_template('quizmanage.html', qnum=qnum)
 
 
-@app.route('/menu')
-def menupage():
-    return render_template('menu.html')
+@app.route('/seeResult')
+def seeResultPage():
+    if request.method == 'GET':
+        teacher_email = request.args.get('teacher_email')
+        teacher_password = request.args.get('teacher_password')
+
+        # testing
+        print(passwordCheck(teacher_email, teacher_password, "Teacher"))
+
+        if passwordCheck(teacher_email, teacher_password, "Teacher"):
+            return render_template('studentResult.html', sList=readStudentList(), mList=readStudentMarkList())
+        else:
+            return render_template('teacherlogin.html', data=10003)
+
+
+#  route to port /studentlogin for pulling studentlogin page to front end
+@app.route('/feedback')
+def feedback():
+    return render_template('resultTeacher.html')
 
 
 #  route to port /practical for pulling correct quiz page to front end
 @app.route('/quiz', methods=['GET', 'POST'])
-def practicalsection():
+def quizSection():
     if request.method == 'GET':
         quiz_num = request.args.get('qnum')
         email = request.args.get('email')
@@ -176,37 +199,40 @@ def selectquestion(qnum):
     except Exception as e:
         return "##No Question###"
 
-@app.route('/saveQuestion', methods=['GET', 'POST'])
-def saveQuestion():
 
+@app.route('/savequestion', methods=['GET', 'POST'])
+def saveQuestion():
     qnum = request.args.get('qnum')
 
-    q1 = request.args.get('q1')
-    q2 = request.args.get('q2')
-    q3 = request.args.get('q3')
-    q4 = request.args.get('q4')
-    q5 = request.args.get('q5')
+    # q1 = request.args.get('q1')
+    # q2 = request.args.get('q2')
+    # q3 = request.args.get('q3')
+    # q4 = request.args.get('q4')
+    # q5 = request.args.get('q5')
+    #
+    # qa1 = request.args.get('qa1')
+    # qa2 = request.args.get('qa2')
+    # qa3 = request.args.get('qa3')
+    # qa4 = request.args.get('qa4')
+    # qa5 = request.args.get('qa5')
+    #
+    # qList = [q1, q2, q3, q4, q5]
+    # qaList = [qa1, qa2, qa3, qa4, qa5]
 
-    qa1 = request.args.get('qa1')
-    qa2 = request.args.get('qa2')
-    qa3 = request.args.get('qa3')
-    qa4 = request.args.get('qa4')
-    qa5 = request.args.get('qa5')
+    qList = request.args.get('qList')
+    qaList = request.args.get('qaList')
 
-    qList = [q1, q2, q3, q4, q5]
-    qaList = [qa1, qa2, qa3, qa4, qa5]
-    print(qList)
+    print(qList, qaList)
 
     for i in range(5):
-        if quizOpencheck(qnum+i):
-            print(quizOpencheck(qnum+i))
-            print(insertQuestion(qnum+i, qList[i], qaList[i]))
+        if quizOpencheck(qnum + i):
+            print(quizOpencheck(qnum + i))
+            print(insertQuestion(qnum + i, qList[i], qaList[i]))
 
         else:
-            print(updateQuestion(qnum+i, qList[i], qaList[i]))
+            print(updateQuestion(qnum + i, qList[i], qaList[i]))
 
     return render_template('quizselection.html', qnum=qnum)
-
 
 
 #  Login
@@ -237,7 +263,7 @@ def teacher():
         print(passwordCheck(teacher_email, teacher_password, "Teacher"))
 
         if passwordCheck(teacher_email, teacher_password, "Teacher"):
-            return quizmanagepage()
+            return quizManagepage()
         else:
             return render_template('teacherlogin.html', data=10003)
 
@@ -325,7 +351,7 @@ def countQueryitems(query):
         # return data
         return q
     except Exception as e:
-        return 0
+        return 999
 
     # testing
     # print(query)
@@ -353,6 +379,32 @@ def readstudentID(email):
     cursor.execute(sql)
     result = cursor.fetchall()[0][0]
     return result
+
+
+#  read data from Students table
+def readStudentList():
+    cursor, db = connectHWCdb()
+
+    sql = "select * from {}".format("Student")
+
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    sList = []
+    for i in result:
+        sList.append(i[1])
+    return sList
+
+def readStudentMarkList():
+    cursor, db = connectHWCdb()
+
+    sql = "select * from {}".format("Result")
+
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    mList = []
+    for i in result:
+        mList.append(i[2])
+    return mList
 
 
 def quizFinishcheck(id, quiz_num):
@@ -435,6 +487,7 @@ def insertQuestion(questionID, question, answer):
     db.commit()
     return True if result else False
 
+
 #  insert data to Students table
 def insertStudent(studentid, email, password, firstName, lastName):
     cursor, db = connectHWCdb()
@@ -487,19 +540,10 @@ def updatestudent(studentid, email, password, firstName, lastName):
 
 
 #  read data from Question table
-def readquestion(quiz_num):
+def readQuestion(quiz_num):
     cursor, db = connectHWCdb()
 
     sql = 'select {0} from {1} where {2}'.format("question", "Question", "questionID =")
-    result = cursor.execute(sql)
-    return list(result)
-
-
-#  read data from Students table
-def readstudent():
-    cursor, db = connectHWCdb()
-
-    sql = 'select * from {0}'.format("Students")
     result = cursor.execute(sql)
     return list(result)
 

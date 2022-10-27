@@ -34,8 +34,8 @@ main{
 	<h1 style="text-align: center; padding-top:50px; padding-bottom:50px;; min-height:15%">Result</h1>
 	</header>
 	<main style="text-align: center; padding-top:5%; padding-bottom:10%;padding-left:15%; padding-right:15%; min-height:85%">
-	
-	<form>
+
+<form>
 	
 
   <div class="row">
@@ -55,9 +55,13 @@ main{
         </tr>
 
         <tr>
-            <td>Jay</td>
-            <td>100</td>
-			<td><button class="btn btn-primary">Feedback</button></td>
+            {% for i in sList %}
+            <td>{{ i }}</td>
+            {% endfor %}
+            {% for i in mList %}
+            <td>{{i}}</td>
+            {% endfor %}
+			<td><button class="btn btn-primary"onclick="feedback()">Feedback</button></td>
             
         </tr>
 
@@ -72,8 +76,7 @@ main{
 		<div class="text-center">
 		<br>
 		<br>
-			   <p>Total Mark:{{ data }}/5</p>
-			   <button class="btn btn-primary" onclick="logout()">Back</button>
+			   <button class="btn btn-primary" onclick="back()">Back</button>
 			   <button class="btn btn-primary" onclick="logout()">Logout</button>
 		</div>
 </form>
@@ -86,7 +89,14 @@ main{
 <script type="text/javascript">
 
     function logout(){
-        qnum = 1
         window.location.href='menu?'
+    }
+
+    function back(){
+        window.location.href='teacherlogin?'
+    }
+
+    function feedback(){
+        window.location.href='feedback?'
     }
 </script>

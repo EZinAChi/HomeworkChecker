@@ -209,10 +209,11 @@
         var email = document.getElementById("student-email").value
 
 
-
-        window.location.href = 'query?student_query1=' + query1 + '&student_query2='+query2 +
-            '&student_query3=' + query3 + '&student_query4='+query4 + '&student_query5='+ query5 +
-            '&quiz_num=' + quiz_num + '&question_num=' + question_num + '&email=' + email
+        if(query1!=''&&query2!=''&&query3!=''&&query4!=''&&query5!='') {
+            window.location.href = 'query?student_query1=' + query1 + '&student_query2=' + query2 +
+                '&student_query3=' + query3 + '&student_query4=' + query4 + '&student_query5=' + query5 +
+                '&quiz_num=' + quiz_num + '&question_num=' + question_num + '&email=' + email
+        }
     }
 
     function back() {

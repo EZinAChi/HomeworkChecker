@@ -94,7 +94,7 @@ button:hover{
 	<button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="quizmanage()">Quiz Management</button>
     </div>
     <div class="col col-lg-2">
-      <button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="rclickme()">Student Result</button>
+      <button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="seeresult()">Student Result</button>
     </div>
   </div>
   
@@ -115,6 +115,15 @@ button:hover{
 
         {#alert("Login as " + teacher_email)#}
         window.location.href='teacher?teacher_email=' + teacher_email + '&teacher_password=' + teacher_password
+    }
+
+    function seeresult(){
+        var inpute = document.getElementById("teacher-email")
+        var inputp = document.getElementById("teacher-password")
+
+        var teacher_email = inpute.value;
+        var teacher_password = inputp.value;
+        window.location.href='seeResult?teacher_email=' + teacher_email + '&teacher_password=' + teacher_password
     }
 
     function back() {
