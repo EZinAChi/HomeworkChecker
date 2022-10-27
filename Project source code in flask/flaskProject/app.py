@@ -1,3 +1,4 @@
+from re import X
 from flask import Flask, render_template, request
 
 import pymssql
@@ -17,14 +18,14 @@ def index():
 #  Database connection
 #  connect to main database
 def connectHWCdb():
-    db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="HWC")
+    db = pymssql.connect(host="LocalHost", user="Alaa", password='12345', database="HWC")
     cursor = db.cursor()
     return cursor
 
 
 #  connect to target database
 def connectAWdb():
-    db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="AdventureWorks2019")
+    db = pymssql.connect(host="LocalHost", user="Alaa", password='12345', database="AdventureWorks2019")
     cursor = db.cursor()
     return cursor
 
@@ -231,7 +232,11 @@ def studentqueryenter():
         #     print(datafromdatabase1)
         #     print(datafromdatabase2)
 
-        return render_template('result.html', data=totalmark)
+        return render_template('result.html', data=totalmark, result=returnitemsfromDB(student_query1))
+        
+       
+
+
 
 def selectsampleanswer(qnum):
     db = connectHWCdb()
@@ -248,6 +253,41 @@ def selectsampleanswer(qnum):
     # result = db.fetchall()[0]
     # print(result)
     # return result
+
+
+def returnitemsfromDB(query):
+    db = connectAWdb()
+    # try:
+    #     db.execute(query)
+    #     # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
+    #     data = db.fetchall()
+    #     # print(data)
+
+    #     itemList = []
+        
+    #     for i in data:
+
+            
+    #         print(data[i])
+            
+    #     return data
+    # except Exception as e:
+    #     return 0
+
+    db.execute(query)
+        # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
+    data = db.fetchall()
+        # print(data)
+
+    itemList = []
+
+    
+    for k, v in data:
+
+        
+        print(k, v)
+            
+    return data
 
 # Marking
 # The function to link the database and to count the number of item outputted

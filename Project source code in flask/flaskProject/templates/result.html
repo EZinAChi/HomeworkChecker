@@ -12,6 +12,14 @@
 <h1>Result</h1>
 <p>Total Mark:{{ data }}/5</p>
 
+ 
+
+     {{ result }}
+
+
+ 
+ 
+     
 <button class="lay-btn" onclick="logout()">Logout</button>
 
 
@@ -26,6 +34,7 @@
 <script type="text/javascript">
 
     function logout(){
+        alert(typeof(result))
         qnum = 1
         window.location.href='menu?'
     }
