@@ -176,7 +176,23 @@
 
 <script type="text/javascript">
     function save(){
+        var qnum = document.getElementById(q-num).value
 
+        var q1 = document.getElementById("q1").value
+        var q2 = document.getElementById("q2").value
+        var q3 = document.getElementById("q3").value
+        var q4 = document.getElementById("q4").value
+        var q5 = document.getElementById("q5").value
+
+        var qa1 = document.getElementById("qa1").value
+        var qa2 = document.getElementById("qa2").value
+        var qa3 = document.getElementById("qa3").value
+        var qa4 = document.getElementById("qa4").value
+        var qa5 = document.getElementById("qa5").value
+
+
+        window.location.href='saveQuestion?qnum='+qnum+'&q1='+q1+'&q2='+q2+'&q3='+q3+
+            '&q4='+q4+'&q5='+q5+'&qa1='+qa1+'&qa2='+qa2+'&qa3='+qa3+'&qa4='+qa4+'&qa5='+qa5
     }
 
     function back() {

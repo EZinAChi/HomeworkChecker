@@ -118,6 +118,11 @@ main{
     }
 
     function back() {
-        window.history.go(-1);
+        if(data == '10000'){
+            window.location.href='studentlogin?'
+        }
+        else if(data == '10001'){
+            window.location.href='teacherlogin?'
+        }
     }
 </script>
