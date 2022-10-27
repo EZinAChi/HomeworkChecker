@@ -37,44 +37,98 @@
 <header>
       <h1 style="text-align: center; padding-top:50px; padding-bottom:50px;">Quiz {{ quiz_num }}</h1>
       </header>
-<main>
-    <div style="text-align: center; padding-top:350px; padding-bottom:350px;">
-<form class="lay-form" action="" onsubmit="return false">
-  <div class="lay-form-item">
-    <label class="lay-form-label">Question 1</label>
-      {{ q1 }}
-    <div class="lay-input-block">
-      <input type="text" name="u85qwh" required  lay-verify="required" id="student-query1" style = "width: 700px;height: 40px" placeholder="Please enter your query" autocomplete="off" class="lay-input">
-    </div>
+<main style="text-align: center; padding-top:100px; padding-bottom:350px;">
+
+<form class="" action="" onsubmit="return false">
+
+
+  <div class="form-group row justify-content-md-center">
+	<div class="col-md-5">
+		<br/>
+		<label class="">Question 1</label>
+		<br/>
+		<strong>{{ q1 }}</strong>
+		<br/>
+		<br/>
+		<input type="text" name="u85qwh" required  lay-verify="required" id="student-query1"  placeholder="Please enter your query" autocomplete="off" class="form-control">
+	  	<br/>
+		<br/>
+		<hr/>
+	</div>
+	
   </div>
-      <div class="lay-form-item">
-    <label class="lay-form-label">Question 2</label>
-          {{ q2 }}
-    <div class="lay-input-block">
-      <input type="text" name="u85qwh" required  lay-verify="required" id="student-query2" style = "width: 700px;height: 40px" placeholder="Please enter your query" autocomplete="off" class="lay-input">
-    </div>
+
+  
+  
+  
+      <div class="form-group row justify-content-md-center">
+	<div class="col-md-5">
+		<br/>
+		<label class="">Question 2</label>
+		<br/>
+		<strong>{{ q2 }}</strong>
+		<br/>
+		<br/>
+		<input type="text" name="u85qwh" required  lay-verify="required" id="student-query2"  placeholder="Please enter your query" autocomplete="off" class="form-control">
+	  	<br/>
+		<br/>
+		<hr/>
+	</div>
+	
   </div>
-      <div class="lay-form-item">
-    <label class="lay-form-label">Question 3</label>
-          {{ q3 }}
-    <div class="lay-input-block">
-      <input type="text" name="u85qwh" required  lay-verify="required" id="student-query3" style = "width: 700px;height: 40px" placeholder="Please enter your query" autocomplete="off" class="lay-input">
-    </div>
+  
+  
+      <div class="form-group row justify-content-md-center">
+	<div class="col-md-5">
+		<br/>
+		<label class="">Question 3</label>
+		<br/>
+		<strong>{{ q3 }}</strong>
+		<br/>
+		<br/>
+		<input type="text" name="u85qwh" required  lay-verify="required" id="student-query3"  placeholder="Please enter your query" autocomplete="off" class="form-control">
+	  	<br/>
+		<br/>
+		<hr/>
+	</div>
+	
   </div>
-      <div class="lay-form-item">
-    <label class="lay-form-label">Question 4</label>
-          {{ q4 }}
-    <div class="lay-input-block">
-      <input type="text" name="u85qwh" required  lay-verify="required" id="student-query4" style = "width: 700px;height: 40px" placeholder="Please enter your query" autocomplete="off" class="lay-input">
-    </div>
+  
+  
+  
+      <div class="form-group row justify-content-md-center">
+	<div class="col-md-5">
+		<br/>
+		<label class="">Question 4</label>
+		<br/>
+		<strong>{{ q4 }}</strong>
+		<br/>
+		<br/>
+		<input type="text" name="u85qwh" required  lay-verify="required" id="student-query4"  placeholder="Please enter your query" autocomplete="off" class="form-control">
+	  	<br/>
+		<br/>
+		<hr/>
+	</div>
+	
   </div>
-      <div class="lay-form-item">
-    <label class="lay-form-label">Question 5</label>
-          {{ q5 }}
-    <div class="lay-input-block">
-      <input type="text" name="u85qwh" required  lay-verify="required" id="student-query5" style = "width: 700px;height: 40px" placeholder="Please enter your query" autocomplete="off" class="lay-input">
-    </div>
+  
+  
+      <div class="form-group row justify-content-md-center">
+	<div class="col-md-5">
+		<br/>
+		<label class="">Question 5</label>
+		<br/>
+		<strong>{{ q5 }}</strong>
+		<br/>
+		<br/>
+		<input type="text" name="u85qwh" required  lay-verify="required" id="student-query5"  placeholder="Please enter your query" autocomplete="off" class="form-control">
+	  	<br/>
+		<br/>
+		<hr/>
+	</div>
+	
   </div>
+  
 
     <div class="lay-input-block">
       <button class="btn btn-outline-primary" lay-submit lay-filter="formDemo" onclick="back()">Back</button>
@@ -84,12 +138,12 @@
 
 
 {#     don't delete    #}
-    <div><input type="hidden" id="q-num" value="{{ quiz_num }}"></input>
-        <input type="hidden" id="question-num" value="{{ question_num }}"></input>
-    <input type="hidden" id="student-email" value="{{ email }}"></input></div>
+    <div><input class="form-control" type="hidden" id="q-num" value="{{ quiz_num }}"></input>
+        <input class="form-control" type="hidden" id="question-num" value="{{ question_num }}"></input>
+    <input class="form-control" type="hidden" id="student-email" value="{{ email }}"></input></div>
 
 </form>
-</div>
+
 </main>
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
