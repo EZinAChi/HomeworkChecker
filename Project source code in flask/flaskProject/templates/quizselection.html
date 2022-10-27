@@ -1,41 +1,61 @@
 <html>
 <head>
 
-    <title>{{ 'Homework Checker' }}</title>
+    <title>{{ 'Quiz Selection Page' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+	<style>
 
+
+body{
+	background-color:#0052a0;
+	
+	
+}
+
+header{
+	color:white;
+	
+}
+
+
+main{
+	background-color:white;
+	color:#0052a0;
+}
+
+  </style>
 </head>
 
 <link href="./lay.css"/>
 <script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
 
 <body>
-<h1>Quiz List</h1>
-
-<form class="lay-form" action="" onsubmit="return false">
-  <div class="lay-form-item">
-    <div class="lay-input-block">
-        <button class="lay-btn" onclick="quiz_1()">Quiz 1</button>
-        <button class="lay-btn" onclick="quiz_2()">Quiz 2</button>
-        <button class="lay-btn" onclick="quiz_3()">Quiz 3</button>
-        <button class="lay-btn" onclick="quiz_4()">Quiz 4</button>
-        <button class="lay-btn" onclick="quiz_5()">Quiz 5</button>
-
-    </div>
-
-      <div class="lay-input-block">
-        <button class="lay-btn" onclick="back()">Back</button>
+<header>
+	<h1 style="text-align: center; padding-top:50px; padding-bottom:50px;; min-height:15%">Quiz Selection</h1>
+	</header>
+<main style="text-align: center; padding-top:15%; padding-bottom:10%;padding-left:15%; padding-right:15%; min-height:85%">
+<form class="" action="" onsubmit="return false">
+  <div class="form-group row justify-content-md-center">
+    <div class="col col-lg-2">
+        <button class="btn btn-primary" onclick="quiz_1()">Quiz 1</button><br><br>
+        <button class="btn btn-primary" onclick="quiz_2()">Quiz 2</button><br><br>
+        <button class="btn btn-primary" onclick="quiz_3()">Quiz 3</button><br><br>
+        <button class="btn btn-primary" onclick="quiz_4()">Quiz 4</button><br><br>
+        <button class="btn btn-primary" onclick="quiz_5()">Quiz 5</button><br><br>
+		<button class="btn btn-primary" onclick="back()">Back</button>
 
     </div>
+
   </div>
 
 
 
 
-    {#     don't delete    #}
-    <div><input type="hidden" id=datafrompy value="{{ data }}"></div>
-    <div><input type="hidden" id=studentemail value="{{ email }}"></div>
-</form>
 
+    <div><input class="form-control" type="hidden" id=datafrompy value="{{ data }}"></div>
+    <div><input class="form-control" type="hidden" id=studentemail value="{{ email }}"></div>
+</form>
+</main>
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">

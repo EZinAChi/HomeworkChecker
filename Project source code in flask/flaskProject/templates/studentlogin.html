@@ -2,39 +2,102 @@
 <head>
 
     <title>{{ 'Student Login Page' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+	<style>
 
+
+body{
+	background-color:#0052a0;
+	
+	
+}
+
+header{
+	color:white;
+	
+}
+
+
+main{
+	background-color:white;
+	color:#0052a0;
+}
+button{
+
+	width:75%;
+	height:40px;
+	margin:auto;
+
+}
+
+/*
+button{
+	background-color:white;
+	color:#0052a0;
+	border-color:#0052a0;
+	width:150px;
+	height:40px;
+	border-radius: 12px;
+}
+
+button:hover{
+	background-color:#0052a0;
+	color:white;
+	border-color:#0052a0;
+	width:150px;
+	height:40px;
+	border-radius: 12px;
+}
+*/
+  </style>
 </head>
 
 <link href="./lay.css"/>
 <script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
 
 <body>
-<h1>Student Login</h1>
-
-<form class="lay-form" action="" onsubmit="return false">
-  <div class="lay-form-item">
-
-      <label class="lay-form-label">Email</label>
-      <div class="lay-input-block">
-          <input type="text" name="u85qwh" required  lay-verify="required" id="student-email" placeholder="Please enter your email" autocomplete="off" class="lay-input">
-      </div>
-      <label class="lay-form-label">Password</label>
-      <div class="lay-input-block">
-          <input type="text" name="u85qwh" required  lay-verify="required" id="student-password" placeholder="Please enter your password" autocomplete="off" class="lay-input">
-      </div>
-
-  </div>
-  <div class="lay-form-item">
-
-    <div class="lay-input-block">
-        <button class="lay-btn" onclick="back()">Back</button>
-
-      <button class="lay-btn" lay-submit lay-filter="formDemo" onclick="clickme()">Login</button>
-      <button type="reset" class="lay-btn lay-btn-primary">Reset</button>
+<header>
+	<h1 style="text-align: center; padding-top:50px; padding-bottom:50px;; min-height:15%">Student Login</h1>
+	</header>
+<main style="text-align: center; padding-top:15%; padding-bottom:10%;padding-left:15%; padding-right:15%; min-height:85%">
+<form class="" action="" onsubmit="return false">
+	<div class="form-group row justify-content-md-center">
+	  <label for="fname" class="col-sm-2 col-form-label">Email:</label>
+	  <div class="col-sm-4">
+		<input class="form-control" type="text" id="student-email" placeholder="Please enter your email">
+	  </div>
+	</div>
+	
+	
+  <br><br>
+  
+ 	<div class="form-group row justify-content-md-center">
+	  <label for="pname" class="col-sm-2 col-form-label">Password:</label>
+	  <div class="col-sm-4">
+		<input class="form-control" type="password" id="student-password" placeholder="Please enter your password">
+	  </div>
+	</div>
+	
+	
+  <br><br>
+  
+  
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+      <button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="clickme()">Login</button>
+    </div>
+    <div class="col col-lg-2">
+      <button type="reset" class="btn btn-primary">Reset</button>
+    </div>
+    <div class="col col-lg-2">
+	  <button class="btn btn-primary" onclick="back()">Back</button>
     </div>
   </div>
-</form>
+  
+  
 
+</form>
+</main>
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">
