@@ -158,15 +158,63 @@
           <button class="btn btn-outline-primary" onclick="back()">Back</button>
         <button class="btn btn-outline-primary" onclick="save()">Save</button>
     </div>
-  
+
+
+
+{#    don't delete   #}
+    <div><input class="form-control" type="hidden" id="q-num" value="{{ qnum }}"></input>
+        </div>
+
 </form>
     </main>
+
+
+
+
+
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 
 <script type="text/javascript">
     function save(){
+        var qnum = document.getElementById(q-num).value
+
+        var q1 = document.getElementById("q1").value
+        var q2 = document.getElementById("q2").value
+        var q3 = document.getElementById("q3").value
+        var q4 = document.getElementById("q4").value
+        var q5 = document.getElementById("q5").value
+
+        var qa1 = document.getElementById("qa1").value
+        var qa2 = document.getElementById("qa2").value
+        var qa3 = document.getElementById("qa3").value
+        var qa4 = document.getElementById("qa4").value
+        var qa5 = document.getElementById("qa5").value
+
+        qList = [q1, q2, q3, q4, q5]
+        qaList = [qa1, qa2, qa3, qa4, qa5]
+
+        $.ajax({
+        url: "/savequestion",
+        data:{"qList":qList, "qaList":qaList, "qnum":qnum},
+        dataType:"get",
+        success: function(){
+            alert('success')
+        },error:function(){
+            alert('error')
+        }});
+        window.location.href='savequestion?'
 
     }
+
+
+        {#window.location.href='saveQuestion?qnum='+qnum+'&q1='+q1+'&q2='+q2+'&q3='+q3+#}
+        {#    '&q4='+q4+'&q5='+q5+'&qa1='+qa1+'&qa2='+qa2+'&qa3='+qa3+'&qa4='+qa4+'&qa5='+qa5#}
+
+        {#window.location.href='saveQuestion?qnum='+qnum+'&qList='+qList+'&qaList='+qaList#}
+
+
+
+
 
     function back() {
         window.history.go(-1);

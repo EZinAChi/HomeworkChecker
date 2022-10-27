@@ -32,7 +32,7 @@ CREATE TABLE Question (
 CREATE TABLE Answer (
     questionID int,
     studentID int,
-    answer varchar(MAX),
+    answer text,
     mark int);
 
 CREATE TABLE Result (
@@ -67,3 +67,6 @@ VALUES (1,'Lucy', '123@123.com', '123');
 
 INSERT INTO Teacher( name, email, password)
 VALUES ('David Matines','123@123.com','123');
+
+truncate table Answer
+truncate table Result

@@ -1,4 +1,3 @@
-from re import X
 from flask import Flask, render_template, request
 
 import pymssql
@@ -11,6 +10,7 @@ def index():
     #  test connection:
     print(connectHWCdb())
     print(connectAWdb())
+    print(readStudentMarkList())
     #  access main menu
     return render_template('menu.html')
 
@@ -18,19 +18,25 @@ def index():
 #  Database connection
 #  connect to main database
 def connectHWCdb():
-    db = pymssql.connect(host="LocalHost", user="Alaa", password='12345', database="HWC")
+    db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="HWC")
     cursor = db.cursor()
-    return cursor
+    return cursor, db
 
 
 #  connect to target database
 def connectAWdb():
-    db = pymssql.connect(host="LocalHost", user="Alaa", password='12345', database="AdventureWorks2019")
+    db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="AdventureWorks2019")
     cursor = db.cursor()
-    return cursor
+    return cursor, db
 
 
 #  Page transaction
+#  route to port /menu for pulling main menu page to front end
+@app.route('/menu')
+def menuPage():
+    return render_template('menu.html')
+
+
 #  route to port /studentlogin for pulling studentlogin page to front end
 @app.route('/studentlogin')
 def studentloginpage():
@@ -45,27 +51,44 @@ def teacherloginpage():
 
 #  route to port /quizmanage for pulling quizselection page to front end
 @app.route('/quizmanage')
-def quizmanagepage():
+def quizManagepage():
     return render_template('quizselection.html', data=10001)
+
 
 #  route to port /quizmanage/manage for pulling quizselection page to front end
 @app.route('/quizmanagepage', methods=['GET', 'POST'])
-def quizmanage():
+def quizManage():
     qnum = request.args.get("qnum")
     return render_template('quizmanage.html', qnum=qnum)
 
-@app.route('/menu')
-def menupage():
-    return render_template('menu.html')
+
+@app.route('/seeResult')
+def seeResultPage():
+    if request.method == 'GET':
+        teacher_email = request.args.get('teacher_email')
+        teacher_password = request.args.get('teacher_password')
+
+        # testing
+        print(passwordCheck(teacher_email, teacher_password, "Teacher"))
+
+        if passwordCheck(teacher_email, teacher_password, "Teacher"):
+            return render_template('studentResult.html', sList=readStudentList(), mList=readStudentMarkList())
+        else:
+            return render_template('teacherlogin.html', data=10003)
+
+
+#  route to port /studentlogin for pulling studentlogin page to front end
+@app.route('/feedback')
+def feedback():
+    return render_template('resultTeacher.html')
 
 
 #  route to port /practical for pulling correct quiz page to front end
 @app.route('/quiz', methods=['GET', 'POST'])
-def practicalsection():
+def quizSection():
     if request.method == 'GET':
         quiz_num = request.args.get('qnum')
         email = request.args.get('email')
-
 
     if int(quiz_num) == 1:
         q1 = selectquestion(int(quiz_num))
@@ -76,6 +99,11 @@ def practicalsection():
 
         question_num = int(quiz_num)
         quiz_num = 1
+        if (quizFinishcheck(readstudentID(email), quiz_num)):
+            return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
+
+        if (quizOpencheck(question_num)):
+            return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
 
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
                                q2=str(q2)[2:-3],
@@ -90,6 +118,12 @@ def practicalsection():
         question_num = int(quiz_num)
         quiz_num = 2
 
+        if (quizFinishcheck(readstudentID(email), quiz_num)):
+            return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
+
+        if (quizOpencheck(question_num)):
+            return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
+
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
                                q2=str(q2)[2:-3],
                                q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
@@ -103,6 +137,12 @@ def practicalsection():
         question_num = int(quiz_num)
         quiz_num = 3
 
+        if (quizFinishcheck(readstudentID(email), quiz_num)):
+            return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
+
+        if (quizOpencheck(question_num)):
+            return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
+
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
                                q2=str(q2)[2:-3],
                                q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
@@ -115,6 +155,12 @@ def practicalsection():
 
         question_num = int(quiz_num)
         quiz_num = 4
+
+        if (quizFinishcheck(readstudentID(email), quiz_num)):
+            return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
+
+        if (quizOpencheck(question_num)):
+            return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
 
         return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
                                q2=str(q2)[2:-3],
@@ -130,7 +176,14 @@ def practicalsection():
         question_num = int(quiz_num)
         quiz_num = 5
 
-        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3], q2=str(q2)[2:-3],
+        if (quizFinishcheck(readstudentID(email), quiz_num)):
+            return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
+
+        if (quizOpencheck(question_num)):
+            return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
+
+        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
+                               q2=str(q2)[2:-3],
                                q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
 
     return render_template('quizselection.html')
@@ -138,13 +191,48 @@ def practicalsection():
 
 #  select the question quiz required
 def selectquestion(qnum):
-    db = connectHWCdb()
+    cursor, db = connectHWCdb()
     sql = "select question from Question where questionID = {}".format(qnum)
     try:
-        db.execute(sql)
-        return db.fetchall()[0]
+        cursor.execute(sql)
+        return cursor.fetchall()[0]
     except Exception as e:
         return "##No Question###"
+
+
+@app.route('/savequestion', methods=['GET', 'POST'])
+def saveQuestion():
+    qnum = request.args.get('qnum')
+
+    # q1 = request.args.get('q1')
+    # q2 = request.args.get('q2')
+    # q3 = request.args.get('q3')
+    # q4 = request.args.get('q4')
+    # q5 = request.args.get('q5')
+    #
+    # qa1 = request.args.get('qa1')
+    # qa2 = request.args.get('qa2')
+    # qa3 = request.args.get('qa3')
+    # qa4 = request.args.get('qa4')
+    # qa5 = request.args.get('qa5')
+    #
+    # qList = [q1, q2, q3, q4, q5]
+    # qaList = [qa1, qa2, qa3, qa4, qa5]
+
+    qList = request.args.get('qList')
+    qaList = request.args.get('qaList')
+
+    print(qList, qaList)
+
+    for i in range(5):
+        if quizOpencheck(qnum + i):
+            print(quizOpencheck(qnum + i))
+            print(insertQuestion(qnum + i, qList[i], qaList[i]))
+
+        else:
+            print(updateQuestion(qnum + i, qList[i], qaList[i]))
+
+    return render_template('quizselection.html', qnum=qnum)
 
 
 #  Login
@@ -156,10 +244,9 @@ def student():
         student_password = request.args.get('student_password')
 
         # testing
-        print(student_email, student_password)
-        print(passwordcheck(student_email, student_password, "Student"))
+        print(passwordCheck(student_email, student_password, "Student"))
 
-        if passwordcheck(student_email, student_password, "Student"):
+        if passwordCheck(student_email, student_password, "Student"):
             return render_template('quizselection.html', data=10000, email=student_email)
         else:
             return render_template('studentlogin.html', data=10002)
@@ -173,22 +260,21 @@ def teacher():
         teacher_password = request.args.get('teacher_password')
 
         # testing
-        print(teacher_email, teacher_password)
-        print(passwordcheck(teacher_email, teacher_password, "Teacher"))
+        print(passwordCheck(teacher_email, teacher_password, "Teacher"))
 
-        if passwordcheck(teacher_email, teacher_password, "Teacher"):
-            return quizmanagepage()
+        if passwordCheck(teacher_email, teacher_password, "Teacher"):
+            return quizManagepage()
         else:
-            return render_template('teacherlogin.html', data=True)
+            return render_template('teacherlogin.html', data=10003)
 
 
 #  check if password correct and if user exist
-def passwordcheck(email, password, user):
-    db = connectHWCdb()
+def passwordCheck(email, password, user):
+    cursor, db = connectHWCdb()
 
     sql = "select 1 from {} where email='{}' and password='{}'".format(user, email, password)
-    db.execute(sql)
-    if db.fetchall():
+    cursor.execute(sql)
+    if cursor.fetchall():
         return True
     else:
         return False
@@ -197,7 +283,7 @@ def passwordcheck(email, password, user):
 #  Quiz
 #  route to port /query for transferring student_query from quiz page and calculate the mark
 @app.route('/query', methods=['GET', 'POST'])
-def studentqueryenter():
+def studentQueryenter():
     if request.method == 'GET':
         student_query1 = request.args.get('student_query1')
         student_query2 = request.args.get('student_query2')
@@ -207,96 +293,57 @@ def studentqueryenter():
         question_num = request.args.get('question_num')
         quiz_num = request.args.get('quiz_num')
         student_email = request.args.get('email')
-        querylist = [student_query1, student_query2, student_query3, student_query4, student_query5]
 
+        querylist = [student_query1, student_query2, student_query3, student_query4, student_query5]
 
         question_num = int(question_num)
         quiz_num = int(quiz_num)
 
-        i = 1
         totalmark = 0
         for i in range(5):
-            datafromdatabase1 = countqueryitems(selectsampleanswer(question_num+i))
+            datafromdatabase1 = countQueryitems(selectSampleAnswer(question_num + i))
             print(datafromdatabase1)
 
-            datafromdatabase2 = countqueryitems(querylist[i])
+            datafromdatabase2 = countQueryitems(querylist[i])
             print(datafromdatabase2)
 
-            totalmark += compareresult(datafromdatabase1, datafromdatabase2)
-            # insertanswer(question_num+i, readstudentID(student_email), querylist[i], compareresult(datafromdatabase1, datafromdatabase2))
+            totalmark += compareResult(datafromdatabase1, datafromdatabase2)
+            insertAnswer(question_num + i, readstudentID(student_email), querylist[i],
+                         compareResult(datafromdatabase1, datafromdatabase2))
 
-        print("totalmark=",totalmark)
-
-        # insertresult(studentID, quizID, totalmark, feedback)
+        insertResult(readstudentID(student_email), quiz_num, totalmark, 'no feedback')
         # print for testing
         #     print(datafromdatabase1)
         #     print(datafromdatabase2)
 
-        return render_template('result.html', data=totalmark, result=returnitemsfromDB(student_query1))
-        
-       
+        return render_template('result.html', data=totalmark)
 
 
-
-def selectsampleanswer(qnum):
-    db = connectHWCdb()
+def selectSampleAnswer(qnum):
+    cursor, db = connectHWCdb()
     sql = "select answer from Question where questionID='{}'".format(qnum)
     try:
-        db.execute(sql)
-        result = str(db.fetchall()[0])[2:-4]
+        cursor.execute(sql)
+        result = str(cursor.fetchall()[0])[2:-4]
         # print(result)
         return result
     except Exception as e:
         return "##No Answer###"
 
-    # db.execute(sql)
-    # result = db.fetchall()[0]
+    # cursor.execute(sql)
+    # result = cursor.fetchall()[0][0]
     # print(result)
     # return result
 
 
-def returnitemsfromDB(query):
-    db = connectAWdb()
-    # try:
-    #     db.execute(query)
-    #     # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
-    #     data = db.fetchall()
-    #     # print(data)
-
-    #     itemList = []
-        
-    #     for i in data:
-
-            
-    #         print(data[i])
-            
-    #     return data
-    # except Exception as e:
-    #     return 0
-
-    db.execute(query)
-        # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
-    data = db.fetchall()
-        # print(data)
-
-    itemList = []
-
-    
-    for k, v in data:
-
-        
-        print(k, v)
-            
-    return data
-
 # Marking
 # The function to link the database and to count the number of item outputted
-def countqueryitems(query):
-    db = connectAWdb()
+def countQueryitems(query):
+    cursor, db = connectAWdb()
     try:
-        db.execute(query)
+        cursor.execute(query)
         # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
-        data = db.fetchall()
+        data = cursor.fetchall()
         # print(data)
         q = 0
         for queryitem in data:
@@ -304,60 +351,146 @@ def countqueryitems(query):
         # return data
         return q
     except Exception as e:
-        return 0
+        return 999
+
+    # testing
+    # print(query)
+    # cursor.execute(query)
+    # data = cursor.fetchall()
+    # q = 0
+    # for queryitem in data:
+    #     q += 1
+    # return q
 
 
 # calculate the mark
-def compareresult(query1, query2):
-    if query1 == query2:
+def compareResult(query1, query2):
+    if query1 == query2 & query1 != '':
         return 1
     else:
         return 0
 
+
 def readstudentID(email):
-    print('email=',email)
-    db = connectHWCdb()
+    cursor, db = connectHWCdb()
 
-    sql = "select studentID from {} where email='{}'".format("Student", email)
-    db.execute(sql)
+    sql = "select * from {} where email='{}'".format("Student", email)
 
-    return db.fetchall()[0]
+    cursor.execute(sql)
+    result = cursor.fetchall()[0][0]
+    return result
+
+
+#  read data from Students table
+def readStudentList():
+    cursor, db = connectHWCdb()
+
+    sql = "select * from {}".format("Student")
+
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    sList = []
+    for i in result:
+        sList.append(i[1])
+    return sList
+
+def readStudentMarkList():
+    cursor, db = connectHWCdb()
+
+    sql = "select * from {}".format("Result")
+
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    mList = []
+    for i in result:
+        mList.append(i[2])
+    return mList
+
+
+def quizFinishcheck(id, quiz_num):
+    cursor, db = connectHWCdb()
+
+    sql = "select 1 from Result where studentID='{}' and quizID='{}'".format(id, quiz_num)
+    cursor.execute(sql)
+    if cursor.fetchall():
+        return True
+    else:
+        return False
+
+
+def quizOpencheck(qnum):
+    cursor, db = connectHWCdb()
+
+    sql = "select 1 from Question where questionID='{}'".format(qnum)
+    cursor.execute(sql)
+    if cursor.fetchall():
+        return False
+    else:
+        return True
+
+
+def checkString(str):
+    returnStr = ""
+    try:
+        if str.index("'") != -1:
+            returnStr = str.replace("'", "''")
+            str = returnStr
+
+        return str
+    except Exception as e:
+        return str
 
 
 #  insert data to Answer table
-def insertanswer(questionID, studentID, answer, mark):
-    db = connectHWCdb()
+def insertAnswer(questionID, studentID, answer, mark):
+    cursor, db = connectHWCdb()
 
-    label = ['questionID', 'studentID', 'answer', mark]
+    label = ['questionID', 'studentID', 'answer', 'mark']
     content = [questionID, studentID, answer, mark]
 
-    sql = 'insert into {0},{1},{2},{3} values({4},{5},{6},{7})'.format("Result", label[0], label[1],
-                                                                           label[2], label[3], content[0],
-                                                                           content[1], content[2], content[3])
-    result = db.execute(sql)
+    sql = "insert into Answer ({0},{1},{2},{3}) values({4},{5},'{6}',{7})".format(label[0], label[1],
+                                                                                  label[2], label[3], content[0],
+                                                                                  content[1], checkString(content[2]),
+                                                                                  content[3])
+    result = cursor.execute(sql)
     db.commit()
     return True if result else False
 
 
 # insert data to Result table
-def insertresult(studentID, quizID, totalmark, feedback):
+def insertResult(studentID, quizID, totalmark, feedback):
     label = ['studentID', 'quizID', 'totalmark', 'feedback']
     content = [studentID, quizID, totalmark, feedback]
 
-    sql = 'insert into {0},{1},{2},{3} values"{4}","{5}","{6}","{7}"'.format("Result", label[0], label[1],
-                                                                                         label[2], label[3],
-                                                                                         content[0], content[1],
-                                                                                         content[2], content[3])
-    db = connectHWCdb()
-    result = db.execute(sql)
+    sql = "insert into Result ({0},{1},{2},{3}) values({4},{5},{6},'{7}')".format(label[0], label[1],
+                                                                                  label[2], label[3],
+                                                                                  content[0], content[1],
+                                                                                  content[2], content[3])
+    cursor, db = connectHWCdb()
+    result = cursor.execute(sql)
     db.commit()
     return True if result else False
 
 
+def insertQuestion(questionID, question, answer):
+    cursor, db = connectHWCdb()
+
+    label = ['questionID', 'question', 'answer']
+    content = [questionID, question, answer]
+
+    sql = 'insert into Question ({0},{1},{2}) values({3},"{4}","{5}" where studentID = {6})'.format(
+        label[0], label[1],
+        label[2], content[0], content[1],
+        content[2], content[0])
+    print(sql)
+    result = cursor.execute(sql)
+    db.commit()
+    return True if result else False
+
 
 #  insert data to Students table
-def insertstudent(studentid, email, password, firstName, lastName):
-    db = connectHWCdb()
+def insertStudent(studentid, email, password, firstName, lastName):
+    cursor, db = connectHWCdb()
 
     label = ['studentID', 'email', 'password', 'firstName', 'lastName']
     content = [studentid, email, password, firstName, lastName]
@@ -367,23 +500,30 @@ def insertstudent(studentid, email, password, firstName, lastName):
                                                                                          content[0], content[1],
                                                                                          content[2], content[3],
                                                                                          content[4])
-    result = db.execute(sql)
+    result = cursor.execute(sql)
     db.commit()
     return True if result else False
 
 
-#  read data from Students table
-def readstudent():
-    db = connectHWCdb()
+def updateQuestion(questionID, question, answer):
+    cursor, db = connectHWCdb()
 
-    sql = 'select * from {0}'.format("Students")
-    result = db.execute(sql)
-    return list(result)
+    label = ['questionID', 'question', 'answer']
+    content = [questionID, question, answer]
+
+    sql = 'update Question set ({0},{1},{2}) values({3},"{4}","{5}" where studentID = {6})'.format(
+        label[0], label[1],
+        label[2], content[0], content[1],
+        content[2], content[0])
+    print(sql)
+    result = cursor.execute(sql)
+    db.commit()
+    return True if result else False
 
 
 #  update student data
 def updatestudent(studentid, email, password, firstName, lastName):
-    db = connectHWCdb()
+    cursor, db = connectHWCdb()
 
     label = ['studentID', 'email', 'password', 'firstName', 'lastName']
     content = [studentid, email, password, firstName, lastName]
@@ -394,19 +534,17 @@ def updatestudent(studentid, email, password, firstName, lastName):
         content[0], content[1],
         content[2], content[3],
         content[4], label[0])
-    result = db.execute(sql)
+    result = cursor.execute(sql)
     db.commit()
     return True if result else False
 
 
-
-
 #  read data from Question table
-def readquestion(quiz_num):
-    db = connectHWCdb()
+def readQuestion(quiz_num):
+    cursor, db = connectHWCdb()
 
     sql = 'select {0} from {1} where {2}'.format("question", "Question", "questionID =")
-    result = db.execute(sql)
+    result = cursor.execute(sql)
     return list(result)
 
 

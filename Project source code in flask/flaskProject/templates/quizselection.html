@@ -37,6 +37,8 @@ main{
 <form class="" action="" onsubmit="return false">
   <div class="form-group row justify-content-md-center">
     <div class="col col-lg-2">
+        {{ message }} <br>
+
         <button class="btn btn-primary" onclick="quiz_1()">Quiz 1</button><br><br>
         <button class="btn btn-primary" onclick="quiz_2()">Quiz 2</button><br><br>
         <button class="btn btn-primary" onclick="quiz_3()">Quiz 3</button><br><br>
@@ -116,6 +118,11 @@ main{
     }
 
     function back() {
-        window.history.go(-1);
+        if(data == '10000'){
+            window.location.href='studentlogin?'
+        }
+        else if(data == '10001'){
+            window.location.href='teacherlogin?'
+        }
     }
 </script>
