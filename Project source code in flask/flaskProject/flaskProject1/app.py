@@ -128,19 +128,32 @@ def studentqueryenter():
 # The function to link the database and to count the number of item outputted
 def countqueryitems(query):
     cursor = connectAWdb()
+    
+  try:
     cursor.execute(query)
     # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
     data = cursor.fetchall()
-    q = 0
-    for queryitem in data:
-        q += 1
-    # return data
-    return q
+    
+    try:
+    for col in range(10):
+        data[0][col]
+        print(data[0][col])
+    except Exception as e:
+        columes = col
+        
+    rows = 0
+    for queryrwos in data:
+        rows += 1
+        print(queryrows)
+     #returns data
+    return rows, columes
 
+  except Exception as e:
+        return 999, 999
 
 # calculate the mark
-def compareresult(query1, query2):
-    if query1 == query2:
+def compareresult(r1, c1, r2, c2):
+    if r1 == r2 and c1 == c2:
         return 1
     else:
         return 0
