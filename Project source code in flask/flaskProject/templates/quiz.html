@@ -41,22 +41,22 @@
 
 <form class="" action="" onsubmit="return false">
 
-
+{% for i in question_num %}
   <div class="form-group row justify-content-md-center">
 	<div class="col-md-5">
 		<br/>
-		<label class="">Question 1</label>
+		<label class="">Question {{ i }}</label>
 		<br/>
-		<strong>{{ q1 }}</strong>
+		<strong>{{ question[i-1] }}</strong>
 		<br/>
 		<br/>
 		<div class="row">
 			<div class= "col-10">
-				<input type="text" name="u85qwh" required  lay-verify="required" id="student-query1"  placeholder="Please enter your query" autocomplete="off" class="form-control ">
+				<input type="text" name="query" required  lay-verify="required" id="student-query"  placeholder="Please enter your query" autocomplete="off" class="form-control ">
 			</div>
 			
 			<div class= "col-1">
-				<button class="btn btn-primary"> Save </button>
+				<button class="btn btn-primary" name = "check"> Check </button>
 			</div>
 		</div>
 	  	<br/>
@@ -65,110 +65,21 @@
 	</div>
 	
   </div>
+    {% endfor %}
 
-  
-  
-  
-      <div class="form-group row justify-content-md-center">
-	<div class="col-md-5">
-		<br/>
-		<label class="">Question 2</label>
-		<br/>
-		<strong>{{ q2 }}</strong>
-		<br/>
-		<br/>
-		<div class="row">
-			<div class= "col-10">
-				<input type="text" name="u85qwh" required  lay-verify="required" id="student-query2"  placeholder="Please enter your query" autocomplete="off" class="form-control ">
-			</div>
-			
-			<div class= "col-1">
-				<button class="btn btn-primary"> Save </button>
-			</div>
-		</div>
-	  	<br/>
-		<br/>
-		<hr/>
-	</div>
-	
-  </div>
-  
-  
-      <div class="form-group row justify-content-md-center">
-	<div class="col-md-5">
-		<br/>
-		<label class="">Question 3</label>
-		<br/>
-		<strong>{{ q3 }}</strong>
-		<br/>
-		<br/>
-		<div class="row">
-			<div class= "col-10">
-				<input type="text" name="u85qwh" required  lay-verify="required" id="student-query3"  placeholder="Please enter your query" autocomplete="off" class="form-control ">
-			</div>
-			
-			<div class= "col-1">
-				<button class="btn btn-primary"> Save </button>
-			</div>
-		</div>
-	  	<br/>
-		<br/>
-		<hr/>
-	</div>
-	
-  </div>
-  
-  
-  
-      <div class="form-group row justify-content-md-center">
-	<div class="col-md-5">
-		<br/>
-		<label class="">Question 4</label>
-		<br/>
-		<strong>{{ q4 }}</strong>
-		<br/>
-		<br/>
-		<div class="row">
-			<div class= "col-10">
-				<input type="text" name="u85qwh" required  lay-verify="required" id="student-query4"  placeholder="Please enter your query" autocomplete="off" class="form-control ">
-			</div>
-			
-			<div class= "col-1">
-				<button class="btn btn-primary"> Save </button>
-			</div>
-		</div>
-	  	<br/>
-		<br/>
-		<hr/>
-	</div>
-	
-  </div>
-  
-  
-      <div class="form-group row justify-content-md-center">
-	<div class="col-md-5">
-		<br/>
-		<label class="">Question 5</label>
-		<br/>
-		<strong>{{ q5 }}</strong>
-		<br/>
-		<br/>
-		<div class="row">
-			<div class= "col-10">
-				<input type="text" name="u85qwh" required  lay-verify="required" id="student-query5"  placeholder="Please enter your query" autocomplete="off" class="form-control ">
-			</div>
-			
-			<div class= "col-1">
-				<button class="btn btn-primary"> Save </button>
-			</div>
-		</div>
-		
-	  	<br/>
-		<br/>
-		<hr/>
-	</div>
-	
-  </div>
+
+    <script>
+        var btn=document.getElementsByTagName('check');
+        for(var i=0;i<btn.length;i++){
+            (function(i){ //This is the i in the function, the formal parameter of the function.
+                btn[i].onclick=function(){
+                    window.open('test.html')
+                    alert(i);
+                }
+            })(i);//This is the i in the loop, passed in as a parameter
+        }
+    </script>
+
   
 
     <div class="lay-input-block">
@@ -192,28 +103,31 @@
 <script type="text/javascript">
 
     function submitquery() {
-        var student_query1 = document.getElementById("student-query1")
-        var student_query2 = document.getElementById("student-query2")
-        var student_query3 = document.getElementById("student-query3")
-        var student_query4 = document.getElementById("student-query4")
-        var student_query5 = document.getElementById("student-query5")
-
-        var query1 = student_query1.value;
-        var query2 = student_query2.value;
-        var query3 = student_query3.value;
-        var query4 = student_query4.value;
-        var query5 = student_query5.value;
-
+        var qa = document.getElementsByName('query')
         var quiz_num = document.getElementById("q-num").value
         var question_num = document.getElementById("question-num").value
         var email = document.getElementById("student-email").value
+        qaList = []
+        condition = false
 
-
-        if(query1!=''&&query2!=''&&query3!=''&&query4!=''&&query5!='') {
-            window.location.href = 'query?student_query1=' + query1 + '&student_query2=' + query2 +
-                '&student_query3=' + query3 + '&student_query4=' + query4 + '&student_query5=' + query5 +
-                '&quiz_num=' + quiz_num + '&question_num=' + question_num + '&email=' + email
+        for (var i = 0, j = qa.length; i < j; i++){
+            if(qa[i].value==''){
+                alert('Please answer all question before submit')
+                qaList = []
+                condition = false
+                break
+            }
+            else{
+                qaList.push(qa[i].value + '[]')
+                condition = true
+            }
         }
+
+        if(condition){
+            window.location.href = 'query?qaList=' + qaList + '&quiz_num=' + quiz_num +
+            '&question_num=' + question_num + '&email=' + email
+        }
+
     }
 
     function back() {

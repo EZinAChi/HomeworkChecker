@@ -35,6 +35,10 @@ CREATE TABLE Answer (
     answer text,
     mark int);
 
+CREATE TABLE Quiz (
+    quizID int,
+    quizSize int);    
+
 CREATE TABLE Result (
     studentID int,
     quizID int,

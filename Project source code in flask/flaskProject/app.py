@@ -59,8 +59,44 @@ def quizManagepage():
 @app.route('/quizmanagepage', methods=['GET', 'POST'])
 def quizManage():
     qnum = request.args.get("qnum")
-    return render_template('quizmanage.html', qnum=qnum)
+    return render_template('quizmanage.html', qnum=qnum,size=readQuizSize(qnum))
 
+@app.route('/selectQuizSize', methods=['GET', 'POST'])
+def selectQuizSize():
+    size = request.args.get('selected')
+    qnum = request.args.get('qnum')
+    size = int(size)
+
+    qList = []
+
+    for i in range(size):
+        if i != 0:
+            qList.append(i)
+            i += 1
+    qList.append(i)
+    return render_template('quizmanage.html', qnum=qnum, qList=qList, size=size)
+
+def updateQuizSize(quizID, quizSize):
+    cursor, db = connectHWCdb()
+
+    label = ['quizID', 'quizSize']
+    content = [quizID, quizSize]
+
+    sql = 'update Quiz set {0} = {1} where quizID = {2}'.format(
+        label[1], content[1], content[0])
+    print(sql)
+    result = cursor.execute(sql)
+    db.commit()
+    return True if result else False
+   
+def readQuizSize(quizID):
+    cursor, db = connectHWCdb()
+
+    sql = "select * from {} where quizID='{}'".format("Quiz", quizID)
+
+    cursor.execute(sql)
+    result = cursor.fetchall()[0][1]
+    return result
 
 @app.route('/seeResult')
 def seeResultPage():
@@ -91,32 +127,12 @@ def quizSection():
         email = request.args.get('email')
 
     if int(quiz_num) == 1:
-        q1 = selectquestion(int(quiz_num))
-        q2 = selectquestion(int(quiz_num) + 1)
-        q3 = selectquestion(int(quiz_num) + 2)
-        q4 = selectquestion(int(quiz_num) + 3)
-        q5 = selectquestion(int(quiz_num) + 4)
 
-        question_num = int(quiz_num)
-        quiz_num = 1
-        if (quizFinishcheck(readstudentID(email), quiz_num)):
-            return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
-
-        if (quizOpencheck(question_num)):
-            return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
-
-        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
-                               q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
-    elif int(quiz_num) == 6:
-        q1 = selectquestion(int(quiz_num))
-        q2 = selectquestion(int(quiz_num) + 1)
-        q3 = selectquestion(int(quiz_num) + 2)
-        q4 = selectquestion(int(quiz_num) + 3)
-        q5 = selectquestion(int(quiz_num) + 4)
-
-        question_num = int(quiz_num)
-        quiz_num = 2
+        question = selectquestion(quiz_num)
+        size = readQuizSize(quiz_num)
+        question_num = []
+        for i in range(size):
+            question_num.append(i + 1)
 
         if (quizFinishcheck(readstudentID(email), quiz_num)):
             return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
@@ -124,115 +140,107 @@ def quizSection():
         if (quizOpencheck(question_num)):
             return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
 
-        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
-                               q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
-    elif int(quiz_num) == 11:
-        q1 = selectquestion(int(quiz_num))
-        q2 = selectquestion(int(quiz_num) + 1)
-        q3 = selectquestion(int(quiz_num) + 2)
-        q4 = selectquestion(int(quiz_num) + 3)
-        q5 = selectquestion(int(quiz_num) + 4)
-
-        question_num = int(quiz_num)
-        quiz_num = 3
+        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, email=email, question=question)
+    elif quiz_num == 2:
+        question = selectquestion(quiz_num)
+        size = readQuizSize(quiz_num)
+        question_num = []
+        for i in range(size):
+            question_num.append(i + 1)
 
         if (quizFinishcheck(readstudentID(email), quiz_num)):
             return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
 
-        if (quizOpencheck(question_num)):
+        if (quizOpencheck(quiz_num)):
             return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
 
-        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
-                               q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
-    elif int(quiz_num) == 16:
-        q1 = selectquestion(int(quiz_num))
-        q2 = selectquestion(int(quiz_num) + 1)
-        q3 = selectquestion(int(quiz_num) + 2)
-        q4 = selectquestion(int(quiz_num) + 3)
-        q5 = selectquestion(int(quiz_num) + 4)
+        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, email=email,
+                               question=question)
 
-        question_num = int(quiz_num)
-        quiz_num = 4
+
+    elif quiz_num == 3:
+        question = selectquestion(quiz_num)
+        size = readQuizSize(quiz_num)
+        question_num = []
+        for i in range(size):
+            question_num.append(i + 1)
 
         if (quizFinishcheck(readstudentID(email), quiz_num)):
             return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
 
-        if (quizOpencheck(question_num)):
+        if (quizOpencheck(quiz_num)):
             return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
 
-        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
-                               q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
+        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, email=email,
+                               question=question)
 
-    elif int(quiz_num) == 21:
-        q1 = selectquestion(int(quiz_num))
-        q2 = selectquestion(int(quiz_num) + 1)
-        q3 = selectquestion(int(quiz_num) + 2)
-        q4 = selectquestion(int(quiz_num) + 3)
-        q5 = selectquestion(int(quiz_num) + 4)
 
-        question_num = int(quiz_num)
-        quiz_num = 5
+    elif quiz_num == 4:
+        question = selectquestion(quiz_num)
+        size = readQuizSize(quiz_num)
+        question_num = []
+        for i in range(size):
+            question_num.append(i + 1)
 
         if (quizFinishcheck(readstudentID(email), quiz_num)):
             return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
 
-        if (quizOpencheck(question_num)):
+        if (quizOpencheck(quiz_num)):
             return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
 
-        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, q1=str(q1)[2:-3],
-                               q2=str(q2)[2:-3],
-                               q3=str(q3)[2:-3], q4=str(q4)[2:-3], q5=str(q5)[2:-3], email=email)
+        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, email=email,
+                               question=question)
+
+
+    elif quiz_num == 5:
+        question = selectquestion(quiz_num)
+        size = readQuizSize(quiz_num)
+        question_num = []
+        for i in range(size):
+            question_num.append(i + 1)
+
+        if (quizFinishcheck(readstudentID(email), quiz_num)):
+            return render_template('quizselection.html', message='You have finished this', data=10000, email=email)
+
+        if (quizOpencheck(quiz_num)):
+            return render_template('quizselection.html', message='Quiz not yet open', data=10000, email=email)
+
+        return render_template('quiz.html', quiz_num=quiz_num, question_num=question_num, email=email,
+                               question=question)
 
     return render_template('quizselection.html')
 
 
+
 #  select the question quiz required
-def selectquestion(qnum):
+def selectquestion(quizID):
     cursor, db = connectHWCdb()
-    sql = "select question from Question where questionID = {}".format(qnum)
+    sql = "select * from Question where quizID = {}".format(quizID)
     try:
         cursor.execute(sql)
-        return cursor.fetchall()[0]
+        rList = []
+        result = cursor.fetchall()
+        for i in range(readQuizSize(quizID)):
+            rList.append(str(result[i][1]))
+        return rList
     except Exception as e:
-        return "##No Question###"
+        return rList
+
 
 
 @app.route('/savequestion', methods=['GET', 'POST'])
 def saveQuestion():
-    qnum = request.args.get('qnum')
+    qList = toList(request.args.get('qList'))
+    qaList = toList(request.args.get('qaList'))
+    size = request.args.get('size')
+    quizID = request.args.get('qnum')
 
-    # q1 = request.args.get('q1')
-    # q2 = request.args.get('q2')
-    # q3 = request.args.get('q3')
-    # q4 = request.args.get('q4')
-    # q5 = request.args.get('q5')
-    #
-    # qa1 = request.args.get('qa1')
-    # qa2 = request.args.get('qa2')
-    # qa3 = request.args.get('qa3')
-    # qa4 = request.args.get('qa4')
-    # qa5 = request.args.get('qa5')
-    #
-    # qList = [q1, q2, q3, q4, q5]
-    # qaList = [qa1, qa2, qa3, qa4, qa5]
+    updateQuizSize(quizID, size)
 
-    qList = request.args.get('qList')
-    qaList = request.args.get('qaList')
-
-    print(qList, qaList)
-
-    for i in range(5):
-        if quizOpencheck(qnum + i):
-            print(quizOpencheck(qnum + i))
-            print(insertQuestion(qnum + i, qList[i], qaList[i]))
-
-        else:
-            print(updateQuestion(qnum + i, qList[i], qaList[i]))
-
-    return render_template('quizselection.html', qnum=qnum)
+    deleteQuiz(quizID)
+    for i in range(int(size)):
+        insertQuestion(i+1, qList[i], qaList[i],quizID)
+    return quizManagepage()
 
 
 #  Login
@@ -242,9 +250,6 @@ def student():
     if request.method == 'GET':
         student_email = request.args.get('student_email')
         student_password = request.args.get('student_password')
-
-        # testing
-        print(passwordCheck(student_email, student_password, "Student"))
 
         if passwordCheck(student_email, student_password, "Student"):
             return render_template('quizselection.html', data=10000, email=student_email)
@@ -258,9 +263,6 @@ def teacher():
     if request.method == 'GET':
         teacher_email = request.args.get('teacher_email')
         teacher_password = request.args.get('teacher_password')
-
-        # testing
-        print(passwordCheck(teacher_email, teacher_password, "Teacher"))
 
         if passwordCheck(teacher_email, teacher_password, "Teacher"):
             return quizManagepage()
@@ -285,38 +287,45 @@ def passwordCheck(email, password, user):
 @app.route('/query', methods=['GET', 'POST'])
 def studentQueryenter():
     if request.method == 'GET':
-        student_query1 = request.args.get('student_query1')
-        student_query2 = request.args.get('student_query2')
-        student_query3 = request.args.get('student_query3')
-        student_query4 = request.args.get('student_query4')
-        student_query5 = request.args.get('student_query5')
+        querylist = toList(request.args.get('qaList'))
+
         question_num = request.args.get('question_num')
+
         quiz_num = request.args.get('quiz_num')
+
         student_email = request.args.get('email')
 
-        querylist = [student_query1, student_query2, student_query3, student_query4, student_query5]
+        question_num = len(question_num)
 
-        question_num = int(question_num)
         quiz_num = int(quiz_num)
 
         totalmark = 0
-        for i in range(5):
-            datafromdatabase1 = countQueryitems(selectSampleAnswer(question_num + i))
-            print(datafromdatabase1)
+        deduction = []
+        size = []
+        questionNumber = 1
+        for i in range(readQuizSize(quiz_num)):
 
-            datafromdatabase2 = countQueryitems(querylist[i])
-            print(datafromdatabase2)
+            q1rows, q1col = countQueryRnC(selectSampleAnswer(i + 1))
+            # print(q1rows, q1col)
 
-            totalmark += compareResult(datafromdatabase1, datafromdatabase2)
-            insertAnswer(question_num + i, readstudentID(student_email), querylist[i],
-                         compareResult(datafromdatabase1, datafromdatabase2))
+            q2rows, q2col = countQueryRnC(querylist[i-1])
+            # print(q2rows, q2col)
+
+            size.append(questionNumber)
+
+            deduction.append(returnCorectState(compareResult(q1rows, q1col, q2rows, q2col)))
+
+            totalmark += compareResult(q1rows, q1col, q2rows, q2col)
+            insertAnswer(questionNumber, readstudentID(student_email), querylist[i],
+                         compareResult(q1rows, q1col, q2rows, q2col))
+            questionNumber += 1
+
 
         insertResult(readstudentID(student_email), quiz_num, totalmark, 'no feedback')
-        # print for testing
-        #     print(datafromdatabase1)
-        #     print(datafromdatabase2)
 
-        return render_template('result.html', data=totalmark)
+
+        return render_template('result.html', data=totalmark, deduction=deduction, size=size,
+                               totalquestions=readQuizSize(quiz_num))
 
 
 def selectSampleAnswer(qnum):
@@ -324,7 +333,7 @@ def selectSampleAnswer(qnum):
     sql = "select answer from Question where questionID='{}'".format(qnum)
     try:
         cursor.execute(sql)
-        result = str(cursor.fetchall()[0])[2:-4]
+        result = str(cursor.fetchall()[0])[2:-3]
         # print(result)
         return result
     except Exception as e:
@@ -338,20 +347,27 @@ def selectSampleAnswer(qnum):
 
 # Marking
 # The function to link the database and to count the number of item outputted
-def countQueryitems(query):
+def countQueryRnC(query):
     cursor, db = connectAWdb()
     try:
         cursor.execute(query)
         # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
         data = cursor.fetchall()
-        # print(data)
-        q = 0
-        for queryitem in data:
-            q += 1
+
+        try:
+            for col in range(30):
+                data[0][col]
+        except Exception as e:
+            columes = col
+
+        rows = 0
+        for queryrows in data:
+            rows += 1
+
         # return data
-        return q
+        return rows, columes
     except Exception as e:
-        return 999
+        return 'cannot run', 'cannot run'
 
     # testing
     # print(query)
@@ -364,11 +380,21 @@ def countQueryitems(query):
 
 
 # calculate the mark
-def compareResult(query1, query2):
-    if query1 == query2 & query1 != '':
-        return 1
-    else:
+def compareResult(r1, c1, r2, c2):
+    try:
+        if r1 == r2 and c1 == c2 and type(r1) == int:
+            return 1
+        else:
+            return 0
+    except Exception as e:
         return 0
+
+
+def returnCorectState(deduction):
+    if deduction == 1:
+        return 'Correct'
+    else:
+        return 'Incorrect'
 
 
 def readstudentID(email):
@@ -394,6 +420,7 @@ def readStudentList():
         sList.append(i[1])
     return sList
 
+
 def readStudentMarkList():
     cursor, db = connectHWCdb()
 
@@ -418,10 +445,10 @@ def quizFinishcheck(id, quiz_num):
         return False
 
 
-def quizOpencheck(qnum):
+def quizOpencheck(quizID):
     cursor, db = connectHWCdb()
 
-    sql = "select 1 from Question where questionID='{}'".format(qnum)
+    sql = "select 1 from Question where quizID='{}'".format(quizID)
     cursor.execute(sql)
     if cursor.fetchall():
         return False
@@ -439,6 +466,15 @@ def checkString(str):
         return str
     except Exception as e:
         return str
+
+
+def toList(strList):
+    strList1 = str(strList)
+    strList2 = strList1.split("[],")
+    strList3 = []
+    for strItem in strList2:
+        strList3.append(strItem.replace('[]',''))
+    return strList3
 
 
 #  insert data to Answer table
@@ -471,17 +507,42 @@ def insertResult(studentID, quizID, totalmark, feedback):
     db.commit()
     return True if result else False
 
-
-def insertQuestion(questionID, question, answer):
+def deleteQuiz(quizID):
     cursor, db = connectHWCdb()
 
-    label = ['questionID', 'question', 'answer']
-    content = [questionID, question, answer]
+    sql = 'delete from Question where quizID = {}'.format(quizID)
+    print(sql)
+    result = cursor.execute(sql)
+    db.commit()
+    return True if result else False
 
-    sql = 'insert into Question ({0},{1},{2}) values({3},"{4}","{5}" where studentID = {6})'.format(
+
+def insertQuestion(questionID, question, answer, quizID):
+    cursor, db = connectHWCdb()
+
+    label = ['questionID', 'question', 'answer', 'quizID']
+    content = [questionID, question, answer, quizID]
+
+    sql = "insert into Question ({0},{1},{2},{3}) values({4},'{5}','{6}',{7})".format(
         label[0], label[1],
-        label[2], content[0], content[1],
-        content[2], content[0])
+        label[2], label[3], content[0], content[1],
+        checkString(content[2]), content[3])
+    print(sql)
+    result = cursor.execute(sql)
+    db.commit()
+    return True if result else False
+
+
+def updateQuestion(questionID, question, answer,quizID):
+    cursor, db = connectHWCdb()
+
+    label = ['questionID', 'question', 'answer','quizID']
+    content = [questionID, question, answer,quizID]
+
+    sql = "update Question set ({0},{1},{2},{3}) values({4},'{5}','{6}',{7} where questionID = {8} and quizID = {9})".format(
+        label[0], label[1],
+        label[2], label[3], content[0], content[1],
+        content[2], content[0], content[4])
     print(sql)
     result = cursor.execute(sql)
     db.commit()
@@ -500,22 +561,6 @@ def insertStudent(studentid, email, password, firstName, lastName):
                                                                                          content[0], content[1],
                                                                                          content[2], content[3],
                                                                                          content[4])
-    result = cursor.execute(sql)
-    db.commit()
-    return True if result else False
-
-
-def updateQuestion(questionID, question, answer):
-    cursor, db = connectHWCdb()
-
-    label = ['questionID', 'question', 'answer']
-    content = [questionID, question, answer]
-
-    sql = 'update Question set ({0},{1},{2}) values({3},"{4}","{5}" where studentID = {6})'.format(
-        label[0], label[1],
-        label[2], content[0], content[1],
-        content[2], content[0])
-    print(sql)
     result = cursor.execute(sql)
     db.commit()
     return True if result else False
