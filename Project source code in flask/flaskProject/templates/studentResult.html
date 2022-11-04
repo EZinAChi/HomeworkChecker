@@ -49,6 +49,7 @@ main{
       <table class = "table"  >
         <tr>
             <th>Name</th>
+            <th>quizID</th>
             <th>Mark</th>
             <th>Feedback</th>
             
@@ -59,9 +60,10 @@ main{
             <td>{{ i }}</td>
             {% endfor %}
             {% for i in mList %}
-            <td>{{i}}</td>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
             {% endfor %}
-			<td><button class="btn btn-primary"onclick="feedback()">Feedback</button></td>
+			<td><button class="btn btn-primary"onclick="feedback(i[1])">Feedback</button></td>
             
         </tr>
 
@@ -96,7 +98,7 @@ main{
         window.location.href='teacherlogin?'
     }
 
-    function feedback(){
+    function feedback(x){
         window.location.href='feedback?'
     }
 </script>

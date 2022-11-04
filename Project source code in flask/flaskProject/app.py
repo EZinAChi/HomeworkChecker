@@ -17,6 +17,7 @@ def index():
 
 #  Database connection
 #  connect to main database
+'''
 def connectHWCdb():
     db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="HWC")
     cursor = db.cursor()
@@ -28,6 +29,22 @@ def connectAWdb():
     db = pymssql.connect(host="LocalHost", user="mysql", password='88888888', database="AdventureWorks2019")
     cursor = db.cursor()
     return cursor, db
+'''
+
+
+def connectHWCdb():
+    db = pymssql.connect(server= 'DESKTOP-46ON81A', database = 'db')
+    cursor = db.cursor()
+    return cursor, db
+
+#  connect to target database
+def connectAWdb():
+    db = pymssql.connect(server= 'DESKTOP-46ON81A', database = 'AdventureWorks2019')
+    cursor = db.cursor()
+    return cursor, db
+
+
+
 
 
 #  Page transaction
@@ -114,8 +131,13 @@ def seeResultPage():
 
 
 #  route to port /studentlogin for pulling studentlogin page to front end
-@app.route('/feedback')
+@app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
+    '''
+    if request.method == 'GET':
+        quiz_num = request.args.get('qnum')
+        email = request.args.get('email')
+    '''
     return render_template('resultTeacher.html')
 
 
@@ -215,7 +237,8 @@ def quizSection():
 #  select the question quiz required
 def selectquestion(quizID):
     cursor, db = connectHWCdb()
-    sql = "select * from Question where quizID = {}".format(quizID)
+    sql = "select * from Question Join Quiz On where quizID = {}".format(quizID)
+    rList = []
     try:
         cursor.execute(sql)
         rList = []
@@ -430,7 +453,7 @@ def readStudentMarkList():
     result = cursor.fetchall()
     mList = []
     for i in result:
-        mList.append(i[2])
+        mList.append(i)
     return mList
 
 
