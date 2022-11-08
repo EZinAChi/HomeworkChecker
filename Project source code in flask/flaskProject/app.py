@@ -270,7 +270,7 @@ def saveQuestion():
 #  route to port /student for transferring student login data from studentlogin page and do password checking
 @app.route('/student', methods=['GET', 'POST'])
 def student():
-    if request.method == 'GET':
+    if request.method == 'POST':
         student_email = request.args.get('student_email')
         student_password = request.args.get('student_password')
 

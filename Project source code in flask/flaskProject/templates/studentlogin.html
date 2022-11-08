@@ -63,11 +63,11 @@ button:hover{
 
 
 
-<form class="" action="" onsubmit="return false">
+<form metod= "POST" action="{{url_for('student')}}">
 	<div class="form-group row justify-content-md-center">
 	  <label for="fname" class="col-sm-2 col-form-label">Email:</label>
 	  <div class="col-sm-4">
-		<input class="form-control" type="text" id="student-email" placeholder="Please enter your email">
+		<input class="form-control" name =student_email  value="{{ request.form.student_email }}" type="text" id="student-email" placeholder="Please enter your email">
 	  </div>
 	</div>
 	
@@ -77,7 +77,7 @@ button:hover{
  	<div class="form-group row justify-content-md-center">
 	  <label for="pname" class="col-sm-2 col-form-label">Password:</label>
 	  <div class="col-sm-4">
-		<input class="form-control" type="password" id="student-password" placeholder="Please enter your password">
+		<input class="form-control" name = student_passowrd value="{{ request.form.student_password }}" type="password" id="student-password" placeholder="Please enter your password">
 	  </div>
 	</div>
     {% if data == 10002 %}
@@ -92,7 +92,7 @@ button:hover{
 	  <button class="btn btn-primary" onclick="back()">Back</button>
     </div>
       <div class="col col-lg-2">
-      <button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="clickme()">Login</button>
+      <button class="btn btn-primary" lay-submit lay-filter="formDemo"  type="submit">Login</button>
     </div>
   </div>
   
@@ -104,14 +104,7 @@ button:hover{
 
 <script type="text/javascript">
 
-    function clickme() {
-        var inpute = document.getElementById("student-email")
-        var inputp = document.getElementById("student-password")
-        var student_email = inpute.value;
-        var student_password = inputp.value;
-
-        window.location.href = 'student?student_email=' + student_email + "&student_password=" + student_password
-    }
+    
     function back(){
         window.location.href='menu?'
     }
