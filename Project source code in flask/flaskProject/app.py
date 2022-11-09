@@ -285,7 +285,7 @@ def student():
 @app.route('/teacher', methods=['GET', 'POST'])
 def teacher():
    #if the user click on quizmanagment they will be navigate to the quiz select 
-    if request.method == 'POST'and  'quizlist' in request.form:
+    if request.method == 'POST'and  'quizlist' in request.form: #check if quiz management button clicked
         teacher_email = request.form.get('teacher_email')
         teacher_password = request.form.get('teacher_password')
         print('quizlist' in request.form)
@@ -294,8 +294,14 @@ def teacher():
         else:
             return render_template('teacherlogin.html', data=10003)
   #so now if the user click see result they will naviagte to the result page without display passowrd    
-    else:
-         return  render_template('studentResult.html', sList=readStudentList(), mList=readStudentMarkList())
+    if request.method == 'POST' and  'resultpage' in request.form: #check if see reult button clicked
+        teacher_email = request.form.get('teacher_email')
+        teacher_password = request.form.get('teacher_password')
+        print('resultpage' in request.form)
+        if passwordCheck(teacher_email, teacher_password, "Teacher"):        
+             return  render_template('studentResult.html', sList=readStudentList(), mList=readStudentMarkList())
+        else: 
+           return render_template('teacherlogin.html', data=10003)   
 
 #  check if password correct and if user exist
 def passwordCheck(email, password, user):
