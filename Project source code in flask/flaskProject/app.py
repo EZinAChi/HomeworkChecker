@@ -281,17 +281,21 @@ def student():
 
 
 #  route to port /teacher for transferring teacher login data from teacherlogin page and do password checking
+#change the metod from get to Post so the form can rout to teacher action without display password
 @app.route('/teacher', methods=['GET', 'POST'])
 def teacher():
-    if request.method == 'GET':
-        teacher_email = request.args.get('teacher_email')
-        teacher_password = request.args.get('teacher_password')
-
+   #if the user click on quizmanagment they will be navigate to the quiz select 
+    if request.method == 'POST'and  'quizlist' in request.form:
+        teacher_email = request.form.get('teacher_email')
+        teacher_password = request.form.get('teacher_password')
+        print('quizlist' in request.form)
         if passwordCheck(teacher_email, teacher_password, "Teacher"):
             return quizManagepage()
         else:
             return render_template('teacherlogin.html', data=10003)
-
+  #so now if the user click see result they will naviagte to the result page without display passowrd    
+    else:
+         return  render_template('studentResult.html', sList=readStudentList(), mList=readStudentMarkList())
 
 #  check if password correct and if user exist
 def passwordCheck(email, password, user):

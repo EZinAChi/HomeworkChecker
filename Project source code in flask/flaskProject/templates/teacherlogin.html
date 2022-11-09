@@ -54,17 +54,17 @@ button:hover{
 
 <link href="./lay.css"/>
 <script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
-
+ 
 <body>
 <header>
 	<h1 style="text-align: center; padding-top:50px; padding-bottom:50px;; min-height:15%">Teacher Login</h1>
 	</header>
 <main style="text-align: center; padding-top:15%; padding-bottom:10%;padding-left:15%; padding-right:15%; min-height:85%">
-<form class="" action="" onsubmit="return false">
+<form action="POST" action="{{ url_for('teacher') }}">
 	<div class="form-group row justify-content-md-center">
 	  <label for="fname" class="col-sm-2 col-form-label">Email:</label>
 	  <div class="col-sm-4">
-		<input class="form-control" type="text" id="teacher-email" placeholder="Please enter your email">
+		<input class="form-control" name =teacher_email value="{{ request.form.teacher_email }}" type="text" id="teacher-email" placeholder="Please enter your email">
 	  </div>
 	</div>
 	
@@ -74,7 +74,7 @@ button:hover{
  	<div class="form-group row justify-content-md-center">
 	  <label for="pname" class="col-sm-2 col-form-label">Password:</label>
 	  <div class="col-sm-4">
-		<input class="form-control" type="password" id="teacher-password" placeholder="Please enter your password">
+		<input class="form-control" name =teacher_password value="{{ request.form.teacher_password}}" type="password" id="teacher-password" placeholder="Please enter your password">
 	  </div>
 	</div>
     {% if data == 10003 %}
@@ -91,10 +91,10 @@ button:hover{
 	  <button type="reset" onclick="back()" class="btn btn-primary">Back</button>
     </div>
     <div class="col col-lg-2">
-	<button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="quizmanage()">Quiz Management</button>
+	<button class="btn btn-primary" lay-submit lay-filter="formDemo"  name ="quizlist"  type="submit" >Quiz Management</button>
     </div>
     <div class="col col-lg-2">
-      <button class="btn btn-primary" lay-submit lay-filter="formDemo" onclick="seeresult()">Student Result</button>
+      <button class="btn btn-primary" lay-submit lay-filter="formDemo" name ="resultpage"  type="submit" >Student Result</button>
     </div>
   </div>
   
