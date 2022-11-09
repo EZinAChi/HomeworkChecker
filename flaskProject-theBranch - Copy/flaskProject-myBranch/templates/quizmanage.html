@@ -1,0 +1,168 @@
+<html>
+<head>
+
+    <title>{{ 'Quiz Management' }}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+ <style>
+
+
+      body{
+          background-color:#0052a0;
+
+
+      }
+
+      header{
+          color:white;
+
+      }
+
+
+      main{
+          background-color:white;
+          color:#0052a0;
+      }
+
+
+
+
+
+        </style>
+</head>
+
+<link href="./lay.css"/>
+<script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
+
+<body>
+    <header>
+    <h1 style="text-align: center; padding-top:50px; padding-bottom:50px;">Quiz Management</h1>
+    </header>
+
+    <main style="text-align: center; padding-top:100px; padding-bottom:300px;padding-left:15%; padding-right:15%;">
+
+<form class="" action="" onsubmit="return false">
+  <div class="form-group row justify-content-md-center">
+      <div class="layui-form-item">
+
+    <select select name="question_amount" id="selected" onchange="getSelected()" class="layui-input newclassname">{{ size }}
+        <option value="none" selected disabled hidden>
+        <option value=5>5</option>
+        <option value=6>6</option>
+        <option value=7>7</option>
+        <option value=8>8</option>
+        <option value=9>9</option>
+        <option value=10>10</option>
+        <option value=11>11</option>
+        <option value=12>12</option>
+        <option value=13>13</option>
+        <option value=14>14</option>
+        <option value=15>15</option>
+        <option value=16>16</option>
+        <option value=17>17</option>
+        <option value=18>18</option>
+        <option value=19>19</option>
+        <option value=20>20</option>
+    </select>
+
+
+    Select how many questions the quiz will be. There are now {{ size }} questions.
+          <br>
+</div>
+
+<script>
+
+</script>
+  <div class="form-group row justify-content-md-center">
+ <div class="col-md-5">
+    {% for i in qList %}
+      <label class="">Question {{ i }}</label>
+      <input type="text" name="question" required  lay-verify="required" id='q' placeholder="Please enter question" autocomplete="off" class="form-control">
+      <label class="">Sample answer for question {{ i }}</label>
+      <input type="text" name="answer" required  lay-verify="required" id='qa' placeholder="Please enter question" autocomplete="off" class="form-control">
+        <hr>
+    {% endfor %}
+
+ </div>
+
+
+  </div>
+
+    <div class="lay-input-block">
+          <button class="btn btn-outline-primary" onclick="back()">Back</button>
+        <button class="btn btn-outline-primary" onclick="save()">Save</button>
+    </div>
+
+
+
+{#    don't delete   #}
+    <div><input class="form-control" type="hidden" id="q-num" value="{{ qnum }}"></input>
+        <input class="form-control" type="hidden" id="size" value="{{ size }}"></input>
+        </div>
+  </div>
+</form>
+    </main>
+
+
+
+
+
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    var qnum = document.getElementById("q-num").value
+    var size = document.getElementById("size").value
+    function getSelected(){
+        selected = document.getElementById("selected").value
+        window.location.href='selectQuizSize?selected='+selected+'&qnum='+qnum
+
+    }
+    function save(){
+        qList = []
+        qaList = []
+        condition = false
+        var q = document.getElementsByName('question')
+
+        for (var x = 0, y = q.length; x < y; x++){
+            if(q[x].value==''){
+                alert('Please fill all questions')
+                qList = []
+                condition = false
+                break
+            }
+            else{
+                qList.push(q[x].value+'[]')
+                condition = true
+            }
+        }
+
+        var qa = document.getElementsByName('answer')
+
+        for (var i = 0, j = qa.length; i < j; i++){
+            if(qa[i].value==''){
+                alert('Please fill all answers')
+                qaList = []
+                condition = false
+                break
+            }
+            else{
+                qaList.push(qa[i].value+'[]')
+                condition = true
+            }
+        }
+        if(condition) {
+            alert('Save successful!')
+            alert(qnum)
+            window.location.href = 'savequestion?qList=' + qList + '&qaList=' + qaList + '&size=' + size + '&qnum=' + qnum
+        }
+
+    }
+
+    function back() {
+        window.location.href = 'quizmanage?'
+        {#window.history.go(-1);#}
+
+    }
+
+</script>
