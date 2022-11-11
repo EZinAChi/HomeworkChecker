@@ -267,63 +267,8 @@ def saveQuestion():
 #  route to port /student for transferring student login data from studentlogin page and do password checking
 @app.route('/student', methods=['GET', 'POST'])
 def student():
-   
-   
- #salt = b'' # Get the salt you stored for *this* user
-#key = b'' # Get this users key calculated
-
-#password_to_check = 'password246' # The password provided by the user to check
-
-# Use the exact same setup you used to generate the key, but this time put in the password to check
-#new_key = hashlib.pbkdf2_hmac(
-   # 'sha256',
-   # password_to_check.encode('utf-8'), # Convert the password to bytes
-   # salt, 
-   # 100000
-#)
-
-#if new_key == key:
-     # print('Password is correct')
-   # else:
-   #  print('Password is incorrect')*/
-
-
-  #  if request.method == 'GET':
-        # return render_template('studentlogin.html')
-     
-        #student_email = request.args.get('student_email')
-        #student_password = request.args.get('student_password')
-      
-          
-        #encoded = base64.b64encode(student_password)
-        #t=  (encoded).encode("ascii")
-       # o=str(student_password) 
-       # t = base64.b64encode(o.encode())
-        #v=base64.b64decode(t.decode())
-        #o.encode('utf-8')
-        #secret = v.decode('utf-8')
- 
-        #print(t)
-       # print(v)
-       # print(secret)
-        #repr = base64.b64decode(t)
-        #print(repr) 
-        #matches = check_password_hash(student_password,student_password)
-        #print(matches)
-     
-       # user = student.query.filter_by(email=student_email).first() 
-      
-        #student_password= (generate_password_hash(student_password,
-                       # method='sha256') )
-        #print(student_password)  
-        #check_password_hash(student.password, student_password)
-       # print(check_password_hash)   
-        #print(student.password)
-    
-        
-    
-        
-   if request.method == 'POST':
+      #if the user click login      
+   if request.method == 'POST'and 'login' in request.form:
         student_email = request.form.get('student_email')
         print(student_email,request.method )
         
@@ -331,28 +276,27 @@ def student():
         print(student_password)
         
         if passwordCheck(student_email, student_password, "Student") : 
-             
-            #student_password=t
-            #o=str(student_password) 
-            #t = base64.b64encode(o.encode())
-            #print(t)
-            #student_password=t
-            #t= base64.b64encode(student_password).encode("ascii")
-            #print(t)
-           # parsed = urlparse("https://user:password@example.com/path?key=value#hash")
-            #parsed = urlparse('student?student_email=' + student_email + "&student_password=" + student_password)
-           # parsed.password # 'password'
-
-            #replaced = parsed._replace(netloc="{}:{}@{}".format(parsed.username, "???", parsed.hostname))
-            #replaced.geturl() 
-            #print(parsed)
+            
             
             return render_template('quizselection.html', data=10000, email=student_email)
-   
+        
 
         else:
             return render_template('studentlogin.html', data=10002)
-
+     #if the user click back they will return to the menu      
+   if request.method == 'POST' and  'back' in request.form:
+        student_email = request.form.get('student_email')
+        print(student_email,request.method )
+        
+        student_password = request.form.get('student_password')
+        print(student_password)
+        
+              
+        return render_template('menu.html')
+          
+   else:
+            return render_template('studentlogin.html', data=10002)            
+   
   
 #  route to port /teacher for transferring teacher login data from teacherlogin page and do password checking
 @app.route('/teacher', methods=['GET', 'POST'])
