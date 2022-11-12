@@ -74,4 +74,4 @@ INSERT INTO Teacher( name, email, password)
 VALUES ('David Matines','123@123.com','123');
 
 truncate table Answer
-truncate table Result
+truncate table Resultssssssss
