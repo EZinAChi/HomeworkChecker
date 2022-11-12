@@ -1,0 +1,77 @@
+
+
+Teacher (name, email, password)
+
+Student (studentID, name, email, password)
+
+Question (questionID, question, answer, quizID)
+
+Answer (questionID, studentID, answer, mark)
+
+Result (studentID, quizID, totalmark, feedback)
+
+
+Query:
+
+CREATE TABLE Teacher (
+    name varchar(50),
+    email varchar(50),
+    password varchar(MAX));
+
+CREATE TABLE Student (
+    studentID int,
+    name varchar(50),
+    email varchar(50),
+    password varchar(MAX));
+
+CREATE TABLE Question (
+    questionID int,
+    question varchar(MAX),
+    answer varchar(MAX),
+    quizID int);
+
+CREATE TABLE Quiz (
+    quizID int,
+    quizSize int);
+
+CREATE TABLE Answer (
+    questionID int,
+    studentID int,
+    answer text,
+    mark int);
+
+CREATE TABLE Result (
+    studentID int,
+    quizID int,
+    totalmark int,
+    feedback varchar(MAX));
+
+
+Testing data:
+
+INSERT INTO Question ( questionID, question, answer, quizID)
+VALUES (1,'Show the total number of production transactions in the
+transaction history archive table, the average quantity and the average cost.', 'SELECT COUNT(TransactionID) AS transCount, AVG(Quantity) AS avgQuantity, AVG(ActualCost) AS avgCost FROM Production.TransactionHistoryArchive;', 1);
+
+INSERT INTO Question ( questionID, question, answer, quizID)
+VALUES (2,'Show the average number of sick leave hours, vacation hours and number of current staff. Schemas: HumanResources', 'SELECT Name, AVG(SickLeaveHours) AS sickLeave, AVG(VacationHours) AS vacation, COUNT(*) AS noStaff FROM HumanResources.EmployeeDepartmentHistory AS EDH JOIN HumanResources.Department AS D ON D.DepartmentID = EDH.DepartmentID JOIN HumanResources.Employee AS E ON E.BusinessEntityID = EDH.BusinessEntityID WHERE EndDate IS NULL GROUP BY Name ORDER BY noStaff;', 1);
+
+INSERT INTO Question ( questionID, question, answer, quizID)
+VALUES (3,'List the different types of sales reasons and the number of sales for each of those reasons.', 'SELECT Name AS SalesReason, COUNT(SalesOrderID) AS salesCount FROM Sales.SalesReason AS SR JOIN Sales.SalesOrderHeaderSalesReason AS SOHSR ON SR.SalesReasonID = SOHSR.SalesReasonID GROUP BY Name;', 1);
+
+INSERT INTO Question ( questionID, question, answer, quizID)
+VALUES (4,'For each of the different departments, show the number of current female, male and total employees currently employed.', 'SELECT Name AS departmentName, (SELECT COUNT(gender) FROM HumanResources.Employee WHERE Gender = 'F') AS female, (SELECT COUNT(gender) FROM HumanResources.Employee WHERE Gender = 'M') AS male, (SELECT COUNT(gender) FROM HumanResources.Employee) AS totalEmployeeCount FROM HumanResources.Department N JOIN HumanResources.EmployeeDepartmentHistory EDH ON N.DepartmentID = EDH.DepartmentID JOIN HumanResources.Employee E ON EDH.BusinessEntityID = E.BusinessEntityID GROUP BY Name;', 1);
+
+INSERT INTO Question ( questionID, question, answer, quizID)
+VALUES (5,'List the first two letters of the different product numbers and the count of different products with those production numbers in increasing order.', 'SELECT LEFT(ProductNumber, 2) AS codeLetters, COUNT(LEFT(ProductNumber, 2)) AS CodeCount FROM Production.Product GROUP BY LEFT(ProductNumber, 2) ORDER BY CodeCount;', 1);
+
+
+
+INSERT INTO Student ( studentID, name, email, password)
+VALUES (1,'Lucy', '123@123.com', '123');
+
+INSERT INTO Teacher( name, email, password)
+VALUES ('David Matines','123@123.com','123');
+
+truncate table Answer
+truncate table Result
