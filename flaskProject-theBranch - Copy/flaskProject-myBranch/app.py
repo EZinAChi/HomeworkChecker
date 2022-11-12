@@ -2,7 +2,7 @@ import json
 from pickle import TRUE
 import urllib.parse
 import base64
-import bcrypt
+#import bcrypt
 import hashlib
 from urllib.parse import urlparse
 from click import password_option
@@ -36,6 +36,19 @@ def connectAWdb():
     db = pymssql.connect(host="LocalHost", user="Alaa", password='12345', database="AdventureWorks2019")
     cursor = db.cursor()
     return cursor, db
+
+'''
+def connectHWCdb():
+    db = pymssql.connect(server= 'DESKTOP-46ON81A', database = 'db')
+    cursor = db.cursor()
+    return cursor, db
+
+#  connect to target database
+def connectAWdb():
+    db = pymssql.connect(server= 'DESKTOP-46ON81A', database = 'AdventureWorks2019')
+    cursor = db.cursor()
+    return cursor, db
+'''
 
 
 #  Page transaction
@@ -108,6 +121,10 @@ def quizManagepage():
     return render_template('quizselection.html', data=10001)
 
 
+def studentResultDetail():
+    return render_template('result.html', data=10001)
+
+
 #  route to port /quizmanage/manage for pulling quizselection page to front end
 @app.route('/quizmanagepage', methods=['GET', 'POST'])
 def quizManage():
@@ -134,9 +151,92 @@ def seeResultPage():
 
 
 #  route to port /feedback for pulling resultTeacher page to front end
-@app.route('/feedback')
+@app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
-    return render_template('resultTeacher.html')
+    if request.method == 'GET' and len(request.args) == 2:
+
+        studentID = request.args.get('id')
+        quizID = request.args.get('qid')
+
+        # select the student answer question
+        cursor, db = connectHWCdb()
+        #
+        # get the answer that this student has answer for quiz x
+        sql = "select * from Answer Join Student On Answer.studentID = Student.studentID Join Question On Answer.questionID = Question.questionID where Answer.studentID='{}' and Answer.quizID= '{}';".format( studentID,quizID)
+
+        cursor.execute(sql)
+
+        result = cursor.fetchall()
+
+        print("id is: ",studentID )
+        print("qid is: ",quizID )
+        print("result is: ",result )
+
+        # get the student name and feedback
+        sql1 = "select * from Result JOIN Student ON Student.studentID = Result.studentID where Result.studentID = '{}' and Result.quizID = '{}'; ".format(studentID,quizID)
+
+        cursor.execute(sql1)
+        result1 = cursor.fetchall()
+        print("under <result1[0]>:",result1[0])
+        
+        # calcualte the total mark using groupby and sum function
+        sql2 = "select sum(Answer.mark) from Result JOIN Answer ON Answer.studentID = Result.studentID where Answer.studentID = '{}' and Answer.quizID = '{}' group by Answer.studentID,Answer.quizID; ".format(studentID,quizID)
+        cursor.execute(sql2)
+        result2 = cursor.fetchall()
+        print("under <result2[0]>:",result2[0])
+
+        return render_template('resultTeacher.html',answerList = result, studentDetail=result1[0], studentMark=result2[0])
+    
+    # For updating
+    elif request.method == 'GET' and len(request.args) == 5:
+        cursor, db = connectHWCdb()
+
+        
+        studentID = request.args.get('id')
+        quizID = request.args.get('qid')
+        totalMark = request.args.get('totalMark')
+        feeds = request.args.get('feedbacks')
+        xx = request.args.get('xx')
+
+        print("Update id is: ",studentID )
+        print("qid is: ",quizID )
+        print("totalMark is: ",totalMark )
+        print("feeds is: ",feeds )
+        print("xx is: ",len(xx) )
+        #print("result is: ",result )
+
+        #need to get each new mark
+        marksList = xx.split(",")
+        indexxx = 1
+        ## assume questions order start from 1, increase 1 by 1 ##
+        for i in marksList:
+            sql = "UPDATE Answer SET mark = '{}' where Answer.studentID='{}' and Answer.quizID= '{}' and Answer.questionID= '{}';".format(i, studentID,quizID,indexxx)
+            result = cursor.execute(sql)
+            db.commit()
+            indexxx+=1
+
+        # select the student answer question
+        
+        #
+        # get the answer that this student has answer for quiz x
+        sql = "UPDATE Result SET totalmark = '{}', feedback='{}' where Result.studentID='{}' and Result.quizID= '{}';".format(totalMark,feeds, studentID,quizID)
+
+        result = cursor.execute(sql)
+        db.commit()
+
+        return  render_template('studentResult.html', sList=readStudentListAllColumn(), mList=readStudentMarkList())
+
+'''
+        result = cursor.fetchall()
+
+
+
+
+        print("under <result2[0]>:",result2[0])
+'''
+        #return render_template('resultTeacher.html',answerList = result, studentDetail=result1[0], studentMark=result2[0])
+
+    #return render_template('resultTeacher.html')
 
 
 #  route to port /practical for pulling correct quiz page to front end
@@ -313,13 +413,16 @@ def teacher():
         if passwordCheck(teacher_email, teacher_password, "Teacher"):
             return quizManagepage()
         else: 
-            return render_template('teacherlogin.html', data=10003)    
+            return render_template('teacherlogin.html', data=10003)  
+
     if request.method == 'POST' and  'resultpage' in request.form:
         teacher_email = request.form.get('teacher_email')
         teacher_password = request.form.get('teacher_password')
         print('resultpage' in request.form)
-        if passwordCheck(teacher_email, teacher_password, "Teacher"):        
-             return  render_template('studentResult.html', sList=readStudentList(), mList=readStudentMarkList())
+        print('receive studentResult.html ')
+        if passwordCheck(teacher_email, teacher_password, "Teacher"):  
+             print('goto studentResult.html ')
+             return  render_template('studentResult.html', sList=readStudentListAllColumn(), mList=readStudentMarkList())
         else: 
            return render_template('teacherlogin.html', data=10003)     
         #else:#corr
@@ -515,6 +618,19 @@ def readStudentList():
         sList.append(i[1])
     return sList
 
+def readStudentListAllColumn():
+    cursor, db = connectHWCdb()
+
+    sql = "select * from Student Join Result On Student.studentID = Result.studentID"
+
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    sList = []
+    for i in result:
+
+        sList.append(i)
+    print("under <readStudentListAllColumn>:",sList)
+    return sList
 
 def readStudentMarkList():
     cursor, db = connectHWCdb()

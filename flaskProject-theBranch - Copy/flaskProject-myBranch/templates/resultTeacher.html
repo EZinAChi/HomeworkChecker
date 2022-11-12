@@ -35,23 +35,23 @@ main{
 	</header>
 	<main style="text-align: left; padding-top:5%; padding-bottom:10%;padding-left:15%; padding-right:15%; min-height:85%">
 	
-	<form>
+	<form action="" onsubmit="return false">
 	
 
-  <div class="row">
-  
  
-
-  
-  
-    
-	
 	
 	
 	
     <div class="col" style="border-left: 1px;">
-	<h2 class="text-center">Feedback:Jay</h2><br>
-	
+<!--
+	studentDetail>: (1, 1, 99, ' -- testing -- feedback ', 1, 'Lucy', '123@123.com', '123')
+-->
+	<h2 class="text-center">Student: {{studentDetail[5]}}, Quiz ID: {{studentDetail[1]}}</h2><br>
+
+	<!--
+# (1, 1, ' -- testing -- something, should get 3 marks! ', 3, 1, 1, 'Lucy', '123@123.com', '123', 1, 'Show the total number of production transactions in the\r\ntransaction history archive table, the average quantity and the average cost.', 'SELECT COUNT(TransactionID) AS transCount, AVG(Quantity) AS avgQuantity, AVG(ActualCost) AS avgCost FROM Production.TransactionHistoryArchive;')
+		-->
+		{% for i in answerList %}
 		<!-- one question start here -->
 		<div>
 			<!-- for the question of student -->
@@ -60,21 +60,22 @@ main{
 			</div>
 			<div class="col-10">
 				<br/>
-				<p class="">Question 1</p>
+				<h2 class="">Question {{ i[0] }}</h2>
 				<br/>
-				<strong>Quetion here...</strong>
+				<strong>{{ i[10] }}</strong>
 				<br/>
 			</div>
 			
 		  </div>
 		  <!-- for the answer of student -->
 		  <div class="row">
-			<div class="col">
+			<div class="col-3">
 			</div>
-			<div class="col-10">
-
+			<div class="col-8">
 				<br/>
-				<p>Answer here...</p>
+				<h2 class="">Student Answer:</h2>
+				<br/>
+				<p>{{ i[2] }}</p>
 
 			</div>
 			
@@ -82,13 +83,16 @@ main{
 		  
 		  <!-- for the mark of student -->
 		  <div class="row">
-			<div class="col">
+			<div class="col-3">
 			</div>
-			<div class="col-10">
-
-				<p>Mark: xxx</p>
+			<div class="col-8">
+				<div class = "row">
 				<br/>
-
+					<h2 class="col-3">Mark: <input type="number"  class="col-3 form-control markInput" type="text" value={{ i[3] }} required /> </h2> 
+					
+					
+				<br/>
+				</div>
 			</div>
 			
 		  </div>
@@ -96,65 +100,46 @@ main{
 		  
 	  
 	  <!-- one question end here -->
+	  <br/>
+	  <br/>
+	  <hr/>
+	  <br/>
 	  </div>
+
+	  {% endfor %}
 	  
-	  
-	  
-		<!-- one question start here -->
-		<div>
-			<!-- for the question of student -->
-		  <div class="row">
-			<div class="col">
-			</div>
-			<div class="col-10">
-				<br/>
-				<p class="">Question 2</p>
-				<br/>
-				<strong>Quetion here...</strong>
-				<br/>
-			</div>
-			
-		  </div>
-		  <!-- for the answer of student -->
-		  <div class="row">
-			<div class="col">
-			</div>
-			<div class="col-10">
 
-				<br/>
-				<p>Answer here...</p>
-
-			</div>
-			
-		  </div>
-		  
-		  <!-- for the mark of student -->
-		  <div class="row">
-			<div class="col">
-			</div>
-			<div class="col-10">
-
-				<p>Mark: xxx</p>
-				<br/>
-
-			</div>
-			
-		  </div>
 		  
 		  
 	  
 	  <!-- one question end here -->
-	  
+	  <!-- studentMark (4,) -->
+	  <div class="row">
+		<div class="col">
+		</div>
+		<div class="col-10">
+			<br/>
+			<br/>
+			<h1>Total Mark: {{ studentMark[0] }}</h1>
+			<br/>
+			<br/>
+			
+		</div>
+		
+	  </div>
+
+
 	  <!-- for the feedback of student -->
 		  <div class="row">
 			<div class="col">
 			</div>
 			<div class="col-10">
-				<p>Feedback:</p>
-				<textarea class="form-control"></textarea>
+				<h1>Feedback:</h1>
+				<br/>
+				<textarea id = "fee" class="form-control" rows="10"  >{{ studentDetail[3] }}</textarea>
 				<br/>
 				<br/>
-				<hr/>
+				
 			</div>
 			
 		  </div>
@@ -164,7 +149,7 @@ main{
 	 <br>
 	<br>
 	<div class="text-center">
-		<button> class="btn btn-primary" onclick="save()">Save</button>
+		<button class="btn btn-primary" type="submit" onclick="save({{studentDetail[0]}}, {{studentDetail[1]}} )">Save</button>
 	</div>
 	<br>
 	<br>
@@ -175,7 +160,7 @@ main{
 	<br>
 	
 		<div class="text-center">
-			   <p>Total Mark:{{ data }}/5</p>
+			  
 			   <button class="btn btn-primary" onclick="back()">Back</button>
 			   <button class="btn btn-primary" onclick="logout()">Logout</button>
 		</div>
@@ -193,5 +178,16 @@ main{
     }
     function back(){
         window.history.go(-1);
+    }
+	function save(a,b){
+		var allInputs =  document.getElementsByClassName("markInput");
+		var newMark = 0;
+		var lllll = [];
+		for(var ii = 0; ii < allInputs.length; ii++){
+			newMark += parseInt(allInputs[ii].value);
+			lllll.push(allInputs[ii].value)
+		}
+
+        window.location.href='feedback?id='+a+"&qid="+b+"&totalMark=" + newMark +"&feedbacks=" + document.getElementById("fee").value + "&xx=" + lllll;
     }
 </script>
