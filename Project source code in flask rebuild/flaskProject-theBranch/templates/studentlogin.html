@@ -79,10 +79,11 @@ button:hover{
 	  <div class="col-sm-4">
 		<input class="form-control" type="password" id="student-password" placeholder="Please enter your password">
 	  </div>
+
+           <h7 id="wrongPW"></h7>
+
 	</div>
-    {% if data == 10002 %}
-        Please check your Login Information
-    {% endif %}
+
 	
   <br><br>
   
@@ -113,13 +114,28 @@ button:hover{
 
 <script type="text/javascript">
 
-    function clickme() {
-        var inpute = document.getElementById("student-email")
-        var inputp = document.getElementById("student-password")
-        var student_email = inpute.value;
-        var student_password = inputp.value;
 
-        window.location.href = 'student?student_email=' + student_email + "&student_password=" + student_password
+    function clickme() {
+    var inpute = document.getElementById("student-email")
+    var inputp = document.getElementById("student-password")
+    var student_email = inpute.value;
+    var student_password = inputp.value;
+    $.ajax({
+            url: "/student",
+            data:{"student_email":student_email,"student_password":student_password},
+            dataType:"json",
+            success: function(data){
+                if(data.data==10000){
+                    window.location.href = 'quizselection?student_email='+data.email
+                }
+                else{
+                    document.getElementById("wrongPW").innerHTML='Please check your Login Information'}
+
+
+            },error:function(){
+            }
+        });
+
     }
     function back(){
         window.location.href='menu?'

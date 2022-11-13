@@ -1,10 +1,11 @@
 import json
 
-from flask import Flask, render_template, request, jsonify, make_response
+from flask import Flask, render_template, request, jsonify, make_response, flash, redirect
 
 import pymssql
 
 app = Flask(__name__, template_folder='templates', static_folder='templates/layui')
+app.config['SECRET_KEY'] = "TPmi4aLWRbyVq8zu9v82dWYW1"
 
 
 @app.route('/')
@@ -47,7 +48,11 @@ def menuPage():
 #  route to port /studentlogin for pulling studentlogin page to front end
 @app.route('/studentlogin')
 def studentloginpage():
-    return render_template('studentlogin.html')
+    student_name = request.args.get('student_name')
+    data = 0
+    if student_name:
+        data = 10006
+    return render_template('studentlogin.html', data=data, student_name=student_name)
 
 
 #  route to port /teacher for pulling teacherlogin page to front end
@@ -62,26 +67,39 @@ def quizManagepage():
     return render_template('quizselection.html', data=10001)
 
 
-#  route to port /quizmanage/manage for pulling quizselection page to front end
+#  route to port /quizmanagepage for pulling quizmanage page to front end
 @app.route('/quizmanagepage', methods=['GET', 'POST'])
 def quizManage():
     qnum = request.args.get("qnum")
     return render_template('quizmanage.html', qnum=qnum, size=readQuizSize(qnum))
 
 
+#  route to port /seeResult for pulling data to front end
 @app.route('/seeResult')
 def seeResultPage():
     if request.method == 'GET':
         teacher_email = request.args.get('teacher_email')
         teacher_password = request.args.get('teacher_password')
 
-        # testing
-        # print(passwordCheck(teacher_email, teacher_password, "Teacher"))
-        rList = readStudentResultList(readStudentList())
         if passwordCheck(teacher_email, teacher_password, "Teacher"):
-            return render_template('studentResult.html', rList=rList)
+            return make_response((
+                json.dumps({"data": 10000}),
+                200,
+                {'Content-Type': 'application/json; charset=utf-8'}
+            ))
         else:
-            return render_template('teacherlogin.html', data=10003)
+            return make_response((
+                json.dumps({"data": 10003}),
+                200,
+                {'Content-Type': 'application/json; charset=utf-8'}
+            ))
+
+
+@app.route('/studentResult')
+def goResultPage():
+    if request.method == 'GET':
+        rList = readStudentResultList(readStudentList())
+        return render_template('studentResult.html', rList=rList)
 
 
 #  route to port /feedback for pulling resultTeacher page to front end
@@ -236,11 +254,12 @@ def saveFeedback():
     return render_template('studentResult.html', rList=rList)
 
 
-
 def saveFeedbacknMarktoDb(feedback, tMark, sID, qID):
-
     cursor, db = connectHWCdb()
-    sql = "update Result set totalmark = {} ,feedback = '{}' where quizID = {} and studentID = {}".format(tMark, checkString(feedback), qID, sID)
+    sql = "update Result set totalmark = {} ,feedback = '{}' where quizID = {} and studentID = {}".format(tMark,
+                                                                                                          checkString(
+                                                                                                              feedback),
+                                                                                                          qID, sID)
     result = cursor.execute(sql)
     db.commit()
     return True if result else False
@@ -255,7 +274,6 @@ def readFeedback(studentID, quizID):
     result = cursor.fetchall()
 
     return result[0][3]
-
 
 
 #   Fuction in quiz management
@@ -285,7 +303,7 @@ def updateQuizSize(quizID, quizSize):
 
     sql = 'update Quiz set {0} = {1} where quizID = {2}'.format(
         label[1], content[1], content[0])
-    print(sql)
+
     result = cursor.execute(sql)
     db.commit()
     return True if result else False
@@ -341,34 +359,63 @@ def studentLogin():
         student_password = request.args.get('student_password')
 
         if passwordCheck(student_email, student_password, "Student"):
-            return render_template('quizselection.html', data=10000, email=student_email)
+            return make_response((
+                json.dumps({"url": "quizselection", "data": 10000, "email": student_email}),
+                200,
+                {'Content-Type': 'application/json; charset=utf-8'}
+            ))
         else:
-            return render_template('studentlogin.html', data=10002)
+            return make_response((
+                json.dumps({"url": "studentlogin", "status": 10002}),
+                200,
+                {'Content-Type': 'application/json; charset=utf-8'}
+            ))
 
 
+@app.route('/quizselection', methods=['GET', 'POST'])
+def sLogin():
+    if request.method == 'GET':
+        student_email = request.args.get('student_email')
+        return render_template('quizselection.html', data=10000, email=student_email)
+
+
+#  Signin
 @app.route('/studentSignin')
 def studentSignin():
     return render_template('studentSignin.html')
+
 
 @app.route('/studentSign', methods=['GET', 'POST'])
 def studentSign():
     student_name = request.args.get('student_name')
     student_email = request.args.get('student_email')
     student_password = request.args.get('student_password')
+
     if studenSignedCheck(student_name, student_email):
-        return render_template('studentSignin.html', data=10005)
+        return make_response((
+            json.dumps({"data": 10005}),
+            200,
+            {'Content-Type': 'application/json; charset=utf-8'}
+        ))
     else:
-        insertStudent(getLastStudentID()+1,student_name, student_email, student_password)
-        return render_template('studentlogin.html', data=10006, student_name=student_name)
+        insertStudent(getLastStudentID() + 1, student_name, student_email, student_password)
+        return make_response((
+            json.dumps({"data": 10006, "student_name": student_name}),
+            200,
+            {'Content-Type': 'application/json; charset=utf-8'}
+        ))
 
 
 def getLastStudentID():
-    cursor, db = connectHWCdb()
+    try:
+        cursor, db = connectHWCdb()
 
-    sql = "SELECT TOP 1 * FROM Student ORDER BY studentID desc;"
-    cursor.execute(sql)
-    result = cursor.fetchall()[0][0]
-    return result
+        sql = "SELECT TOP 1 * FROM Student ORDER BY studentID desc;"
+        cursor.execute(sql)
+        result = cursor.fetchall()[0][0]
+        return result
+    except Exception as e:
+        return 0
 
 
 def studenSignedCheck(name, email):
@@ -382,7 +429,6 @@ def studenSignedCheck(name, email):
         return False
 
 
-#  route to port /teacher for transferring teacher login data from teacherlogin page and do password checking
 @app.route('/teacher', methods=['GET', 'POST'])
 def teacherLogin():
     if request.method == 'GET':
@@ -390,9 +436,17 @@ def teacherLogin():
         teacher_password = request.args.get('teacher_password')
 
         if passwordCheck(teacher_email, teacher_password, "Teacher"):
-            return quizManagepage()
+            return make_response((
+                json.dumps({"data": 10000}),
+                200,
+                {'Content-Type': 'application/json; charset=utf-8'}
+            ))
         else:
-            return render_template('teacherlogin.html', data=10003)
+            return make_response((
+                json.dumps({"data": 10003}),
+                200,
+                {'Content-Type': 'application/json; charset=utf-8'}
+            ))
 
 
 #  check if password correct and if user exist
@@ -414,13 +468,9 @@ def studentQueryenter():
     if request.method == 'GET':
         querylist = toList(request.args.get('qaList'))
 
-        question_num = request.args.get('question_num')
-
         quiz_num = request.args.get('quiz_num')
 
         student_email = request.args.get('email')
-
-        question_num = len(question_num)
 
         quiz_num = int(quiz_num)
 
@@ -430,20 +480,26 @@ def studentQueryenter():
         questionNumber = 1
         for i in range(readQuizSize(quiz_num)):
             q1rows, q1col = countQueryRnC(selectSampleAnswer(i + 1, quiz_num))
-            print(selectSampleAnswer(i + 1, quiz_num))
+
             print(q1rows, q1col)
 
             q2rows, q2col = countQueryRnC(querylist[i])
-            print(querylist[i])
+
             print(q2rows, q2col)
 
             size.append(questionNumber)
 
-            deduction.append(returnCorectState(compareResult(q1rows, q1col, q2rows, q2col)))
+            deduction.append(returnCorectState(compareResult(q1rows, q1col, q2rows, q2col,
+                                                             compareFirstItem(querylist[i],
+                                                                              selectSampleAnswer(i + 1, quiz_num)))))
 
-            totalmark += compareResult(q1rows, q1col, q2rows, q2col)
+            print(compareFirstItem(querylist[i], selectSampleAnswer(i + 1, quiz_num)))
+
+            totalmark += compareResult(q1rows, q1col, q2rows, q2col,
+                                       compareFirstItem(querylist[i], selectSampleAnswer(i + 1, quiz_num)))
             insertAnswer(questionNumber, readstudentID(student_email), querylist[i],
-                         compareResult(q1rows, q1col, q2rows, q2col), quiz_num)
+                         compareResult(q1rows, q1col, q2rows, q2col,
+                                       compareFirstItem(querylist[i], selectSampleAnswer(i + 1, quiz_num))), quiz_num)
             questionNumber += 1
 
         insertResult(readstudentID(student_email), quiz_num, totalmark, 'no feedback')
@@ -505,14 +561,30 @@ def countQueryRnC(query):
 
 
 # calculate the mark
-def compareResult(r1, c1, r2, c2):
+def compareResult(r1, c1, r2, c2, fItem):
     try:
-        if r1 == r2 and c1 == c2 and type(r1) == int:
+        if r1 == r2 and c1 == c2 and type(r1) == int and fItem == True:
             return 1
         else:
             return 0
     except Exception as e:
         return 0
+
+
+def compareFirstItem(query, sampleQuery):
+    cursor, db = connectAWdb()
+    try:
+        cursor.execute(query)
+        # if need the first item code: data = cursor.fetchone(), if need all item, code: data = cursor.fetchall()
+        data1 = cursor.fetchall()[0][0]
+        cursor.execute(sampleQuery)
+        data2 = cursor.fetchall()[0][0]
+        if data1 == data2:
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False
 
 
 def returnCorectState(deduction):
@@ -549,18 +621,6 @@ def readStudentAnswernMarkList(studentID, quizID):
 
 
 #  read data from Students table
-# def readStudentList():
-#     cursor, db = connectHWCdb()
-#
-#     sql = "select * from {}".format("Student")
-#
-#     cursor.execute(sql)
-#     result = cursor.fetchall()
-#     sList = []
-#     for i in result:
-#         sList.append(i[1])
-#     return sList
-
 def readStudentList():
     cursor, db = connectHWCdb()
 
@@ -574,32 +634,7 @@ def readStudentList():
     return sList
 
 
-# def readStudentResultList():
-#     cursor, db = connectHWCdb()
-#
-#     sql = "select * from {}".format("Result")
-#
-#     cursor.execute(sql)
-#     result = cursor.fetchall()
-#     mList = []
-#     qList = []
-#     for i in result:
-#         mList.append(i[2])
-#         qList.append(i[1])
-#
-#     return mList, qList
-# def readStudentResultList(sList):
-#     cursor, db = connectHWCdb()
-#
-#     sql = "select * from {}".format("Result")
-#
-#     cursor.execute(sql)
-#     result = cursor.fetchall()
-#     rList = []
-#     for i in result:
-#         rList.append((sList.get(i[0]),i[1],i[2],i[0]))
-#     print(rList)
-#     return rList
+#  read data from Result table
 def readStudentResultList(sList):
     cursor, db = connectHWCdb()
 
@@ -607,14 +642,12 @@ def readStudentResultList(sList):
 
     cursor.execute(sql)
     result = cursor.fetchall()
-    print(result)
-    mList = []
+    rList = []
     for i in result:
         _html = "feedback?studentID="
-        mList.append((sList.get(i[0]), i[1], i[2], i[0], _html + str(i[0]) + "&quizID="
+        rList.append((sList.get(i[0]), i[1], i[2], i[0], _html + str(i[0]) + "&quizID="
                       + str(i[1]) + "&studentName=" + (sList.get(i[0]))))
-    print(mList)
-    return mList
+    return rList
 
 
 def readTotalMark(studentID, quizID):
@@ -714,7 +747,6 @@ def deleteQuiz(quizID):
     cursor, db = connectHWCdb()
 
     sql = 'delete from Question where quizID = {}'.format(quizID)
-    print(sql)
     result = cursor.execute(sql)
     db.commit()
     return True if result else False
@@ -730,7 +762,6 @@ def insertQuestion(questionID, question, answer, quizID):
         label[0], label[1],
         label[2], label[3], content[0], content[1],
         checkString(content[2]), content[3])
-    print(sql)
     result = cursor.execute(sql)
     db.commit()
     return True if result else False
@@ -746,7 +777,6 @@ def updateQuestion(questionID, question, answer, quizID):
         label[0], label[1],
         label[2], label[3], content[0], content[1],
         content[2], content[0], content[4])
-    print(sql)
     result = cursor.execute(sql)
     db.commit()
     return True if result else False
@@ -756,14 +786,13 @@ def updateQuestion(questionID, question, answer, quizID):
 def insertStudent(studentid, name, email, password):
     cursor, db = connectHWCdb()
 
-    label = ['studentID', 'name','email', 'password']
+    label = ['studentID', 'name', 'email', 'password']
     content = [studentid, name, email, password]
 
     sql = "insert into {0} ({1},{2},{3},{4}) values({5},'{6}','{7}','{8}')".format("Student", label[0], label[1],
-                                                                         label[2], label[3],
-                                                                         content[0], content[1],
-                                                                         content[2], content[3])
-    print(sql)
+                                                                                   label[2], label[3],
+                                                                                   content[0], content[1],
+                                                                                   content[2], content[3])
     result = cursor.execute(sql)
     db.commit()
     return True if result else False
@@ -799,14 +828,9 @@ def readQuestion(quiz_num):
     for i in result:
         qList.append(i[1])
 
-    print(qList)
     return qList
 
 
 #  run the main program
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000)
-
-# request.json.get
-# make_response(json_encode(data), http_code,
-#       {'Content-Type': 'application/json; charset=utf-8'})
