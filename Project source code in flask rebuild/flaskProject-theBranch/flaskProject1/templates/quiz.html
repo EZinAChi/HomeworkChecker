@@ -1,0 +1,83 @@
+<html>
+<head>
+
+    <title>{{ 'Quiz Page' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+
+
+      body{
+          background-color:#0052a0;
+          
+          
+      }
+      
+      header{
+          color:white;
+          
+      }
+      
+      
+      main{
+          background-color:white;
+          color:#0052a0;
+          min-height:60%;
+      }
+
+      
+        </style>
+</head>
+
+<link href="./lay.css"/>
+<script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
+
+<body>
+  <header>
+    <h1 style="text-align: center; padding-top:50px; padding-bottom:50px;">Quiz</h1>
+    </header>
+    <main>
+<form class="lay-form" action="" onsubmit="return false">
+
+
+
+
+  <h1 style="text-align: center; padding-top:50px; padding-bottom:50px;">
+    Question: 1
+ </h1>
+
+    <textarea type="text" name="u85qwh" required  lay-verify="required" id="student-query" placeholder="Please enter your query" autocomplete="off" class="form-control">
+
+    </textarea>
+
+
+
+
+
+
+
+
+      <button type="submit" class="btn btn-outline-primary" lay-submit lay-filter="formDemo" onclick="submitquery()">Submit</button><br/><br/>
+      <button type="reset" class="btn btn-outline-primary">Reset</button>
+
+</form>
+</main>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+
+    function submitquery() {
+        var input = document.getElementById("student-query")
+        var student_query = input.value;
+
+        window.location.href = 'query?student_query=' + student_query
+    }
+
+
+{#{% for p in data %}#}
+{#    <p>{{ p }} </p>#}
+{#{% endfor %}#}
+
+</script>
+</body>
+</html>

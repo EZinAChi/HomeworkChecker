@@ -1,0 +1,12 @@
+
+
+Teacher (name, email, password)
+
+Student (studentID, name, email, password)
+
+Question (questionID, question, answer)
+
+Answer (questionID, studentID, answer, mark)
+
+Result (studentID, practicalID, totalmark, feedback)
+

@@ -1,0 +1,159 @@
+<html>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function checkquery(queryNum){
+        var query = document.getElementById("student-query" + queryNum).value
+
+        $.ajax({
+            url: "/checkQuery?query="+query,
+
+            success: function(data){
+                if(data.status == 10000){
+
+                    var optionHtml = '';
+                    $.each(data.data, function (index, value) {
+                        optionHtml+=value+"<br>";
+
+                    });
+                    document.getElementById("table" + queryNum).innerHTML=optionHtml;
+                }else{
+                    document.getElementById("table" + queryNum).innerHTML='CANNOT RUN';
+                }
+
+            },error:function(){
+            }
+            });
+    }
+
+    function submitquery() {
+        var qa = document.getElementsByName('query')
+        var quiz_num = document.getElementById("q-num").value
+        var question_num = document.getElementById("question-num").value
+        var email = document.getElementById("student-email").value
+        qaList = []
+        condition = false
+
+        for (var i = 0, j = qa.length; i < j; i++) {
+            if (qa[i].value == '') {
+                alert('Please answer all question before submit')
+                qaList = []
+                condition = false
+                break
+            } else {
+                qaList.push(qa[i].value + '[]')
+                condition = true
+            }
+        }
+
+        if (condition) {
+            window.location.href = 'query?qaList=' + qaList + '&quiz_num=' + quiz_num +
+                '&question_num=' + question_num + '&email=' + email
+        }
+    }
+
+
+
+    function back() {
+        window.history.go(-1);
+    }
+
+{#{% for p in data %}#}
+{#    <p>{{ p }} </p>#}
+{#{% endfor %}#}
+
+
+
+</script>
+
+<head>
+
+    <title>{{ 'Quiz Page' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<style>
+      
+      
+      body{
+          background-color:#0052a0;
+          
+          
+      }
+      
+      header{
+          color:white;
+          
+      }
+      
+      
+      main{
+          background-color:white;
+          color:#0052a0;
+      }
+      
+     
+      
+      
+      
+        </style>
+</head>
+
+<link href="./lay.css"/>
+<script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
+
+<body>
+<header>
+      <h1 style="text-align: center; padding-top:50px; padding-bottom:50px;">Quiz {{ quiz_num }}</h1>
+      </header>
+<main style="text-align: center; padding-top:100px; padding-bottom:350px;">
+
+<form class="" action="" onsubmit="return false">
+
+{% for i in question_num %}
+  <div class="form-group row justify-content-md-center">
+	<tr class="col-md-5">
+		<br/>
+		<label class="">Question {{ i }}</label>
+		<br/>
+		<strong>{{ question[i-1] }}</strong>
+		<br/>
+		<br/>
+		<div class="row">
+			<div class= "col-10">
+				<input type="text" name="query" required  lay-verify="required" id="student-query{{ i }}"  placeholder="Please enter your query" autocomplete="off" class="form-control ">
+			</div>
+			
+			<div class= "col-1">
+				<button class="btn btn-primary" name = "check" onclick="checkquery({{ i }})"> Check </button>
+			</div>
+		</div>
+
+        <div id = "table{{ i }}">
+        </div>
+
+	  	<br/>
+		<br/>
+		<hr/>
+	</div>
+	
+  </div>
+    {% endfor %}
+
+  
+
+    <div class="lay-input-block">
+      <button class="btn btn-outline-primary" lay-submit lay-filter="formDemo" onclick="back()">Back</button>
+      <button class="btn btn-outline-primary" lay-submit lay-filter="formDemo" onclick="submitquery()">Submit</button>
+    </div>
+  </div>
+
+
+{#     don't delete    #}
+    <div><input class="form-control" type="hidden" id="q-num" value="{{ quiz_num }}"></input>
+        <input class="form-control" type="hidden" id="question-num" value="{{ question_num }}"></input>
+    <input class="form-control" type="hidden" id="student-email" value="{{ email }}"></input></div>
+
+</form>
+
+</main>
+
+
+</body>

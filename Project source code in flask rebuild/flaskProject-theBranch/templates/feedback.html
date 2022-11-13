@@ -1,0 +1,161 @@
+<html>
+<head>
+
+    <title>{{ 'Feedback' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+	<style>
+
+
+body{
+	background-color:#0052a0;
+	
+	
+}
+
+header{
+	color:white;
+	
+}
+
+
+main{
+	background-color:white;
+	color:#0052a0;
+}
+
+  </style>
+</head>
+
+<link href="./lay.css"/>
+<script src="https://cdn.staticfile.org/layui/2.7.6/layui.js"></script>
+
+<body>
+<header>
+	<h1 style="text-align: center; padding-top:50px; padding-bottom:50px;; min-height:15%">Feedback</h1>
+	</header>
+	<main style="text-align: left; padding-top:5%; padding-bottom:10%;padding-left:15%; padding-right:15%; min-height:85%">
+	
+
+	
+
+  <div class="row">
+  
+
+	
+    <div class="col" style="border-left: 1px;">
+	<h2 class="text-center">Feedback: {{ name }}</h2><br>
+
+        {%  for i in qnList %}
+		<!-- one question start here -->
+		<div>
+			<!-- for the question of student -->
+		  <div class="row">
+			<div class="col">
+			</div>
+			<div class="col-10">
+				<br/>
+				<p class="">Question {{ i }}</p>
+				<br/>
+				<strong>{{ qList[i-1] }}</strong>
+				<br/>
+			</div>
+			
+		  </div>
+		  <!-- for the answer of student -->
+		  <div class="row">
+			<div class="col">
+			</div>
+			<div class="col-10">
+
+				<br/>
+				<p>{{ aList[i-1] }}</p>
+
+			</div>
+			
+		  </div>
+		  
+		  <!-- for the mark of student -->
+		  <div class="row">
+			<div class="col">
+			</div>
+			<div class="col-10">
+
+				<p>Mark: {{ mList[i-1] }}</p>
+				<br/>
+
+			</div>
+			
+		  </div>
+
+	  {% endfor %}
+	  <!-- for the feedback of student -->
+		  <div class="row">
+			<div class="col">
+			</div>
+			<div class="col-10">
+				<p>Feedback:</p>
+				<textarea class="form-control" id="feedback"></textarea>
+				<br/>
+				<br/>
+				<hr/>
+			</div>
+			
+		  </div>
+	  </div>
+	  
+	  
+	 <br>
+	<br>
+        <br>
+	<br>
+		<div class="text-center">
+
+               <p>total mark: <input type="text" name="totalmark" id="totalMark" style="width:25px; height:20px;" value={{ totalMark }}>/{{ size }}</p>
+            	<div class="text-center">
+		        <button class="btn btn-primary" onclick="save()">Save</button>
+	           </div>
+	           <br>
+	           <br>
+			   <button class="btn btn-primary" onclick="back()">Back</button>
+			   <button class="btn btn-primary" onclick="logout()">Logout</button>
+		</div>
+
+    </div>
+  </div>
+	
+
+
+
+</main>
+
+<div><input class="form-control" type="hidden" id='datafrompy' value="{{ feedback }}"></div>
+<div><input class="form-control" type="hidden" id='sIDfrompy' value="{{ sID }}"></div>
+<div><input class="form-control" type="hidden" id='qIDfrompy' value="{{ qID }}"></div>
+<script>
+    _feedback = document.getElementById('datafrompy').value
+    document.getElementById("feedback").value=_feedback
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    function save(){
+        var _feedback = document.getElementById('feedback').value
+        var totalMark = document.getElementById('totalMark').value
+        var sID = document.getElementById('sIDfrompy').value
+        var qID = document.getElementById('qIDfrompy').value
+        if(_feedback == '' || totalMark == ''){
+            alert("Please enter feedback and total mark")
+        }
+        else{
+            alert("Successfully saved")
+            window.location.href='saveFeedback?feedback='+_feedback+'&totalMark='+totalMark+'&sID='+sID+'&qID='+qID
+        }
+
+    }
+    function logout(){
+        window.location.href='menu?'
+    }
+    function back(){
+        window.history.go(-1);
+    }
+</script>
