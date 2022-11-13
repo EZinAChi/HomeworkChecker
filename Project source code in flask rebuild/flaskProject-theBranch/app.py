@@ -549,6 +549,18 @@ def readStudentAnswernMarkList(studentID, quizID):
 
 
 #  read data from Students table
+# def readStudentList():
+#     cursor, db = connectHWCdb()
+#
+#     sql = "select * from {}".format("Student")
+#
+#     cursor.execute(sql)
+#     result = cursor.fetchall()
+#     sList = []
+#     for i in result:
+#         sList.append(i[1])
+#     return sList
+
 def readStudentList():
     cursor, db = connectHWCdb()
 
@@ -562,7 +574,32 @@ def readStudentList():
     return sList
 
 
-#  read data from Result table
+# def readStudentResultList():
+#     cursor, db = connectHWCdb()
+#
+#     sql = "select * from {}".format("Result")
+#
+#     cursor.execute(sql)
+#     result = cursor.fetchall()
+#     mList = []
+#     qList = []
+#     for i in result:
+#         mList.append(i[2])
+#         qList.append(i[1])
+#
+#     return mList, qList
+# def readStudentResultList(sList):
+#     cursor, db = connectHWCdb()
+#
+#     sql = "select * from {}".format("Result")
+#
+#     cursor.execute(sql)
+#     result = cursor.fetchall()
+#     rList = []
+#     for i in result:
+#         rList.append((sList.get(i[0]),i[1],i[2],i[0]))
+#     print(rList)
+#     return rList
 def readStudentResultList(sList):
     cursor, db = connectHWCdb()
 
@@ -770,3 +807,6 @@ def readQuestion(quiz_num):
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000)
 
+# request.json.get
+# make_response(json_encode(data), http_code,
+#       {'Content-Type': 'application/json; charset=utf-8'})
